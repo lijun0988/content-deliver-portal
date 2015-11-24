@@ -1,0 +1,194 @@
+<div ng-controller="accountInfoCtrl" ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')">
+  <div class="container mf-account-info">
+    <form name="accountInfoForm" novalidate ng-submit="saveAccountInfo()">
+      <div class="row-fluid mf-account-info-panels">
+        <div class="span12">
+          <div class="accordion-group">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <div class="text-center">
+                  <h2>Payment</h2>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span4">
+                  <label>Billing Contact</label>
+                  <fieldset>
+                    <input type="text" id="firstName-billing-info" class="span10" placeholder="First Name"
+                      ng-model="billingInfo.firstName" required
+                      name="firstName"
+                      tooltip="{{VALIDATION_MESSAGES.accountNew.missing.firstName}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.firstName.$invalid && !accountInfoForm.firstName.$pristine]}}">
+                    <input type="text" id="lastName-billing-info" class="span10" placeholder="Last Name"
+                      ng-model="billingInfo.lastName" required
+                      name="lastName"
+                      tooltip="{{VALIDATION_MESSAGES.accountNew.missing.lastName}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.lastName.$invalid && !accountInfoForm.lastName.$pristine]}}">
+                    <input name="phoneNumber" type="tel" id="phone-billing-info" class="span10" placeholder="Primary Phone"
+                      ng-model="billingInfo.phoneNumber" ng-change="validatePhoneField('phoneNumber')" required
+                      tooltip="{{VALIDATION_MESSAGES.accountNew.missing.primaryPhoneNumber}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.phoneNumber.$invalid && !accountInfoForm.phoneNumber.$pristine]}}">
+                    <input name="altPhoneNumber" type="tel" ng-change="validatePhoneField('altPhoneNumber')" id="altphone-billing-info" class="span10"
+                      placeholder="Alternate Phone (Optional)" ng-model="billingInfo.altPhoneNumber"
+					            tooltip="{{VALIDATION_MESSAGES.contact.invalidNumber.homePhone}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.altPhoneNumber.$invalid]}}">
+                    <input type="email" id="email-billing-info" class="span10" placeholder="Email Address"
+                      name="emailBillingInfo"
+                      ng-model="billingInfo.emailAddress" required
+                      ng-pattern="MAIL_EXP"
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.emailAddress}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.emailBillingInfo.$invalid && !accountInfoForm.emailBillingInfo.$pristine]}}">
+                  </fieldset>
+                </div>
+                <div class="span4">
+                  <label>Billing Address</label>
+                  <fieldset>
+                    <input type="text" id="companyName-billing-info" class="span10" placeholder="Company Name (Optional)"
+                    name="companyNameBillingInfo"
+                      ng-model="billingInfo.companyName">
+                    <input type="text" id="streetAddress-billing-info" class="span10" placeholder="Street Address"
+                      name="streetAddressBilling"
+                      ng-model="billingInfo.streetAddress" required
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.billingAddress}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.streetAddressBilling.$invalid && !accountInfoForm.streetAddressBilling.$pristine]}}">
+                    <input type="text" id="extraAddress-billing-info" class="span10" placeholder="Suite, Bldg. (Optional)"
+                      ng-model="billingInfo.extraAddress">
+					          <input type="text" id="country-billing-info" placeholder="Country" required  name="country" ng-model="billingInfo.country" typeahead="country for country in countries | filter:$viewValue" class="span10"
+                    tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.country}}"
+                    tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.country.$invalid && !accountInfoForm.country.$pristine]}}">
+                    <input type="text" id="city-billing-info" class="span10" placeholder="City"
+                      ng-model="billingInfo.city" required
+                      name="city"
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.city}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.city.$invalid && !accountInfoForm.city.$pristine]}}">
+                    <span class="warn-icon"></span>
+                    <input type="text" name="zipcode" id="zipcode-billing-info" class="span10"          placeholder="Zip Code"
+                      ng-model="billingInfo.zipcode" ng-change="validateZipCode()" required
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.zipCode}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.zipcode.$invalid && !accountInfoForm.zipcode.$pristine]}}">
+                    <input type="text" id="state-billing-info" class="span10" placeholder="State"
+                      ng-model="billingInfo.state" typeahead="state for state in states | filter:$viewValue"
+                      required
+                      name="state"
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.state}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.state.$invalid && !accountInfoForm.state.$pristine]}}">
+                  </fieldset>
+                </div>
+                <div class="span4">
+                  <label>Payment Info</label>
+                  <fieldset>
+                    <input type="text" id="creditCardNumber-billing-info" class="span10"
+                      placeholder="Debit/Credit Card Number" ng-model="billingInfo.creditCardNumber"
+                      ng-keyup="getCCTypeByEvent($event)" ng-blur="getCCTypeByEvent($event)" ng-pattern="/[0-9]$/"
+                      maxLength="16" ng-minlength="13" name="creditCardNumber" required
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.creditCardNumber}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.creditCardNumber.$invalid && !accountInfoForm.creditCardNumber.$pristine]}}">
+                    <div>
+                      <div class="span2 card {{creditCardLogoClass}}"></div>
+                      <input type="text" id="creditCardVerificationValue-billing-info" class="span8"
+                        placeholder="Security Code" ng-model="billingInfo.creditCardVerificationValue"
+                        ng-pattern="/[0-9]$/" data-ng-minlength="3"
+      					      maxlength="4" required
+                      name="securityCode"
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.creditCardSecurityCode}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.securityCode.$invalid && !accountInfoForm.securityCode.$pristine]}}">
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <label>Expires</label>
+                    <div class="expires-wraper">
+                    <select id="expiration-month-billing-info" class="span10"
+                      name="expirationDate"
+                      ng-options="month.value as month.name for month in ccExpirationMonths"
+                      ng-model="billingInfo.ccExpirationMonth" required
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.expirationMonth}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.expirationDate.$invalid && !accountInfoForm.expirationDate.$pristine]}}">
+                      <option value="">Month</option>
+                    </select>
+                    </div>
+                    <div class="expires-wraper">
+                    <select id="expiration-year-billing-info" class="span10"
+                      ng-options="year for year in ccExpirationYears"
+                      name="expirationYear"
+                      ng-model="billingInfo.ccExpirationYear" required
+                      tooltip="{{VALIDATION_MESSAGES.accountBilling.missing.expirationYear}}"
+                      tooltip-trigger="{{{true: 'focus', false:'never'}[accountInfoForm.expirationYear.$invalid && !accountInfoForm.expirationYear.$pristine]}}">
+                      <option value="">Year</option>
+                    </select>
+                  </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid mf-account-info-panels">
+        <div ng-class="{'span8': authenticationService.hasRole('ROLE_SUPERUSER'), 'span12': !authenticationService.hasRole('ROLE_SUPERUSER')}">
+          <div class="accordion-group">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <div class="text-center">
+                  <h2>Product & Licensing</h2>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span6">
+                  <label>Product Type</label>
+                  <select ng-model="license.hostingType" name="hostingType" class="span10" id="account-plan-select"
+                    ng-options="hostingType for hostingType in hostingTypes" required>
+                  </select>
+                </div>
+                <div class="span6">
+                  <label>Licensing</label>
+                  <select ng-model="selectedPlan.id" name="selectedPlan" class="span10" id="price-plan-select"
+                    ng-options="plan.id as plan.name for plan in plans.data | filter: {hostingType: license.hostingType}"
+                    required>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="span4" ng-if="authenticationService.hasRole('ROLE_SUPERUSER')">
+          <div class="accordion-group">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <div class="text-center">
+                  <h2>Account Enabled?</h2>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="text-center span12">
+                  <div ng-switch on="account.enabled">
+                    <div ng-switch-when="true">
+                      <button id="disable-account-btn" type="button" class="mf-toggle-button btn btn-success" ng-click="disableAccount()">
+                        Yes <i class="fa fa-check fa-lg"></i> No
+                      </button>
+                    </div>
+                    <div ng-switch-when="false">
+                      <button id="enable-account-btn" type="button" class="mf-toggle-button btn btn-danger" ng-click="enableAccount()">
+                        Yes <i class="fa fa-times fa-lg"></i> No
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid mf-account-info-actions">
+        <div class="span12">
+          <button type="button" id="cancel-edit-account" ng-click="goHome()" class="mf-button mf-button-cancel btn btn-primary pull-left">
+            <i class="fa fa-minus-circle fa-lg"></i>Cancel
+          </button>
+          <button type="submit" id="save-edit-account" class="mf-button mf-button-save btn btn-primary pull-right"
+            ng-disabled="accountInfoForm.$invalid">
+            <i class="fa fa-check-circle fa-lg"></i>Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

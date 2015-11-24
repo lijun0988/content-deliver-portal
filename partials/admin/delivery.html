@@ -1,0 +1,267 @@
+
+<div  ng-app ng-controller="deliveryTabSwitcher" ng-init="tab=1">
+
+	 <div class="nav-tabs deliveryTab-menu">
+					    <nav>
+						<ul class="nav nav-tabs" >
+
+							<li >
+								<a id="personality-content-link" ng-click="tab = 1"  ng-class='{"active": tab == 1}' > Personality Content</a>
+							</li>
+							<li>
+								<a id="custom-delivery-link" ng-click="tab = 2" ng-class='{"active": tab == 2}' > Custom Delivery</a>
+							</li>
+							<li >
+								<a id="professional-cues-link" ng-click="tab= 3" ng-class='{"active": tab == 3}' >Professional Cues</a>
+							</li>
+						</ul>
+					</nav>
+			</div>
+
+
+        <div ng-show="tab == 1">
+            <div class="row-fluid">
+            	<div class="span12">
+            		<a id="add-new-tab-link" class="lightBlueBtn floatRightBtn" href=""> <i class="fa fa-plus"></i> Add new Tab</a>
+            	</div>
+            </div>
+
+            <div class="row-fluid">
+            	<div class="span12">
+            	<table class="table contentList">
+ 			     <tr>
+ 			     	<td class="tabCategory"> Voice/Video <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+
+ 			     <tr>
+ 			     	<td class="tabCategory"> Cellphone <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			     <tr>
+ 			     	<td class="tabCategory"> Chat <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			      <tr>
+ 			     	<td class="tabCategory"> Voice/Video <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+
+ 			     <tr>
+ 			     	<td class="tabCategory"> Cellphone <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory" > Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			     <tr>
+ 			     	<td class="tabCategory"> Chat <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+            	</table>
+            	</div>
+            </div>
+
+
+
+         </div>
+
+        <div ng-show="tab == 2">
+            <h2>Custom</h2>
+        </div>
+        <div ng-show="tab == 3">
+             <div class="row-fluid">
+            	<div class="span12">
+            		<a id="add-new-cues" class="lightBlueBtn floatRightBtn" href=""> <i class="fa fa-plus"></i> Add new Cues</a>
+            	</div>
+            </div>
+
+            <div class="row-fluid">
+            	<div class="span12">
+            	<table class="table contentList">
+ 			     <tr>
+ 			     	<td class="tabCategory"> Voice/Video <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+
+ 			     <tr>
+ 			     	<td class="tabCategory"> Cellphone <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			     <tr>
+ 			     	<td class="tabCategory"> Chat <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			      <tr>
+ 			     	<td class="tabCategory"> Voice/Video <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+
+ 			     <tr>
+ 			     	<td class="tabCategory"> Cellphone <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory" > Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+ 			     <tr>
+ 			     	<td class="tabCategory"> Chat <i class="fa fa-cog"></i> </td>
+ 			     	<td class="tagCategory"> Apply to <select>
+ 			     						<option> ALL </option>
+ 			     						<option> SUPPORT </option>
+
+ 			     				</select>
+ 			     	 </td>
+
+
+ 			     	<td class="providerCategory"> Content <select>
+ 			     						<option> DISC </option>
+ 			     						<option> OTHER PROVIDER </option>
+ 			     						<option> TEST PROVIDER </option>
+ 			     	</td>
+
+ 			     </tr>
+            	</table>
+            	</div>
+            </div>
+        </div>
+</div>
+
+

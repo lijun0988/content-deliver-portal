@@ -1,0 +1,528 @@
+<div ng-controller="contentCreatorSecCtrl">
+<div ng-if="authenticationService.authenticated" class="content_page content_page_creator" ng-controller="contentCreatorCtrl" ng-init="messages = { saveContentTimerDialogHeader : 'Warning!', saveContentTimerDialogMessage : 'It has been
+a while since your last save. Would you like to save the current content?', saveContentDialogMessage : 'Would you like to save the current content?', contentSaved : 'Success: Content has been successfully saved', confirmLeaveHeader:'Please confirm', confirmLeaveMessage:'You will lose the content you have created. Do you still want to continue?' }">
+
+<!-- <div id="ngMessages-container"><div id="ngMessages"><p class="message"></p><a class="close-message">close</a></div></div> -->
+
+  <div id="contentCreatorContainer" class="contentCreator edit">
+    <form class="content-creator-form" name="createContentForm" id="createContentForm" novalidate>
+      <div class="contenteditfields hide-on-preview"  >
+        <div class="row-fluid hide-on-preview">
+          <div class="span9 grey-bg min-rounded-border">
+            <div class="row-fluid">
+              <h2 class="span12 text-center"> Content Information </h2>
+            </div>
+            <div class="row-fluid">
+              <div class="span7">
+                <label for="name" class="hidden">Name</label>
+                <input class="span11" type="text" name="Name" id="contentName-content-creator"
+                  ng-model="accountContent.name" placeholder="Name" required
+                  ng-focus
+                  tooltip="{{VALIDATION_MESSAGES.content.missing.name}}"
+                  tooltip-trigger="{{{true:'focus', false:'never'}[createContentForm.Name.$invalid && !createContentForm.Name.$pristine]}}"
+                  > </input>
+
+
+                  <div class="span12" ng-include="'partials/admin/content/categories.html'"></div>
+              </div>
+              <div class="span5 noMargins">
+                <label for="description" clasS="hidden">Description</label>
+                <textarea class="span12" type="text" name="Description" id="contentDescription-content-creator"
+                  ng-model="accountContent.description" placeholder="Enter a description"
+                  required ng-focus ng-class="{error: createContentForm.Description.$dirty && createContentForm.Description.$invalid}" />
+                  <p class="error"
+                    ng-show="createContentForm.Description.$dirty && createContentForm.Description.$invalid && !createContentForm.Description.$focused">The
+                    Description field is Required</p>
+              </div>
+            </div>
+          </div>
+          <div class="span3 ">
+            <div class="row-fluid grey-bg min-rounded-border">
+              <div class="span12">
+              <!--<h4>Enabled</h4>
+                <div style="display: inline-block;">
+                  <label> <input type="checkbox"
+                    ng-model="accountContent.enabled" id="account-content-enabled"/> Enabled
+                  </label>
+                </div>-->
+                <h2 class="text-center">Enable Content?</h2>
+                <div ng-switch on="accountContent.enabled">
+                    <div ng-switch-when="true">
+                      <button type="button" class="mf-toggle-button btn btn-success" ng-click="disableContent()" id="account-content-enabled">
+                        Yes <i class="fa fa-check fa-lg"></i> No
+                      </button>
+                    </div>
+                    <div ng-switch-when="false">
+                      <button type="button" class="mf-toggle-button btn btn-danger" ng-click="enableContent()" id="account-content-disabled">
+                        Yes <i class="fa fa-times fa-lg"></i> No
+                      </button>
+                    </div>
+                    <br>
+                  </div>
+              </div>
+
+            </div>
+            <br>
+            <div class="row-fluid grey-bg min-rounded-border content-appears-for">
+              <div class="span12">
+                <h2 class="span12 text-center">Content Appears For</h2>
+                  <span class="span4 offset1">
+                    <input type="radio" ng-value="false" ng-model="accountContent.counterpart" id="content-caller" class="mf-radio-input" />
+                    <label for="content-caller" class="mf-radio-btn-label">User
+                    </label>
+                  </span>
+                  <span class="span5 offset1">
+                    <input type="radio" ng-value="true" ng-model="accountContent.counterpart" id="content-callee" class="mf-radio-input"/>
+                    <label for="content-callee" class="mf-radio-btn-label"> Contact
+                    </label>
+                  </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div id="sidebar" class="sidebar-nav theme-blue content-elements hide-on-preview">
+          <div class="popover-info warning hide-content-btn" ><button class=" label label-info hide-on-preview" id="toggle_content_field" name="toggle_content_field"
+                  ng-click="toggleContentFieldsFunction()"
+                  ng-class="{disabledBtn: createContentForm.Name.$pristine || createContentForm.Name.$invalid || createContentForm.Description.$pristine || createContentForm.Description.$invalid}"
+                  ng-disabled="accountContent.name == '' || createContentForm.Name.$invalid || accountContent.description == '' || createContentForm.Description.$invalid">
+                  <span ng-if="showContentField"><i class="fa fa-arrow-circle-up"></i> Hide</span><span ng-if="!showContentField"><i class="fa fa-arrow-circle-down"></i> Show</span> Content Fields</button></a>
+                <div ng-show = "accountContent.name == '' || createContentForm.Name.$invalid || accountContent.description == '' || createContentForm.Description.$invalid" class="popover fade right">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title">Important</h3>
+                  <div class="popover-content">Name and Description are Required</div>
+                </div>
+                </div>
+          <ul class="nav nav-list accordion-group selectedElement">
+            <li class="nav-header" ng-click="addActiveClass($event)"><i class="component-header-icon"></i>
+              <span class="component-title">Components</span>
+              <!--<div class="pull-right popover-info">
+                <i class="fa fa-question-circle "></i>
+                <div class="popover fade right">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title">Help</h3>
+                  <div class="popover-content">Drag &amp; Drop the Components
+                    inside the Desktop</div>
+                </div>
+              </div>--></li>
+            <li class="rows" id="estRows">
+              <div id="componentType-Header" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentHeader" jqyoui-draggable="{ animate: true, placeholder: 'keep',onStart:'startDrag()', onStop:'stopDrag()'}"
+              class="lyrow drag-header drag-allow-for-column drag-allow-for-desktop" >
+
+                <a id="remove-header-component" href="#close" class="remove label label-important hide-on-preview">
+
+                <i class="fa fa-times"></i></a>
+                <span id="drag-component-type-header" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">Header</div>
+              </div>
+              <div id="componentType-List" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentList" jqyoui-draggable="{ animate: true, placeholder: 'keep',onStart:'startDrag()', onStop:'stopDrag(this)'}" class="lyrow drag-allow-for-column drag-allow-for-desktop" checkSingular>
+                <a href="#close" id="remove-list-component" class="remove label label-important hide-on-preview"> <i class="fa fa-times"></i></a> <span id="drag-component-type-list" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">List </div>
+              </div>
+              <div id="componentType-Image" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentImage" jqyoui-draggable="{ animate: true, placeholder: 'keep',onStart:'startDrag()', onStop:'stopDrag()'}" class="lyrow drag-allow-for-column drag-allow-for-desktop">
+                <a href="#close" id="remove-image-component" class="remove label label-important hide-on-preview"> <i class="fa fa-times"></i></a> <span id="drag-component-type-image" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">
+                  Image
+                </div>
+              </div>
+              <div id="componentType-Column" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentOneColumn" jqyoui-draggable="{ animate: true, placeholder: 'keep', onStart:'startDrag()', onStop:'stopDrag()'}" class="lyrow drag-allow-for-desktop drag-allow-for-tab">
+                <a href="#close" id="remove-column-component" class="remove label label-important hide-on-preview"><i class="fa fa-times"></i></a> <span id="drag-component-type-column" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">One Column</div>
+              </div>
+
+              <div id="componentType-TwoColumn" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentTwoColumn" jqyoui-draggable="{ animate: true, placeholder: 'keep', onStart:'startDrag()', onStop:'stopDrag()'}" class="lyrow drag-allow-for-desktop drag-allow-for-tab">
+                <a href="#close" id="remove-two-column-component" class="remove label label-important hide-on-preview"><i class="fa fa-times"></i></a> <span id="drag-component-type-column-twocolumn" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">Two Column</div>
+              </div>
+
+              <div id="componentType-ThreeColumn" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentThreeColumn" jqyoui-draggable="{ animate: true, placeholder: 'keep', onStart:'startDrag()', onStop:'stopDrag()'}" class="lyrow drag-allow-for-desktop drag-allow-for-tab">
+                <a href="#close" id="remove-three-column-component" class="remove label label-important hide-on-preview"><i class="fa fa-times"></i></a> <span id="drag-component-type-threecolumn" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">Three Column</div>
+              </div>
+              <div id="componentType-Tab" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper:'clone'}" ng-model="componentTabBar" jqyoui-draggable="{ animate: true, placeholder: 'keep',onStart:'startDrag()', onStop:'stopDrag()'}" class="lyrow drag-allow-for-desktop">
+                <a href="#close" id="remove-tab-component" class="remove label label-important hide-on-preview"><i class="fa fa-times"></i></a> <span id="drag-component-type-tab" class="drag label">drag <i class="fa fa-arrows"></i></span>
+                <div class="preview">Sub-Tabs</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="contentCreator-content">
+          <div class="contentCreator-form">
+
+            <div id="contentCreator-builder" class="demo hide-tabs-on-preview" ng-class="(dragging) ? 'dragging' : ''" ng-model="accountContent.content" data-drop="true" jqyoui-droppable="{multiple:true, stack:true, onDrop: 'onDrop(this)'}" data-jqyoui-options="{ greedy : true, accept: '.drag-allow-for-desktop' }" >
+
+
+              <script type="text/ng-template" id="tree_item_renderer.html">
+                <div ng-if="data.componentType=='TabBar'">
+                  <div class="span12 tabs" ng-init="data=data;idx=idx;parentContent=parentContent;" ng-include="'TabBar.html'"></div>
+                </div>
+                <div ng-if="data.componentType=='Columns'">
+                  <div class="span12 columns" ng-init="data=data;idx=idx;parentContent=parentContent;" ng-include="'Columns.html'"></div>
+                </div>
+                <div ng-if="data.componentType=='List'" class="list-container">
+                  <div class="span12 list" ng-init="data=data;idx=idx;parentContent=parentContent;" ng-include="'List.html'"></div>
+                </div>
+                <div ng-if="data.componentType=='Image'">
+                  <div class="span12 image" ng-init="data=data;idx=idx;parentContent=parentContent;" ng-include="'Image.html'"></div>
+                </div>
+                <div ng-if="data.componentType=='Header'">
+                  <div class="span12 header" ng-init="data=data;idx=idx;parentContent=parentContent;" ng-include="'Header.html'"></div>
+                </div>
+              </script>
+
+              <script type="text/ng-template" id="Image.html">
+                <div class="row-fluid button-bar hide-on-preview">
+                  <a id="remove-image" ng-click="removeContent($index, parentContent)" class="label label-important hide-on-preview"> <i class="fa fa-times"></i></a>
+                  <span class="dropdown">
+                      <a class="dropdown-toggle label label-info">
+                      <span ng-show="data.image=='THUMBS_UP'">Thumbs Up</span>
+                      <span ng-show="data.image=='THUMBS_DOWN'">Thumbs Down</span>
+                      <span ng-show="data.image=='CHECK'">Check</span>
+                      <span ng-show="data.image=='CROSS'">Cross</span>
+                      <span ng-show="data.image=='BULLET_GREEN'">Green Circle</span>
+                      <span ng-show="data.image=='BULLET_RED'">Red Circle</span>
+                      <span ng-show="data.image=='BULLET_BLUE'">Blue Circle</span>
+                      <span ng-show="data.image=='AVATAR_OWN'">User's Avatar</span>
+                      <span ng-show="data.image=='AVATAR_COUNTERPART'">Counterpart's avatar</span>
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="image-thumbs-up-option" ng-click="changeImage('THUMBS_UP', data)">Thumbs Up</a>
+                        </li>
+                        <li>
+                            <a id="image-thumbs-down-option" ng-click="changeImage('THUMBS_DOWN', data)">Thumbs Down</a>
+                        </li>
+                        <li>
+                            <a id="image-check-option" ng-click="changeImage('CHECK', data)">Check</a>
+                        </li>
+                        <li>
+                            <a id="image-check-option" ng-click="changeImage('CROSS', data)">Cross</a>
+                        </li>
+                        <li>
+                            <a id="image-green-circle" ng-click="changeImage('BULLET_GREEN', data)">Green Circle</a>
+                        </li>
+                        <li>
+                            <a id="image-red-circle" ng-click="changeImage('BULLET_RED', data)">Red Circle</a>
+                        </li>
+                        <li>
+                            <a id="image-blue-circle" ng-click="changeImage('BULLET_BLUE', data)">Blue Circle</a>
+                        </li>
+                        <li>
+                            <a id="image-user-avatar" ng-click="changeImage('AVATAR_OWN', data)">User's Avatar</a>
+                        </li>
+                        <li>
+                            <a id="image-counter-avatar" ng-click="changeImage('AVATAR_COUNTERPART', data)">Counterpart's avatar</a>
+                        </li>
+                      </ul>
+                  </span>
+                  <span class="dropdown">
+                      <a id="dropdown-toggle" class="dropdown-toggle label label-info">
+                      <span ng-show="data.size=='NORMAL'">Normal</span>
+                      <span ng-show="data.size=='LARGE'">Large</span>
+                      <span ng-show="data.size=='LARGEST'">Largest</span>
+                      <span ng-show="data.size=='SMALL'">Small</span>
+                      <span ng-show="data.size=='SMALLEST'">Smallest</span>
+
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="image-size-smallest" ng-click="changeImageSize('SMALLEST', data)">Smallest</a>
+                        </li>
+                        <li>
+                            <a id="image-size-small" ng-click="changeImageSize('SMALL', data)">Small</a>
+                        </li>
+                        <li>
+                            <a id="image-size-normal" ng-click="changeImageSize('NORMAL', data)">Normal</a>
+                        </li>
+                        <li>
+                            <a id="image-size-large" ng-click="changeImageSize('LARGE', data)">Large</a>
+                        </li>
+                        <li>
+                            <a id="image-size-largest" ng-click="changeImageSize('LARGEST', data)">Largest</a>
+                        </li>
+                      </ul>
+                  </span>
+
+                  <span class="dropdown">
+                      <a class="dropdown-toggle label label-info">
+                      <span ng-show="data.position=='LEFT'">Left</span>
+                      <span ng-show="data.position=='CENTER'">Center</span>
+                      <span ng-show="data.position=='RIGHT'">Right</span>
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="image-align-left" ng-click="changeImagePosition('LEFT', data)">Left</a>
+                        </li>
+                        <li>
+                            <a id="image-align-center" ng-click="changeImagePosition('CENTER', data)">Center</a>
+                        </li>
+                        <li>
+                            <a id="image-align-right" ng-click="changeImagePosition('RIGHT', data)">Right</a>
+                        </li>
+                      </ul>
+                  </span>
+
+                                <a id="move-up-image-{{$index}}" ng-show="!$first" class="label label-info" ng-click="moveUp($index, parentContent)"><i class="fa fa-arrow-up"></i></a>
+                                <a id="move-down-image-{{$index}}" ng-show="!$last" class="label label-info" ng-click="moveDown($index, parentContent)"><i class="fa fa-arrow-down"></i></a>
+
+                </div>
+                <div class="row-fluid imageComponent">
+                    <div class="img {{data.size}} {{data.image}} {{data.position}}"></div>
+                </div>
+              </script>
+
+              <script type="text/ng-template" id="List.html">
+                <div class="row-fluid button-bar hide-on-preview">
+                    <a id="remove-list" ng-click="removeContent($index, parentContent)" class="label label-important hide-on-preview"> <i class="fa fa-times"></i></a>
+                    <a id="add-cue-btn-{{$index}}" class="label label-success hide-on-preview" ng-click="addFirstCue(data.content)"><i class="fa fa-plus"></i> Add Cue</a>
+
+                  <span class="dropdown">
+                      <a id="option-selector" class="dropdown-toggle label label-info">
+                      <span id="no-bullet-point-option" ng-show="data.operation=='NONE_BULLETS'">No Bullet Points</span>
+                      <span id="bullet-point-option" ng-show="data.operation=='NONE'">Bullet Points</span>
+                      <span id="thumbs-option" ng-show="data.operation=='THUMBS_UP_DOWN_NEUTRAL'">Thumbs Up/Neutral/Down</span>
+                      <span id="thumbs-alt-option" ng-show="data.operation=='THUMBS_UP_NEUTRAL'">Thumbs Up/Neutral</span>
+                      <span id="checkbox-option" ng-show="data.operation=='CHECKBOXES'">Checkboxes</span>
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li ng-repeat="listType in listTypes">
+                            <a id="list-type-{{listType.id}}" ng-click="changeType(listType, data)">{{listType.type}}</a>
+                        </li>
+                      </ul>
+                  </span>
+
+                  <span class="dropdown">
+                      <a id="dropdown-notes-options" class="dropdown-toggle label">
+                        <span id="allow-notes" ng-show="data.allowsNotes">Allows Notes</span>
+                      <span id="not-allow-notes" ng-hide="data.allowsNotes">Does not allow Notes</span>
+                      <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="allow-notes-click" ng-click="changeAllowsNotes(true, data)">Allow Notes</a>
+                        </li>
+                        <li>
+                            <a id="not-allow-notes-click" ng-click="changeAllowsNotes(false, data)">Do not allow Notes</a>
+                        </li>
+                      </ul>
+                  </span>
+                                <a id="move-up-note" ng-show="!$first" class="label label-info hide-on-preview" ng-click="moveUp($index, parentContent)"><i class="fa fa-arrow-up"></i></a>
+                                <a id="move-down-note" ng-show="!$last" class="label label-info hide-on-preview" ng-click="moveDown($index, parentContent)"><i class="fa fa-arrow-down"></i></a>
+                </div>
+                <div class="row-fluid">
+                  <ul class="cuelist {{data.operation}}">
+                    <li ng-repeat="cue in data.content | orderBy:'order'" ng-repeat-done="addNewCue(data.content)" ng-class="{'last': $last,  'hide-on-preview': $last}" class="cue-li">
+                    <div class="row-fluid ">
+                      <div class="cue-button-bar">
+                        <div class="xbtncue cuebtn hide-on-preview"><a id="xbtncue-{{$index}}" ng-click="removeContent($index, data.content)" class="label label-important or-layoutit-cuelist-label"><i class="fa fa-times"></i></a></div>
+                        <div class="dwnbtncue cuebtn hide-on-preview"><a id="dwnbtncue-{{$index}}" ng-show="!$last" class="label label-info or-layoutit-cuelist-label" ng-click="moveDown($index, data.content)"><i class="fa fa-arrow-down"></i></a></div>
+                        <div class="upbtncue cuebtn hide-on-preview"><a id="upbtncue-{{$index}}" ng-show="!$first" class="label label-info or-layoutit-cuelist-label" ng-click="moveUp($index, data.content)"><i class="fa fa-arrow-up"></i></a></div>
+                      </div>
+
+                      <span ng-show="data.operation == 'NONE' " class="bullet-grey-icon floatLeft"> </span>
+
+                      <a ng-show=" data.operation == 'THUMBS_UP_DOWN_NEUTRAL' || data.operation == 'THUMBS_UP_NEUTRAL' " id="thumbs-up-btn" class="thumbs-up-btn SMALLEST floatLeft "></a>
+                      <a ng-show=" data.operation == 'THUMBS_UP_DOWN_NEUTRAL' || data.operation == 'THUMBS_UP_NEUTRAL' " id="thumbs-equal-btn" class="thumbs-equal-btn SMALLEST floatLeft "></a>
+                      <a ng-show=" data.operation == 'THUMBS_UP_DOWN_NEUTRAL'" id="thumbs-down-btn" class="thumbs-down-btn SMALLEST floatLeft "></a>
+                      <a ng-show=" data.operation == 'CHECKBOXES'" id="checkboxes-btn" class="SMALLEST check-box-icon floatLeft "></a>
+                      <div class="cue-text cue-text-{{$index}} span7" ng-show="!cue.editing" ng-click="focusArea(cue,$index)" ng-bind-html-unsafe="cue.text"></div>
+                      <textarea ng-show="cue.editing" ng-blur="cueBlurred(cue)" id="{{$index}}-cue-title-textarea" name="cue-title-textarea" ng-model="cue.text" placeholder="Next Cue..." ng-change="cueChanged(cue, data.content, $index)" class="cue-text-title" tabindex="{{$index}}" >
+                      </textarea>
+                      <div class="desc-container">
+                        <a id="info-btn" class="info-icon" ng-click="descediting =!!!descediting">
+                        </a>
+                        <textarea ng-show="descediting" ng-blur="descediting = false" id="{{$index}}-cue-description-textarea-null" name="cue-description-textarea" ng-model="cue.description" placeholder="Cue Description..."
+                        class="cue-text-description" >
+                        </textarea>
+                      </div>
+                      <!--<div class="cue-text span7" ng-bind-html-unsafe="cue.text"></div> <i id="edit-cue-{{$index}}" ng-click="openCuePropertiesDialog(cue, data.content)" class="fa fa-edit blue-color floatLeft edit-que-btn hide-on-preview"></i>-->
+                    </div>
+                    </li>
+                  </ul>
+                </div>
+              </script>
+
+              <script type="text/ng-template" id="Columns.html">
+                            <div class="row-fluid button-bar hide-on-preview">
+                  <a id="remove-columns" ng-click="removeContent($index, parentContent)" class="label label-important hide-on-preview"> <i class="fa fa-times"></i></a>
+
+                  <a id="add-column-btn" class="label label-success hide-on-preview" ng-click="addColumn(data.content)" ng-disabled="numberOfColumnsMajorThanThree"><i class="fa fa-plus"></i> Add Column</a>
+                                <a id="move-up-column-{{$index}}" ng-show="!$first" class="label label-info hide-on-preview" ng-click="moveUp($index, parentContent)"><i class="fa fa-arrow-up"></i></a>
+                                <a id="move-down-column-{{$index}}" ng-show="!$last" class="label label-info hide-on-preview" ng-click="moveDown($index, parentContent)"><i class="fa fa-arrow-down"></i></a>
+                </div>
+                <div class="row-fluid">
+                  <div class="{{'span' + 12 / data.content.length}} column" ng-repeat="column in data.content | orderBy:'order'">
+                    <div class="row-fluid button-bar hide-on-preview">
+                      <a id="remove-inside-columns" ng-click="removeContent($index, data.content)" ng-show="!$first" class="label label-important hide-on-preview"><i class="fa fa-times"></i></a>
+                      <a id="move-left-column-{{$index}}" ng-show="!$first" class="label label-info hide-on-preview" ng-click="moveLeft($index, data.content)"><i class="fa fa-arrow-left"></i></a>
+                      <a id="move-right-column-{{$index}}" ng-show="!$last" class="label label-info hide-on-preview" ng-click="moveRight($index, data.content)"><i class="fa fa-arrow-right"></i></a>
+                    </div>
+
+                    <div ng-model="column.content" class="row-fluid" data-jqyoui-options="{ greedy : true, accept: '.drag-allow-for-column' }" ng-class="(dragging) ? 'dragging' : ''" data-drop="true" jqyoui-droppable="{multiple:true, stack:true}">
+                        <div ng-repeat="data in column.content | orderBy:'order'" ng-init="idx=idx;parentContent=column.content;" ng-include="'tree_item_renderer.html'"></div>
+                    </div>
+                  </div>
+                </div>
+              </script>
+
+              <script type="text/ng-template" id="TabBar.html">
+                <div class="row-fluid button-bar hide-on-preview">
+                  <a id="remove-tab-bar" ng-click="removeContent($index, parentContent)" class="label label-important hide-on-preview"> <i class="fa fa-times"></i></a>
+                  <a id="add-tab-btn" class="label label-success hide-on-preview" ng-click="addTab(data)"><i class="fa fa-plus"></i> Add Tab</a>
+                                <a id="move-up-tab" ng-show="!$first" class="label label-info" ng-click="moveUp($index, parentContent)"><i class="fa fa-arrow-up"></i></a>
+                                <a id="move-down-tab" ng-show="!$last" class="label label-info" ng-click="moveDown($index, parentContent)"><i class="fa fa-arrow-down"></i></a>
+                </div>
+
+                  <tabset>
+                      <tab ng-repeat="tab in data.content | orderBy:'order'" ng-init="tab.active=true" active="tab.active">
+                    <tab-heading>
+                      {{tab.title}}
+                      <a id="open-tab-properties" ng-click="openTabPropertiesDialog(tab)" class="hide-on-preview">
+                              <i class="fa fa-edit"></i>
+                            </a>
+                      <a id="remove-tab-component" ng-show="!$first" ng-click="removeContent($index, data.content)" class="hide-on-preview">
+                              <i class="fa fa-times"></i>
+                            </a>
+                      <a id="move-left-column-{{$index}}" ng-show="!$first" class="label label-info hide-on-preview" ng-click="moveLeft($index, data.content)"><i class="fa fa-arrow-left"></i></a>
+                                        <a id="move-right-column-{{$index}}" ng-show="!$last" class="label label-info hide-on-preview" ng-click="moveRight($index, data.content)"><i class="fa fa-arrow-right"></i></a>
+                          </tab-heading>
+                          <div class="tab-innner">
+                      <div ng-model="tab.content" class="row-fluid" data-jqyoui-options="{ greedy : true, accept: '.drag-allow-for-tab' }" ng-class="(dragging) ? 'dragging' : ''" data-drop="true" jqyoui-droppable="{multiple:true, stack:true}">
+                        <div ng-repeat="data in tab.content | orderBy:'order'" ng-init="idx=idx;parentContent=tab.content;" ng-include="'tree_item_renderer.html'"></div>
+                      </div>
+                          </div>
+                      </tab>
+                  </tabset>
+              </script>
+
+              <script type="text/ng-template" id="Header.html">
+                <div class="row-fluid button-bar hide-on-preview">
+                  <a id="remove-header-{{$index}}" ng-click="removeContent($index, parentContent)" class="label label-important hide-on-preview"> <i class="fa fa-times"></i></a>
+                  <span class="dropdown">
+                      <a id="header-dropdown" class="dropdown-toggle label label-info">
+                      <span ng-show="data.icon=='THUMBS_UP'">Thumbs Up</span>
+                      <span ng-show="data.icon=='THUMBS_DOWN'">Thumbs Down</span>
+                      <span ng-show="data.icon=='CHECK'">Check</span>
+                      <span ng-show="data.icon=='CROSS'">Cross</span>
+                      <span ng-show="data.icon=='BULLET_GREEN'">Green Circle</span>
+                      <span ng-show="data.icon=='BULLET_RED'">Red Circle</span>
+                      <span ng-show="data.icon=='BULLET_BLUE'">Blue Circle</span>
+                      <span ng-show="data.icon=='AVATAR_OWN'">User's Avatar</span>
+                      <span ng-show="data.icon=='AVATAR_COUNTERPART'">Counterpart's avatar</span>
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="header-thumbs-up" ng-click="changeHeaderIcon('THUMBS_UP', data)">Thumbs Up</a>
+                        </li>
+                        <li>
+                            <a id="header-thumbs-down" ng-click="changeHeaderIcon('THUMBS_DOWN', data)">Thumbs Down</a>
+                        </li>
+                        <li>
+                            <a id="header-check" ng-click="changeHeaderIcon('CHECK', data)">Check</a>
+                        </li>
+                        <li>
+                            <a id="header-cross" ng-click="changeHeaderIcon('CROSS', data)">Cross</a>
+                        </li>
+                        <li>
+                            <a id="header-green-circle" ng-click="changeHeaderIcon('BULLET_GREEN', data)">Green Circle</a>
+                        </li>
+                        <li>
+                            <a id="header-red-circle" ng-click="changeHeaderIcon('BULLET_RED', data)">Red Circle</a>
+                        </li>
+                        <li>
+                            <a id="header-blue-circle" ng-click="changeHeaderIcon('BULLET_BLUE', data)">Blue Circle</a>
+                        </li>
+                        <li>
+                            <a  id="header-user-avatar" ng-click="changeHeaderIcon('AVATAR_OWN', data)">User's Avatar</a>
+                        </li>
+                        <li>
+                            <a  id="header-counter-avatar" ng-click="changeHeaderIcon('AVATAR_COUNTERPART', data)">Counterpart's avatar</a>
+                        </li>
+                      </ul>
+                  </span>
+                  <span class="dropdown">
+                      <a id="header-position-dropdown" class="dropdown-toggle label label-info">
+                      <span ng-show="data.position=='LEFT'">Left</span>
+                      <span ng-show="data.position=='CENTER'">Center</span>
+                      <span ng-show="data.position=='RIGHT'">Right</span>
+                         <i class="fa fa-caret-square-o-down"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                            <a id="header-position-left" ng-click="changeHeaderPosition('LEFT', data)">Left</a>
+                        </li>
+                        <li>
+                            <a id="header-position-center" ng-click="changeHeaderPosition('CENTER', data)">Center</a>
+                        </li>
+                        <li>
+                            <a id="header-position-right" ng-click="changeHeaderPosition('RIGHT', data)">Right</a>
+                        </li>
+                      </ul>
+                  </span>
+                                <a id="move-up-header-{{$index}}" ng-show="!$first" class="label label-info" ng-click="moveUp($index, parentContent)"><i class="fa fa-arrow-up"></i></a>
+                                <a id="move-down-header-{{$index}}" ng-show="!$last" class="label label-info" ng-click="moveDown($index, parentContent)"><i class="fa fa-arrow-down"></i></a>
+                </div>
+                  <div class="row-fluid component-wrapper {{data.position}}">
+                    <div class="component component-header">
+                    <div class='icon {{data.icon}}'></div>
+                    <h1 class="heading" ng-model="data.title" contenteditable="true" plain-text >{{data.title}}</h1>
+                </div>
+              </script>
+
+              <div class="row-fluid component" ng-repeat="data in accountContent.content | orderBy:'order'">
+                <div class="row-fluid" ng-init="data=data; parentContent=accountContent.content; idx=$index;" ng-include="'tree_item_renderer.html'"></div>
+              </div>
+
+            </div>
+          </div>
+          </form>
+           <div class="navbar">
+            <div class="navbar-inner container-fluid">
+                <div class="row-fluid text-center">
+                  <div class="nav" id="menu-layoutit">
+                    <button id="back-to-list-btn" ng-click="goBackToList()"
+                      class="btnmf btn btn-mini btnmf-primary btn-primary pull-left">
+                      <i class="fa fa-caret-left"></i> Back to list
+                    </button></li>
+                    <button id="clear-btn" class="btnmf btn btn-mini btn-danger pull-left" ng-click="clear()" id="clear">
+                      <i class="fa fa-times-circle"></i> Clear
+                    </button>
+                    <button id="publish-btn" ng-if="accountContent.id" ng-click="publish()" class="btnmf btnmfpublish btn btn-mini pull-right">
+                      <span class="fa-stack">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-bullhorn fa-stack-1x fa-inverse"></i>
+                      </span> Publish
+                    </button>
+                    <button id="save-btn" ng-click="save()"  class="btnmf btn btn-mini pull-right" ng-disabled="createContentForm.$invalid" >
+                      <i class="fa fa-check-circle"></i> Save
+                    </button>
+                    <div class="vertical-split"></div>
+                    <button id="sourcepreview" type="button" ng-click="preview()" class="btnmf btn btn-mini btnmf-primary btn-primary pull-right" >
+                      <i class="preview-btn"></i> Preview
+                      <!-- <span class="fa-stack">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+                      </span> Preview -->
+                    </button>
+                    <button id="edit" type="button" ng-click="edit()" disabled="disabled"
+                      class="btnmf btn btn-mini btnmf-primary btn-primary pull-right">
+                      <i class="edit-btn"></i> Edit
+                    </button>
+                  </div>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+</div>
+<!--/row-->
+
+

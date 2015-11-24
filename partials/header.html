@@ -1,0 +1,59 @@
+<header class="wide-top mf-header theme-blue" ng-controller="headerCtrl"
+  ng-class="authenticationService.authenticated ? 'authenticated': '' ">
+  <div class="container">
+    <a class="logo hide-on-mid" id="logo-btn" title="Mindframe Home" data-track-info="mainlogoclick"
+      href="{{ getHomeUrl(authenticationService.authenticated) }}">
+      <img src="img/mf_logo_white_new.png" alt="Mindframe" />
+    </a>
+    <a class="logo mini-logo show-on-mid" id="logo-btn" title="Mindframe Home" data-track-info="mainlogoclick"
+      href="{{ getHomeUrl(authenticationService.authenticated) }}">
+      <img src="img/mf_logo_white_new-mini.png" alt="Mindframe" />
+    </a>
+    <nav class="top-nav">
+      <ul class="menu list-no-style hide-on-mobile">
+        <li ng-if="authenticationService.credentials.clientAccounts.length > 1" class="dropdown">
+          <a id="header-account-name-dropdown-list" href="#" ng-class="{'small': rootScope.currentAccountFullName.length > 17, 'very-small': rootScope.currentAccountFullName.length > 20 }" class="dropdown-toggle account-select" data-toggle="dropdown">
+            <span class="gear-icon"></span>
+            <span class="hide-on-mobile">{{rootScope.currentAccountFullName}}</span>
+            <i class="fa fa-angle-down "></i>
+          </a>
+          <ul class="dropdown-menu account-list-container">
+             <!--<span class="actual-account hide-on-mobile">Current Account: <br> {{rootScope.currentAccountFullName}}</span>-->
+            <li ng-repeat="account in authenticationService.credentials.clientAccounts" ng-class="{active: rootScope.currentAccountFullName == account.fullName}">
+              <a id="{{account.fullName}}-account" data-track-info="accountselected" ng-click="updateCurrentAccount(account)">
+                {{account.fullName}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li ng-if="authenticationService.credentials.clientAccounts.length == 1">
+          <a id="selected-account-name-dropdown-toggle" href="#" class="dropdown-toggle">
+            {{rootScope.currentAccountFullName}}
+          </a>
+        </li>
+        <li class="dropdown user-options" ng-show="authenticationService.authenticated">
+          <a  id="user-name-dropdown-toggle"href="#" ng-class="{'small': authenticationService.credentials.firstName.length > 17, 'very-small': authenticationService.credentials.firstName.length > 20 }" class="dropdown-toggle user-greeting" data-toggle="dropdown">
+            <span class="user-options-icon"></span>
+            <span class="hide-on-mobile">Hi {{authenticationService.credentials.firstName}}</span>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu user-options-container">
+            <li><a id="logout-link" ng-click="authenticationService.logout()">Logout</a></li>
+            <li class="divider"></li>
+            <li><a id="help-link" href="#">Help</a></li>
+            <li><a id="privacy-link" href="#">Privacy</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div ng-if="authenticationService.authenticated"
+        ng-include="'partials/menu_admin.html'" scope="" onload="" class="menu menu-admin">
+      </div>
+    </nav>
+    <div id="ngMessages-container">
+      <div id="ngMessages">
+        <p id="message-info" tester-id="message-info" class="message"></p>
+        <a id="close-message" class="close-message"></a>
+      </div>
+    </div>
+  </div>
+</header>

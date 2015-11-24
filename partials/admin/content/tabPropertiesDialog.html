@@ -1,0 +1,18 @@
+
+    <div class="row-fluid">
+        <h3 class="span12 text-center">Edit Tab</h3>
+        <input focus-me class="span12 span11 ng-pristine ng-valid ng-valid-required ng-focused" id="tab-title" type="text" ng-enter="saveTabProperties()" placeholder="Tab title" ng-model="selectedTab.title"/>
+
+    	<div class="tag-input-ctn span12">
+			<div data-ng-repeat="trait in selectedTab.traits" class="input-tag">
+			 <div class="delete-tag" data-ng-click="deleteTrait($index, selectedTab)">&times;</div>{{ trait }}
+			</div>
+			<textarea name="traitText" id="traitText" placeholder="Tags" cols="30" rows="3" class="span12" data-tag-input="" data-ng-model="traitText" data-ng-style="{width: textareaWidth,heigth:textareaHeigth}" data-new-tag="addTrait(selectedTab)" data-delete-tag="deleteTrait(selectedTab)" ng-focus>
+			</textarea>
+	    </div>
+    </div>
+        <div class="row-fluid">
+            <button name="cancel" id="cancel-edit-tab" class='redBtn button pull-left' ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+            <button type="submit" name="submit" id="submit-edit-tab" ng-click="saveTabProperties()" class='btnmf btn btn-large btnmf-primary btn-primary pull-right submitUser'><i class="fa fa-check-circle"></i> Ok</button>
+        </div>
+

@@ -1,0 +1,45 @@
+<div ng-controller="newUserCtrl">
+
+  <div class="createUser" style="float:left">
+
+    <form name="createUserForm" action="">
+      <h2 class="">Create New User</h2>
+      <p class="alertMessage">{{errorMessage}}</p>
+      <br/>
+      <div class="row">
+      <div class="span4">
+      <label for="userName">First Name</label>
+      <input type="text" id="userName" placeholer="Name" ng-model="user.name">
+      <label for="userUserLastName">Last Name</label>
+      <input type="text" id="userUserLastName" ng-model="user.lastName">
+      <label for="userUserName">Username (Email)</label>
+      <input type="email" id="userUserName" required ng-model="user.userName">
+      <label for="password">Password</label>
+        <input data-ng-model='user.password' type="password" id="password" name='password'  required>
+      <label for="password2">Re-Entry your password</label>
+      <input ng-model='user.password_verify' type="password" id="password2" name='confirm_password' required data-password-verify="user.password">
+      <p class="alertMessage" ng-show="createUserForm.confirm_password.$error.passwordVerify">Fields are not equal!</p>
+
+      </div>
+
+      <div class="span4">
+      <div class="roleBox">
+       <label class="title">
+         Roles
+       </label>
+       <br>
+        <br>
+       <input id="role-admin-id" type="checkbox" class="first" name="ROLE_ADMIN"   value="ROLE_ADMIN"><label>Admininstrator</label>
+
+       <input id="profile-input" type="checkbox" name="ROLE_USER"   value="0" ng-model="user.roles"  checked ><label>Profile</label>
+       </div>
+     </div>
+      <div class="createUserFooter span8">
+        <button id="saveUser-form" class='btnmf btn btn-large btnmf-primary btn-primary submitUser' ng-click="save()"> Save User</button>
+      </div>
+    </div>
+  </form>
+
+
+  </div>
+  </div>

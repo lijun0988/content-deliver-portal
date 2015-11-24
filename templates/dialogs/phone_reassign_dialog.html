@@ -1,0 +1,35 @@
+<div class="phone-reassign-dialog">
+    <div ng-hide="hideMain">
+        <div ng-if="currentPhoneOwners.length > 1">
+            <!-- <alert class="alert-warning">
+            This number <strong>{{enteredPhone}}</strong> already exists for <strong>{{currentPhoneOwners.length}}</strong> users, do you still want to assign it to <strong>{{intendedOwner.firstName}} {{intendedOwner.lastName}}</strong> ?
+                <p>
+                    <button id="yes-btn" ng-click="close(true)" type="button" class="btn btn-mini btn-primary">Yes</button>
+                    <button id="no-btn" ng-click="close(false)" type="button" class="btn btn-mini btn-danger">No</button>
+                </p>
+            </alert> -->
+            <alert class="span10 alert-warning">
+            <strong>{{enteredPhone}}</strong> already exists for
+            <ul>
+                <li ng-repeat="owner in currentPhoneOwners">
+                    <strong>{{owner.firstName}} {{owner.lastName}}</strong>,
+                </li>
+            </ul>
+            do you still want to assign it to <strong>{{intendedOwner.firstName}} {{intendedOwner.lastName}}</strong> ?
+                <p>
+                    <button id="yes-confirmation-btn" ng-click="close(true)" type="button" class="btn btn-mini btn-primary">Yes</button>
+                    <button id="no-confirmation-btn" ng-click="close(false)" type="button" class="btn btn-mini btn-danger">No</button>
+                </p>
+            </alert>
+        </div>
+        <div ng-if="currentPhoneOwners.length == 1">
+            <alert class="span10 alert-warning">
+            <strong>{{enteredPhone}}</strong> already exists for <strong>{{currentOwner.firstName}} {{currentOwner.lastName}}</strong>, do you still want to assign it to <strong>{{intendedOwner.firstName}} {{intendedOwner.lastName}}</strong> ?
+                <p>
+                    <button id="button-yes-confirmation-btn" ng-click="close(true)" type="button" class="btn btn-mini btn-primary">Yes</button>
+                    <button id="button-no-confirmation-btn" ng-click="close(false)" type="button" class="btn btn-mini btn-danger">No</button>
+                </p>
+            </alert>
+        </div>
+    </div>
+</div>

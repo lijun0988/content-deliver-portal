@@ -1,0 +1,25 @@
+<div class="userList" ng-controller="contentProviderCtrl">
+<h2> Available Content Providers </h2>
+<table class="userlist table" >
+<thead>
+    <tr>
+      <th class="providerTitle"> <div class="arrowContainer"> Provider <i ng-click="predicate = 'firstName'; reverse=false; tog=1" class="fa fa-sort-desc " ng-class='{"hideArrow":tog==1,"moveArrowDown":tog==2}' ></i><i ng-click="predicate = '-firstName'; reverse=false; tog=2" ng-class='{"hideArrow":tog==2, "moveArrowUp":tog==1}' class="fa fa-sort-asc"></i></div></th> 
+      <th>Description</th>
+      <th>Tags</th>
+       <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr id="{{provider.name}}-provider" ng-model="provider"  ng-repeat="provider in providers.data.contentProviders">
+  	<td>{{provider.status}}<b>{{provider.name}}</b></td>
+  	<td>{{provider.description}}</td>
+    <td>{{provider.tags.join(', ')}}</td>
+    <td>
+    	<span id="suscribe-provider" class="lightBlueBtn" ng-show="providers.data.status[provider.id]=='subscribe'" ng-click="subscribe(provider)">Subscribe</span>
+    	<span id="upgrade-provider" class="lightBlueBtn" ng-show="providers.data.status[provider.id]=='upgrade'" ng-click="subscribe(provider)">Upgrade</span>
+    	<span id="unsuscribe-provider" class="redBtn" ng-show="providers.data.status[provider.id]=='unsubscribe'" ng-click="unsubscribe(provider)">Unsubscribe</span>
+    </td>
+  	</tr>
+  </tbody>
+</table>
+</div>

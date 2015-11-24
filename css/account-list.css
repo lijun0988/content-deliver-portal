@@ -1,0 +1,62 @@
+.mf-accounts-list {
+  margin-top: 10px;
+}
+
+.mf-accounts-list .accordion-group {
+  margin-bottom: 20px;
+}
+
+.mf-accounts-list .accordion-group,
+.mf-accounts-list .accordion-inner {
+  background-color: #F3F5F5;
+  border: none;
+}
+
+.mf-accounts-list h3 {
+  margin-top: 0px;
+}
+
+.mf-accounts-list h4 {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.mf-accounts-list h2 {
+  font-weight: 600;
+  margin-top: 0px;
+  font-size: 20px;
+}
+
+.mf-accounts-list .margin-row {
+  margin-bottom: 10px;
+}
+
+.mf-accounts-list .small-label {
+  color: #000;
+}
+
+.mf-accounts-list .searchUserInput {
+  margin-top: 2px;
+  margin-bottom: 0px;
+}
+
+.mf-accounts-list .searchUserInput:disabled {
+  border:2px solid #2a9bdb;
+  color: #2a9bdb;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px 10px;
+  /*margin-top: 0px;
+  margin-left: 10px;
+  width: auto;*/
+  margin-left: 20px;
+  line-height: 1em;
+  background-color: #fff;
+}
+
+.mf-accounts-list .checkbox-container {
+  margin-left: 4%;
+  margin-top: 5px;
+  float: left;
+}

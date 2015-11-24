@@ -1,0 +1,33 @@
+
+<div class="row-fluid" ng-controller="callManagerCtrl">
+	<div clas="row-fluid">
+		<div class="span10 offset2">
+			<form name="callManagerForm" novalidate
+				ng-submit="saveCallManagerConfiguration()">
+				<div class="row-fluid">
+					<div class="span8">
+						<h3>Call Manager Configuration</h3>
+					</div>
+				</div>
+
+				<div class="row-fluid">
+					<div class="span8">
+						<h4>Call Manager Url</h4>
+						<input type="text" id="callManagerUrl" class="span12" name="callManagerUrl"
+							placeholder="Call Manager Url" ng-model="myAccount.callManagerUrl" ng-focus required>
+					</div>
+				</div>
+
+				<div class="row-fluid">
+					<div class="span4"></div>
+					<div class="span4">
+						<button type="submit" ng-disabled="callManagerForm.$pristine&&callManagerForm.$valid" id="save-call-manager"
+							class="lightBlueBtn floatRight button">
+							<i class="fa fa-floppy-o"></i> Save Call Manager Configuration
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+<h2>Plan</h2>
+<form action="">
+	<label for="planName">Name</label>
+	<input type="text" id="planName" placeholer="Name" ng-model="plan.name">
+	<label for="planPrice">Price {{plans.name}}</label>
+	<input type="text" id="planPrice" ng-model="plan.price">
+	<label for="planDescription">Description</label>
+	<input type="text" id="planDescription" ng-model="plan.description">
+	<label for="planUsers">Users</label>
+	<input type="text" id="planUsers" ng-model="plan.users">
+	<label for="planPersons">Persons</label>
+	<input type="text" id="planPersons" ng-model="plan.persons">
+	<label for="planCode">Code</label>
+	<input type="text" id="planCode" ng-model="plan.code">
+	<label for="planRenewable">Renewable</label>
+	<input type="checkbox" id="planRenewable" ng-model="plan.renewable">
+	<label for="planEnabled">Enabled</label>
+	<input type="checkbox" id="planRenewable" ng-model="plan.enabled">
+	<label for="planTypeName">Type</label>
+	<input type="text" id="planTypeName" ng-model="plan.type.name">
+	
+	<button ng-click="save()" id="planSave" class="btnmf-primary btn-primary">Save</button>
+</form>

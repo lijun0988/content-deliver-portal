@@ -1,0 +1,74 @@
+
+<div class="row-fluid" ng-controller="authenticationSourceCtrl">
+
+	<div clas="row-fluid">
+		<div class="span10 offset2">
+			<form name="createAuthenticationSourceForm" novalidate
+				ng-submit="saveAuthenticationSource()">
+				<div class="row-fluid">
+					<div class="span4">
+						<h3>Authentication Information</h3>
+					</div>
+					<div class="span4"></div>
+
+				</div>
+
+				<div class="row-fluid">
+					<div class="span4">
+						<h4>Authentication Source</h4>
+						<select ng-model="aas.authenticationSource"
+							ng-options="source.id as source.name for source in authenticationSources" id="autentication-source"></select>
+					</div>
+				</div>
+
+
+				<div class="row-fluid" ng-if="aas.authenticationSource!='LOCAL'">
+					<div class="span4">
+						<h4>LDAP Url</h4>
+						<input type="text" id="ldap-Url" class="span12" name="ldap-Url"
+							placeholder="LDAP Server Url (Required)" ng-model="aas.ldapUrl" ng-required="aas.authenticationSource!='LOCAL'" ng-focus>
+					</div>
+
+					<div class="span4">
+						<h4>LDAP Name</h4>
+						<input type="text" id="ldap-name" class="span12" name="ldap-Name"
+							placeholder="LDAP Name (Required)" ng-model="aas.ldapName" ng-required="aas.authenticationSource!='LOCAL'" ng-focus>
+					</div>
+				</div>
+
+				<div class="row-fluid" ng-if="aas.authenticationSource!='LOCAL'">
+					<div class="span4">
+						<h4>Login Query</h4>
+						<textarea id="query" class="span12" name="query"
+							placeholder="Login Query" ng-model="aas.loginQuery" ng-focus >
+								</textarea>
+					</div>
+
+					<div class="span4">
+						<h4>Sync Users Query</h4>
+						<textarea id="syncQuery" class="span12" name="syncQuery"
+							placeholder="Sync Query" ng-model="aas.syncQuery" ng-focus>
+						</textarea>
+
+						<button type="button" id="checkMappings" ng-click="syncMappings()"
+							class="btnmf btn btn-small">
+							<i class="fa fa-puzzle-piece"></i> Sync Mappings
+						</button>
+					</div>
+				</div>
+
+
+				<div class="row-fluid">
+					<div class="span4"></div>
+
+					<div class="span4">
+						<button type="submit" id="save-authentication-source"
+							class="lightBlueBtn floatRight button" ng-disabled="createAuthenticationSourceForm.$invalid||createAuthenticationSourceForm.$pristine">
+							<i class="fa fa-floppy-o"></i> Save Authentication Information
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

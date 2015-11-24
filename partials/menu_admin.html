@@ -1,0 +1,162 @@
+<div id="navbar-admin-akkadian" ng-controller="adminMenuCtrl" ng-if="authenticationService.authenticated">
+<div class="container" ng-class='{ "mfContainerBg" : activeMenu == "mindframe", "pmeContainerBg" : activeMenu == "pme", "querContainerBg" : activeMenu == "qwer" }'   style="width: auto;" ng-switch on="activeMenu">
+        <ul id="subBrandOption" class="subBrandOptions admin-nav list-no-style hide-on-mobile show-when-click class6" ng-class="{active: activeMenu == 'mindframe' }" role="navigation" ng-switch-when="mindframe" data-anim-speed="250">
+
+            <li class="dropdown" ng-if="authenticationService.hasRole('ROLE_SUPERUSER')">
+                <a id="navbar-admin-clients-id" href="#" ng-click="clientsMenu($event)" role="button" class="text-larger"
+                    data-toggle="dropdown" data-track-info="menuclientclick">Clients
+                </a>
+                <ul class="dropdown-menu header-dropdown" role="menu" aria-labelledby="navbar-admin-clients-id">
+                    <li role="presentation" class="item-plus">
+                        <a id="navbar-admin-clients-on-cloud" role="menuitem" tabindex="-1"
+                                href="#/admin/clients/onCloud" data-track-info="client_oncloudaccountsclick">
+                                On Cloud Accounts
+                        </a>
+                    </li>
+                    <li role="presentation" class="item-plus">
+                        <a id="navbar-admin-clients-on-premises" role="menuitem" tabindex="-1"
+                                href="#/admin/clients/onPremises" data-track-info="client_onpremisesaccountsclick">
+                                On Premises Accounts
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-if="authenticationService.hasRole('ROLE_SUPERUSER')">
+                <a id="navbar-admin-account-info-id" href="#" ng-click="accountInfoMenu($event)" role="button" class="text-larger"
+                    data-toggle="dropdown" data-track-info="menuclientclick">Account Info
+                </a>
+                <ul class="dropdown-menu header-dropdown" role="menu" aria-labelledby="navbar-admin-account-info-id">
+                    <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation" class="item-info">
+                        <a id="navbar-admin-clients-account-info-id" role="menuitem" tabindex="-1"
+                                href="#/admin/account" data-track-info="client_accountinfoclick">
+                                Billing Info
+                        </a>
+                    </li>
+                    <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation" class="item-info">
+                        <a id="navbar-admin-clients-account-configuration-id" role="menuitem" tabindex="-1"
+                                href="#/admin/account-config" data-track-info="client_accountinfoclick">
+                                Configuration
+                        </a>
+                    </li>
+                    <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation">
+                        <a id="navbar-admin-clients-groups-id" role="menuitem" tabindex="-1" href="#/admin/groups"
+                                data-track-info="client_groupclick">
+                              Groups
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown " ng-if="!authenticationService.hasRole('ROLE_SUPERUSER')&&authenticationService.hasRoleInAccount('ROLE_ADMIN')">
+                <a id="navbar-clients-account-menu-id" ng-click="accountInfoMenu()" role="menuitembutton" class="text-larger"
+                        data-toggle="dropdown">
+                        Account Info
+                </a>
+                <ul class="dropdown-menu header-dropdown" role="menu" aria-labelledby="navbar-clients-account-menu-id">
+                    <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation" class="item-info">
+                        <a id="navbar-clients-account-info-id" role="menuitem" tabindex="-1" href="#/admin/account"
+                                data-track-info="client_accountinfoclick">
+                          Account Info
+                        </a>
+                    </li>
+					<li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation" class="item-info">
+                        <a id="navbar-admin-clients-account-info-id" role="menuitem" tabindex="-1"
+                                href="#/admin/account-config" data-track-info="client_accountinfoclick">
+                                Configuration
+                        </a>
+                    </li>
+                    <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation">
+                        <a id="navbar-clients-groups-id" role="menuitem" tabindex="-1" href="#/admin/groups"
+                                data-track-info="client_groupclick">
+                             Groups
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN') || authenticationService.hasRoleInAccount('ROLE_CONTENT_MANAGER')"
+                    href="#/admin/content" id="navbar-manage-content-id" role="menuitem" class="text-larger"
+                    data-track-info="menumanagecontentclick">Manage Content
+                </a>
+                <!-- Link below is commented until v2.0
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation" class="item-content"><a id="my-content" role="menuitem" tabindex="-1" href="#/admin/content"><i class="fa fa-pencil-square"></i>Content</a></li>
+                <li ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')" role="presentation"><a id="marketplace" role="menuitem" tabindex="-1" href="#/admin/subscribe"><i class="fa fa-cloud-download"></i> Marketplace</a></li>
+                read this for more information: https://fidelus.atlassian.net/browse/ASP-346?focusedCommentId=20153&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-20153
+                </ul>
+            -->
+            </li>
+            <li>
+                <a ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN') || authenticationService.hasRoleInAccount('ROLE_CONTENT_MANAGER')"
+                  href="#/admin/persons" id="navbar-users-id-contacts" role="menuitem" class="text-larger"
+                  data-track-info="menuuserclick">Contacts
+                </a>
+            </li>
+            <li>
+                <a ng-if="authenticationService.hasRole('ROLE_SUPERUSER')" href="#/admin/plans" id="navbar-plans-id"
+                    role="menuitem" class="text-larger" data-track-info="menupriceplanclick"> Price Plans
+                </a>
+            </li>
+
+
+          <li ng-if="authenticationService.credentials.clientAccounts.length > 1" class="dropdown account-list-menu show-on-mobile-menu">
+            <a id="account-name-dropdown-list" href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Admin
+            </a>
+            <ul class="dropdown-menu mobile-account-list">
+              <!-- <span class="actual-account hide-on-mobile">Current Account: <br> {{rootScope.currentAccountFullName}}</span>-->
+              <li ng-repeat="account in authenticationService.credentials.clientAccounts" ng-class="{active: rootScope.currentAccountFullName == account.fullName}" >
+                <a id="{{account.fullName}}-account" data-track-info="accountselected" ng-click="updateCurrentAccount(account)">
+                  {{account.fullName}}
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li ng-if="authenticationService.credentials.clientAccounts.length == 1" class="dropdown user-options-title show-on-mobile-menu">
+            <a id="selected-account-name-dropdown-toggle" href="#" class="dropdown-toggle">
+              User
+            </a>
+          </li>
+          <li class="dropdown user-options-menu show-on-mobile-menu" ng-show="authenticationService.authenticated">
+            <a  id="user-name-dropdown-toggle"href="#" class="dropdown-toggle" data-toggle="dropdown">
+             User
+
+            </a>
+            <ul class="dropdown-menu user-options-menu-container">
+              <li><a id="logout-link" ng-click="authenticationService.logout()">Logout</a></li>
+              <li class="divider"></li>
+              <li><a id="help-link" href="#">Help</a></li>
+              <li><a id="privacy-link" href="#">Privacy</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <a class="show-on-mobile drop-down-btn" id="show-mobile-menu" header-menu> <i class="fa fa-bars fa-2"></i> </a>
+        <ul class="nav subBrandOptions" ng-class="{active: activeMenu == 'pme' }" role="navigation" ng-switch-when="pme">
+            <li ng-class="{active: activeMenu == 'pme' }"><a id="pme" class="brand" ng-click="clickme('pme')" ng-switch on="activeMenu" > PME </a><span class="darkBlueTriangle"></span> </li>
+            <li class="dropdown">
+                <a id="pme-action-btn" href="#" id="drop2" role="button" data-toggle="dropdown">Action</a>
+                <ul class="dropdown-menu header-dropdown" role="menu" aria-labelledby="drop2">
+                    <li role="presentation"><a id="pme-reg-new-publisher" role="menuitem" tabindex="-1" href="#">Reg New Publisher</a></li>
+                    <li role="presentation"><a id="pme-account-info" role="menuitem" tabindex="-1" href="#">Account Info</a></li>
+                    <li role="presentation"><a id="pme-users" role="menuitem" tabindex="-1" href="#">Users</a></li>
+                    <li role="presentation"><a id="pme-content" role="menuitem" tabindex="-1" href="#">Content</a></li>
+                </ul>
+            </li>
+            <li><a id="pme-info" href="">Info</a></li>
+            <li><a id="pme-account" href="">Account</a></li>
+        </ul>
+        <ul class="nav subBrandOptions" ng-class="{active: activeMenu == 'qwer' }" role="navigation" ng-switch-when="qwer">
+            <li ng-class="{active: activeMenu == 'qwer' }"><a id="qwer" class="brand" ng-click="clickme('qwer')" ng-switch on="activeMenu">QWER</a><span class="darkBlueTriangle"></span> </li>
+            <li class="dropdown">
+                <a href="#" id="drop5" role="button" data-toggle="dropdown">Qwer Publisher</a>
+                <ul class="dropdown-menu header-dropdown" role="menu" aria-labelledby="drop2">
+                    <li role="presentation"><a id="qwe-new-publisher" role="menuitem" tabindex="-1" href="#">QWE New Publisher</a></li>
+                    <li role="presentation"><a id="qwe-info" role="menuitem" tabindex="-1" href="#">QWE Info</a></li>
+                    <li role="presentation"><a id="qwe-users" role="menuitem" tabindex="-1" href="#">QWE Users</a></li>
+                    <li role="presentation"><a id="qwe-content" role="menuitem" tabindex="-1" href="#">QWE Content</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+

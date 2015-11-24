@@ -1,0 +1,240 @@
+<div ng-controller="planPageToggleCtrl">
+  <div class="container mf-plans">
+      <div ng-show="!$routeParams.action">
+        <div class="row-fluid mf-plans-list-panels">
+          <div class="span10 offset1">
+            <div class="accordion-group">
+              <div class="accordion-inner">
+                <div class="row-fluid">
+                  <div class="bold pull-left">
+                    <h2>Plans</h2>
+                  </div>
+                  <button type="button" id="add-new-plan" ng-click="newPlan()"
+                    class="mf-button mf-button-new btn btn-primary pull-right">
+                    <i class="fa fa-plus-circle fa-lg"></i>New Plan
+                  </button>
+                </div>
+                <div class="row-fluid">
+                  <div class="checkbox-container offset0">
+                    <input type="checkbox" class="css-checkbox" id="usercheckbox-disable-plans"
+                      ng-model="includeDisabled" checked="checked" data-track-info="plans_showdisabledclick">
+                    <label for="usercheckbox-disable-plans" class="css-label lite-blue-check small-label">
+                      <span></span>Show disabled plans
+                    </label>
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div id="loaderPlansTable" class="loader-wrapper loader-wrapper-margins" ng-hide="plans.length == 0">
+                    <div class="loader"></div>
+                  </div>
+                  <div class="user-table-message-wrapper user-table-message-wrapper-margins" ng-show="plans.length == 0">
+                    <p>No plans found</p>
+                  </div>
+                  <table class="plans-list table animate-opacity" id="planslist">
+                    <thead>
+                      <tr>
+                        <th>Edit</th>
+                        <th>Name</th>
+                        <!-- <th>
+                          <div class="arrowContainer"> Name
+                            <i ng-click="predicate = 'name'; reverse=false; tog=1" class="fa fa-sort-desc "
+                              ng-class='{"hideArrow":tog==1,"moveArrowDown":tog==2}' >
+                            </i>
+                            <i ng-click="predicate = '-name'; reverse=false; tog=2"
+                              ng-class='{"hideArrow":tog==2, "moveArrowUp":tog==1}' class="fa fa-sort-asc">
+                            </i>
+                          </div>
+                        </th> -->
+                        <th>Hosting Type</th>
+                        <th># of Users</th>
+                        <!-- <th># of Persons</th> -->
+                        <th>Price</th>
+                        <!-- <th>Products</th> -->
+                        <th>Enabled</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="plan-data" ng-model="plan"
+                        ng-repeat="plan in plans.data | filter:q | orderBy:predicate:reverse"
+                        ng-repeat-done ng-repeat-done-loader-id="loaderPlansTable" ng-repeat-done-target-id="planslist">
+                        <td class="editBtn">
+                         <a id="edit-plan-{{plan.name | convertToId}}-{{plan.id}}" ng-click="edit({{plan.id}})" alt="Edit" class="editBtn"
+                            title="Edit" data-track-info="plan_editiconclick">
+                            <i class="tool-icon"></i>
+                          </a>
+                        </td>
+                        <td class="plans-name">{{plan.name}}</td>
+                        <td>
+                          <span ng-if="plan.hostingType=='ON_CLOUD'"><i class="fa fa-cloud fa-lg"></i>In The Cloud</span>
+                          <span ng-if="plan.hostingType=='ON_PREMISES'"><i class="fa fa-arrow-circle-o-down fa-lg"></i>On Site</span>
+                        </td>
+                        <td>{{plan.users | number:0}}</td>
+                        <!-- <td>{{plan.persons | number:0}}</td> -->
+                        <td>
+                          <span class="green-price-text">${{plan.price | number:0}}</span>
+                          <span class="mini-text">{{plan.type === "MONTHLY" && ' /month' || ' /year'}}</span></td>
+                        <!-- <td>
+                          <span ng-repeat="product in plan.products">{{product.name}}</span>
+                        </td> -->
+                        <td class="editBtn">
+                          <i ng-class="plan.enabled ? 'fa fa-check-circle' : 'fa fa-times-circle'"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div ng-show="plans && plans.total > limit" class="row-fluid">
+                    <div class="user-list-pagination">
+                      <user-list-pagination class="pagination-sm pagination-centered pagination-large"
+                                  boundary-links="false"
+                                  total-items="plans.total"
+                                  items-per-page="limit"
+                                  on-select-page="selectPage(page)"
+                                  rotate="true"
+                                  max-size="10"
+                                  page="currentListPage"
+                                  previous-text=""
+                                  next-text=""
+                                  first-text="First"
+                                  last-text="Last">
+                      </user-list-pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show="$routeParams.action=='edit'||$routeParams.action=='new'">
+        <form name="planForm" ng-submit="save()">
+          <div class="row-fluid mf-plans-list-panels">
+            <div class="span10 offset1">
+              <div class="accordion-group">
+                <div class="accordion-inner">
+                  <div class="row-fluid">
+                    <div class="text-center bold">
+                      <h2 ng-hide="editPlan">Create New Price Plan</h2>
+                      <h2 ng-show="editPlan">Edit Price Plan</h2>
+                    </div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="span4">
+                      <input class="span10" type="text" id="planName-create-user" name="planname"
+                        placeholder="Plan name" ng-model="plan.name" required
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.name}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.planname.$invalid && !planForm.planname.$pristine]}}"
+                      >
+                      <input class="span10" type="text" id="planPrice-create-user" placeholder="Price"
+                        ng-model="plan.price" ng-pattern="/^\d+$/" required
+                        name="planPrice"
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.price}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.planPrice.$invalid && !planForm.planPrice.$pristine]}}">
+                    </div>
+                    <div class="span4">
+                      <input class="span10" type="text" name="code" id="planCode-create-user" placeholder="Code"
+                        ng-model="plan.code" ng-change="checkPlanCode()" required
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.code}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.code.$invalid && !planForm.code.$pristine]}}">
+                      <input class="span10" type="text" id="planUsers-create-user" ng-pattern="/^\d+$/"
+                        placeholder="Number of Users" ng-model="plan.users"
+                        name="usernumber"
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.numberOfUsers}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.usernumber.$invalid && !planForm.usernumber.$pristine]}}">
+                    </div>
+                    <div class="span4">
+                      <textarea id="planDescription-create-user" placeholder="Enter a description..." rows="3"
+                      name="description"
+                        class="span10" ng-model="plan.description" required
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.description}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.description.$invalid && !planForm.description.$pristine]}}"
+                        >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row-fluid mf-plans-list-panels">
+            <div class="span7 offset1">
+              <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                      <div class="text-center bold">
+                        <h2>Plan Options</h2>
+                      </div>
+                    </div>
+                    <div class="row-fluid">
+                      <div class="span6">
+                        <select ng-model="plan.type" id="planType-create-user" class="span10" required
+                        tooltip="{{VALIDATION_MESSAGES.plans.missing.planOptionMonth}}"
+                        name="billingfrecuency"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.billingfrecuency.$invalid && !planForm.billingfrecuency.$pristine]}}">
+                          <option value="" disabled selected>Select your option</option>
+                          <option value="MONTHLY"> Monthly </option>
+                          <option value="ANNUALLY">Annually</option>
+                          <option value="SEMI_ANNUALLY"> Semi-Annually</option>
+                        </select>
+                        <span class="warn-icon"></span>
+                      </div>
+                      <div class="span6">
+                        <select id="planHostingType-create-user" ng-model="plan.hostingType" class="span10" required
+                         tooltip="{{VALIDATION_MESSAGES.plans.missing.planType}}"
+                        name="plantype"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[planForm.plantype.$invalid && !planForm.plantype.$pristine]}}">
+                          <option value="" disabled selected>Select your option</option>
+                          <option value="ON_CLOUD">On Cloud</option>
+                          <option value="ON_PREMISES">On Premises</option>
+                        </select>
+                        <span class="warn-icon"></span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="span3">
+              <div class="accordion-group">
+                <div class="accordion-inner">
+                  <div class="row-fluid">
+                    <div class="text-center bold">
+                      <h2>Enable Plan?</h2>
+                    </div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="text-center span12">
+                      <div ng-switch on="plan.enabled">
+                        <div ng-switch-when="true">
+                          <button id="enabled-plan-btn" type="button" class="mf-toggle-button btn btn-success" ng-click="disablePlan()">
+                            Yes <i class="fa fa-check fa-lg"></i> No
+                          </button>
+                        </div>
+                        <div ng-switch-when="false">
+                          <button id="disabled-plan-btn" type="button" class="mf-toggle-button btn btn-danger" ng-click="enablePlan()">
+                            Yes <i class="fa fa-times fa-lg"></i> No
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row-fluid mf-account-info-actions">
+            <div class="span10 offset1">
+              <div class="row-fluid">
+                <button type="button" id="cancelAccountBtn" ng-click="backToListPlans()"
+                  class="mf-button mf-button-cancel btn btn-primary pull-left">
+                  <i class="fa fa-minus-circle fa-lg"></i>Cancel
+                </button>
+                <button type="submit" id="saveAccountBtn"
+                  class="mf-button mf-button-save btn btn-primary pull-right" ng-disabled="planForm.$invalid">
+                  <i class="fa fa-check-circle fa-lg"></i>Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,22 @@
+button.mf-checkbox-in-li.active {
+  background-image: url(../img/sprites/checkbox-checked.png);
+  background-repeat: no-repeat;
+}
+
+button.mf-checkbox-in-li {
+  background-image: url(../img/sprites/checkbox-unchecked.png);
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  width: 15px;
+  height: 15px;
+  border: none;
+}
+
+label.mf-checkbox-in-li-label {
+  display: inline-block;
+  margin-left: 6px;
+  color: #000;
+  cursor: default;
+  font-size: 13px;
+  font-weight: 400;
+}

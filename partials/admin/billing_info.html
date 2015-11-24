@@ -1,0 +1,167 @@
+
+<div class="row-fluid" ng-controller="billingInfoCtrl" ng-init="messages = { successBillingUpdated: 'Billing Info updated OK', successBillingCreated: 'Billing Info created OK' }">
+	
+<div clas="row-fluid">
+<div class="span10 offset2">
+	<form  name="createBillingInfoForm" novalidate ng-submit="saveBillingInfo()">
+		 <div class="row-fluid">
+		 <div class="span4">
+		 <h3>Add/Modify billing info</h3>
+		 </div>	
+		 <div class="span4">
+		 </div>
+
+		 </div>
+		 <div class="row-fluid">
+		  	<div class="span4">
+				<label for=""></label>
+				 <input type="text" id="firstName-billing-info" class="span12" required name="Name" placeholder="First Name" ng-model="billingInfo.firstName" ng-focus>
+				<div class="error"
+					ng-show="createBillingInfoForm.Name.$dirty && createBillingInfoForm.Name.$invalid && !createBillingInfoForm.Name.$focused">
+					The first name is required.</div>
+			</div>
+
+			<div class="span4">
+				<label for=""></label> 
+				<input type="text" id="lastName-billing-info" class="span12" required	name="lastName" placeholder="Last Name" ng-model="billingInfo.lastName">
+				<div class="error"	ng-show="createBillingInfoForm.lastName.$dirty && createBillingInfoForm.lastName.$invalid && !createBillingInfoForm.lastName.$focused">
+					The last Name is required.</div>
+			</div>
+
+		</div>
+
+		<div class="row-fluid">
+
+			<div class="span4">
+				<label for=""></label>
+				<input type="text"
+					id="creditCardNumber-billing-info"
+					class="span12"
+					required
+					name="creditCardNumber"
+					ng-model="billingInfo.creditCardNumber"
+					ng-keyup="getCCTypeByEvent($event)"
+					ng-blur="getCCTypeByEvent($event)"
+					ng-pattern="/[0-9]+$/"
+					maxLength="16"
+					ng-minlength="13"
+					placeholder="Credit Card Number"
+				>
+				<div class="error" ng-show="createBillingInfoForm.creditCardNumber.$dirty && createBillingInfoForm.creditCardNumber.$invalid && !createBillingInfoForm.creditCardNumber.$focused">
+					The credit Card Number is required.</div>
+			</div>
+
+			<div class="span1">
+				<div class="card {{creditCardLogoClass}}"></div>
+			</div>
+
+			<div class="span3">
+				<label for=""></label> 
+				<input type="text" id="creditCardVerificationValue-billing-info" class="span12" required placeholder="Security Code" name="creditCardVerificationValue" ng-model="billingInfo.creditCardVerificationValue">
+				<div class="error"	ng-show="createBillingInfoForm.creditCardVerificationValue.$dirty && createBillingInfoForm.creditCardVerificationValue.$invalid && !createBillingInfoForm.creditCardVerificationValue.$focused">
+					The credit Card Verification Value is required.</div>
+			</div>
+			</div>
+		
+
+		<div class="row-fluid control-group">
+				<div class="span4">
+					<p class="expiration-date-title">Credit Card Expiration	Date > </p>
+				</div>
+				<div class="span2 controls">
+						<select required id="expiration-month-billing-info" class="span12"	ng-options="month.value as month.name for month in ccExpirationMonths" ng-model="billingInfo.ccExpirationMonth">
+									<option value="">Select</option>
+							</select>
+				</div>
+			
+				<div class="span2 controls">			
+						<select id="expiration-year-billing-info" required class="span12" ng-options="year for year in ccExpirationYears" ng-model="billingInfo.ccExpirationYear">
+								<option value="">Select</option>
+						</select>
+				</div>
+
+		</div>
+
+
+		<div class="row-fluid">
+
+			<div class="span4">
+				<label for=""></label>
+				<input type="text" id="streetAddress-billing-info" class="span12" required placeholder="Address" name="streetAddress" ng-model="billingInfo.streetAddress">
+				<div class="error" ng-show="createBillingInfoForm.streetAddress.$dirty && createBillingInfoForm.streetAddress.$invalid && !createBillingInfoForm.streetAddress.$focused">The
+					address is required.</div>
+			</div>
+
+			<div class="span4">
+
+				<label for=""></label>
+				<input type="text" id="city-billing-info" placeholder="City" required name="city"	ng-model="billingInfo.city" class="span12">
+				<div class="error" ng-show="createBillingInfoForm.city.$dirty && createBillingInfoForm.city.$invalid && !createBillingInfoForm.city.$focused">
+					The city is required.</div>
+			</div>
+
+		</div>
+
+		<div class="row-fluid">
+
+			<div class="span2">
+				<label for=""></label> 
+				<input type="text" id="state-billing-info" placeholder="State" required name="state" ng-model="billingInfo.state" typeahead="state for state in states | filter:$viewValue"	class="small span12">
+				<div class="error" ng-show="createBillingInfoForm.state.$dirty && createBillingInfoForm.state.$invalid && !createBillingInfoForm.state.$focused">
+					The state is required.</div>
+			</div>
+			
+			
+			<div class="span4">	
+				<label for=""></label>
+				<input type="text" id="country-billing-info" placeholder="Country" required  name="country" ng-model="billingInfo.country" typeahead="country for country in countries | filter:$viewValue" class="small span12">
+				<div class="error" ng-show="createBillingInfoForm.country.$dirty && createBillingInfoForm.country.$invalid && !createBillingInfoForm.country.$focused">
+					The country is required.</div>
+			</div>
+
+
+			<div class="span2">		
+				<label for=""></label>
+				<input type="text" id="zipcode-billing-info" placeholder="Zip Code" name="zipcode" required ng-model="billingInfo.zipcode" class="span12">
+				<div class="error" ng-show="createBillingInfoForm.zipcode.$dirty && createBillingInfoForm.zipcode.$invalid && !createBillingInfoForm.zipcode.$focused">
+					The zipcode is required.</div>
+			</div>
+
+
+		</div>
+
+		<div class="row-fluid">	
+
+			
+
+			<div class="span4">
+				<label for=""></label> 
+				<input type="phone" id="phone-billing-info" required placeholder="Phone" name="phone" ng-model="billingInfo.phoneNumber" class="span12">
+				<div class="error" ng-show="createBillingInfoForm.phone.$dirty && createBillingInfoForm.phone.$invalid && !createBillingInfoForm.phone.$focused">
+					The phone is required.</div>
+			</div>		
+
+		</div>
+
+		<div class="row-fluid">
+			<div class="span4">
+				
+			</div>
+
+			<div class="span4">
+				<button type="submit" id="save-billing-info" 
+                        ng-disabled="createBillingInfoForm.$invalid||createBillingInfoForm.$pristine"
+                        class="lightBlueBtn floatRight button">
+                        <i class="fa fa-floppy-o"></i> Save Billing Information
+                </button>
+			</div>
+		</div>
+			
+		</div>
+
+	
+		</div>
+	</form>
+	<hr>
+</div>
+</div>

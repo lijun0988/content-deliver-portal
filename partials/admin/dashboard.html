@@ -1,0 +1,55 @@
+<div ng-controller="dashboardCtrl" ng-if="authenticationService.isAccountComplete()">
+  <div class="row-fluid">
+    <div class="box span6">
+      <h3>New Users Came Online</h3>
+      <div id="widgetIframe">
+                        <iframe width="100%" height="250" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Live&actionToWidgetize=getSimpleLastVisitCount&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+    <div class="box span6">
+      <h3>Visit Frequency</h3>
+      <div id="widgetIframe">
+                        <iframe width="100%" height="260" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitFrequency&actionToWidgetize=getSparklines&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="box span6">
+      <h3>Os Share</h3>
+      <div id="widgetIframe">
+                        <iframe width="100%" height="300" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserSettings&actionToWidgetize=getOS&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+    <div class="box span6">
+      <h3>Visit Summary</h3>
+      <div id="widgetIframe">
+                         <iframe width="100%" height="300" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&columns[]=nb_visits&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="box span6">
+      <h3>Weekly Traffic</h3>
+      <div id="widgetIframe">
+                       <iframe width="100%" height="360" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitTime&actionToWidgetize=getByDayOfWeek&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+    <div class="box span6">
+      <h3>Visits By Server Time</h3>
+      <div id="widgetIframe">
+                      <iframe width="100%" height="350" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerLocalTime&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="box span12 full">
+      <h3>Actions Report</h3>
+      <div id="widgetIframe">
+           <iframe width="100%" height="350" src="{{fidelusAnalyticServerUrl}}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageTitles&idSite={{fidelusSiteCode}}&period=week&date={{date | date:'yyyy-MM-dd'}}&disableLink=1&widget=1&token_auth={{fidelusToken}}" scrolling="yes" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="!authenticationService.isAccountComplete()">
+    <div ng-include="'partials/admin/incomplete_account.html'" ></div>
+</div>

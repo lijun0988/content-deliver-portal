@@ -1,0 +1,11 @@
+<div ng-controller="createCategoriesController">
+<form name="createCategoryForm" id="createCategoryForm" ng-submit="saveCategory()" novalidate>
+    <div class="row-fluid">
+    	<div class="span8">
+        <input focus-me ng-enter="saveCategory()" class="span9 pull-left" type="text" id="category-name" ng-model="category.name" placeholder="{{level}}" name="categoryName" id="categoryName" ng-class="{error: createCategoryForm.categoryName.$dirty && createCategoryForm.categoryName.$invalid}" required ng-focus> <span><button type="submit" name="submit" id="submit-create-category" class='btnmf btn btn-large btnmf-primary btn-primary submitUser'ng-disabled="buttonSave.inactive">Save </button></span>
+        <p class="error span12" ng-show="createCategoryForm.categoryName.$dirty && createCategoryForm.categoryName.$invalid && !createCategoryForm.categoryName.$focused"> A Category name name is Required </p>
+
+        </div>
+    </div>
+</form>
+</div>

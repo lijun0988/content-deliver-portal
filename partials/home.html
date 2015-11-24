@@ -1,0 +1,159 @@
+
+
+	<div class="wide-header-home">
+		<div class="container">
+			<div class="homeBox row">
+			<div class="top-header span12">
+				<h3>
+					Your company productivity <br>
+					is about to hit a <span class="light-blue"> new level. </span>
+				</h3>
+				<div ng-controller="freeCtrl">
+					<a id="try-free-btn" class="big btnmf btn" ng-click="free()"> Try now for free </a>
+				</div>
+
+				<div class="left-ani">
+				</div>
+				<div class="right-ani">
+				</div>
+			</div>
+
+		</div>
+			</div>
+	</div>
+
+	<div class="wide-bottom-header">
+		<div class="container">
+			<div class="row">
+			<div class="bottom-header  span12 ">
+				<h3><span class="logoText">Mindframe&reg;</span> puts users on<br>
+					the right frame of mind.
+				</h3>
+		        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+		     </div>
+			</div>
+		</div>
+	</div>
+	<div class="wide-top-center">
+		<div class="container">
+			<div class="row">
+				<div class="top-center span12">
+					<h3> How do you Say? </h3>
+					<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+					<div class="horiz-slider">
+						<div class="image-slide-element">
+						<div>
+
+							  <carousel interval="5000">
+							    <slide>
+							      <img src="img/black-ipad.png" style="margin:auto;">
+							    </slide>
+							     <slide>
+							      <img src="img/galax-tab3.png" style="margin:auto;">
+							    </slide>
+							      <slide>
+							      <img src="img/iphone5.png" style="margin:auto;">
+							    </slide>
+							      <slide>
+							      <img src="img/kindle.png" style="margin:auto;">
+							    </slide>
+
+							      <slide>
+							      <img src="img/galax-tab-hor.png" style="margin:auto;">
+							    </slide>
+							  </carousel>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="wide-middle-center">
+		<div class="container">
+			<div class="row">
+				<div class="middle-center span12">
+					<div class="center-text-box span5">
+						<p class="small"><b>WE ARE GLOBAL</b></p>
+						<hr>
+						<h3> We think <span class="white-text">cross-compatible</span></h3>
+						<hr>
+						<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="wide-bottom-center">
+		<div class="container">
+			<div class="row">
+				<div class="bottom-center span12">
+					<div class="row">
+						<div class="bottom-text-box span6">
+							<p class="small"><b>WE ARE INSIDE YOUR COMPANY</b></p>
+							<hr>
+							<h3> Training Programms? <span class="light-blue">Yes, we do it.</span></h3>
+							<hr>
+							<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="wide-bottom-slider">
+		<div class="container">
+			<div class="row">
+				<div class="bottom-center-text-slider span12">
+					<div class="grey-slide-element">
+						<div ng-controller="greytextCarouselCtrl">
+  							<carousel interval="myInterval">
+	    						<slide ng-repeat="slide in slides" active="slide.active">
+							        <p class="quote">{{slide.quote}}</p>
+							        <p class="author">{{slide.author}}</p>
+	   							 </slide>
+  							</carousel>
+							      <ul class="pager-btn-list">
+							        <li ng-repeat="slide in slides" class="pager-btn">
+							          <button class="btnmf btn btn-mini" id="slideState" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true"></button>
+							        </li>
+							      </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="wide-bottom-suscribe-box">
+		<div class="container">
+			<div class="row">
+				<div class="bottom-suscribe-box span12">
+					<div class="row">
+						<p class="label-suscribe span6">Wooh, this product is amazing.<br>
+						Please, let me know when you launch.</p>
+						<input type="text" id="subscribe" class="envelope span3">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="wide-footer">
+		<div class="container">
+			<div class="row">
+				<footer class="span12">
+					<span class="logoText">mindframe</span>
+					<p class="slogan">The World's Best Collaboration System </p>
+				</footer>
+			</div>
+		</div>
+	</div>
+

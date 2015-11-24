@@ -1,0 +1,261 @@
+/*.mf-login {
+  font-family: 'Open Sans', sans-serif;
+}*/
+
+.mf-login h4 {
+  font-size: 20px;
+  margin: 0px;
+  border: none;
+  margin-bottom: 18px;
+  font-weight: 400;
+}
+
+.mf-login .mf-login-container {
+  display: table;
+  position: fixed;
+  top: 32%;
+}
+
+.mf-login .centered-row {
+  display: table-cell !important;
+  vertical-align: middle !important;
+}
+
+.mf-login .mf-login-logo {
+  margin-top: 8px;
+}
+
+.mf-login .mf-panel {
+  width: 271px;
+  height: 234px;
+  padding: 24px;
+  background-color: #F1f2f3;
+  border-radius: 4px;
+  padding-bottom: 0px;
+}
+
+.mf-login .accordion-group {
+  border:none;
+}
+
+.mf-panel .css-label {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #414042;
+}
+
+.mf-panel .mf-login-forgotpassword {
+  color: #B7B7B8;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+
+.mf-login input[type="text"],
+.mf-login input[type="password"],
+.mf-login input[type="text"]:focus,
+.mf-login input[type="password"]:focus {
+  margin-bottom: 20px;
+  border:none;
+  margin:0;
+  width: 78%;
+  background-color: transparent;
+  background: none;
+  border-radius: 0;
+  border-color: #F3F5F5;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+.mf-login input::-webkit-input-placeholder {
+  color: #2a9bdb;
+}
+
+.mf-login input::-moz-placeholder {
+  color: #2a9bdb;
+}
+
+.mf-login input:-moz-placeholder {   /* Older versions of Firefox */
+  color: #2a9bdb;
+}
+
+.mf-login input:-ms-input-placeholder {
+  color: #2a9bdb;
+}
+
+.mf-login .mf-button {
+  font-weight: 400;
+  padding: 10px 22px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  color: #FFFFFF;
+  background-image: none;
+  background-color: #2a9bdb;
+  border:none;
+  background-image: none;
+  font-size: 16px;
+  /*line-height: 1.33;*/
+  border-radius: 6px;
+}
+
+.mf-login div.input-container{
+  width: 100%;
+}
+
+.mf-login div.input-container input{
+  display: inline-block;
+}
+
+.mf-login .input-container-inner{
+  border: 2px #e0e2e2 solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 6px;
+  background-color: #fff;
+  display: block;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+
+.mf-login .user-login-icon, .mf-login .password-login-icon, .mf-login .temp-password-icon {
+  width: 42px;
+  height: 35px;
+  float: left;
+  margin-top: 0;
+  display: inline-block;
+  background-size: 42px 35px;
+}
+
+.mf-login .user-login-icon{
+  background-image: url('../img/icons/user-login-icon.png');
+  background-repeat: no-repeat;
+}
+
+.mf-login .password-login-icon{
+  background-image: url('../img/icons/password-login-icon.png');
+  background-repeat: no-repeat;
+}
+
+.mf-login .temp-password-icon{
+  background-image: url('../img/icons/temp_pass_icon_sm.png');
+  background-repeat: no-repeat;
+}
+
+
+.mf-login-footer {
+  margin-top: 8.5%;
+  height: 50px;
+}
+
+/*Reset Password*/
+
+.mf-login .reset-pass{
+  height: auto;
+  padding-bottom: 7%;
+  padding: 24px;
+  background-color: #F1f2f3;
+  border-radius: 12px;
+}
+
+.mf-login .mf-reset-pass-container{
+  margin-top: 50px;
+}
+
+.mf-login .mf-reset-pass-container h2{
+  margin-left: 30px;
+  color: #145596;
+}
+
+.reset-pass .display-password-strength{
+  margin-left: 0px;
+  margin-top: 5px;
+}
+
+.reset-pass .display-password-strength li.point{
+  width:32.69%;
+}
+
+.reset-pass .display-password-strength li:first-child span{
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.reset-pass .display-password-strength li:last-child span{
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.email-sent-by-forgot-password {
+  background-color: #3DD172;
+  border-radius: 12px;
+  padding: 65px 10px;
+  margin-top: 20px;
+  position: relative;
+  margin-top: 110px;
+  margin-bottom: 133px
+}
+
+.email-sent-by-forgot-password p{
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.button-close-sent-email {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.reset-password-footer-position {
+  margin-top: 11.5%;
+  height: 40px;
+}
+
+.input-container .field-required-highlight{
+  position: relative;
+  height: 32px;
+}
+
+.input-container .field-required-highlight input{
+  position: absolute;
+  width: 91%;
+}
+
+.mf-reset-pass-container input[type="text"].span10,
+.mf-reset-pass-container input[type="password"].span10,
+.mf-reset-pass-container input[type="text"].span10:focus,
+.mf-reset-pass-container input[type="password"].span10:focus{
+  width: 89.8%;
+}
+
+.mf-reset-pass-container .user-forgot-password-hightlighter input[type="text"],
+.mf-reset-pass-container .user-forgot-password-hightlighter input[type="text"]:focus{
+  width: 100%;
+}
+
+
+.password-strength-reset-container{
+  min-height: auto;
+}
+
+.password-strength-reset-container ul.display-password-strength{
+  min-height: inherit;
+  margin-top: -15px;
+}
+
+.password-strength-reset-container ul.display-password-strength li.point{
+  height: 10px;
+}

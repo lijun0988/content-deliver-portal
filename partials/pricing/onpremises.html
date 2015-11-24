@@ -1,0 +1,20 @@
+<ul class="vertical-cat span1">
+	<li class="plan"><span>Plan</span></li>
+	<li class="price"><span>Price</span></li>
+	<li class="users"><span>Users</span></li>
+</ul>
+<div class="product-price-charts span8">
+	<div class="plans-wrapper">
+		<ul>
+			<!-- Plans repeater -->
+			<li class="plan-item" ng-class="{first: $first}" ng-repeat="plan in plansService.availableList | filter: {hostingType: 'ON_PREMISES'}" ng-repeat-done="fixLayout()">
+				<ul>
+					<li class="plan"><span>{{plan.name}}</span></li>
+					<li class="price"> {{plan.price}}<sup>/mo</sup></li>
+					<li class="users"><span>{{plan.users}}</span></li>
+					<li class="button"><a id="button-id" class="btn"> buy </a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>

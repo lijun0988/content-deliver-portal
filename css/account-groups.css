@@ -1,0 +1,107 @@
+.mf-account-groups-panels {
+  margin-top: 10px;
+}
+
+.mf-account-groups-panels .accordion-group {
+  margin-bottom: 20px;
+}
+
+.mf-account-groups-panels .accordion-group,
+.mf-account-groups-panels .accordion-inner {
+  background-color: #F3F5F5;
+  border: none;
+}
+
+.mf-account-groups-panels h3 {
+  margin-top: 0px;
+}
+
+.mf-account-groups .tags-container {
+  -moz-box-shadow:inset 2px 0px 5px #dfe1e1;
+  -webkit-box-shadow:inset 2px 0px 5px #dfe1e1;
+  box-shadow:inset 2px 0px 5px #dfe1e1;
+  background-color: white;
+}
+
+.mf-account-groups .tag-input-ctn{
+	width: 95%;
+	padding: 5px 10px;
+}
+
+/* Tags Directives*/
+.tags-container {
+  background-color: #eff8fd;
+  display: inline-block;
+  min-height: 105px;
+  border-radius: 3px;
+  min-height: 100px !important;
+}
+
+.tags-container .input-tag {
+  word-break:break-all;
+  border-radius: 20px;
+  background-color: #8cc9ec;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  margin-right:10px;
+  overflow: hidden;
+  padding: 4px 5px 5px 5px;
+  position: relative;
+  vertical-align: middle;
+  border: 1px solid #2a9bdb;
+}
+
+.tags-container .input-tag:hover {
+  background-color: #8cc9ec;
+  color: #000000;
+}
+
+.tags-container .delete-group {
+	cursor: pointer;
+	font-size: 9px;
+	line-height:16px;
+	padding-right: 1px;
+	padding-left: 1px;
+	cursor: pointer;
+	color: #2a9bdb;
+	background-color: white;
+	font-weight: 500;
+	width: 14px;
+	height: 16px;
+	display: inline-block;
+	text-align: center;
+	margin-right: 5px;
+	border-radius: 50%;
+}
+
+.tags-container .delete-group:hover, .tags-container .delete-group:active {
+	background-color: red;
+	color: #fff;
+}
+
+.tags-container .group-name{
+	margin-right: 15px;
+	margin-left: 5px;
+	font-size: 11px;
+}
+
+.input-tag.tag-group{
+	background-color: #ededed;
+}
+
+.input-tag.tag-group:hover{
+	background-color: #239F85;
+	color:white;
+}
+
+.groups-error-icon {
+  background-image: url('../img/icons/warn-icon.png');
+  background-repeat: no-repeat;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  margin-left: 9px;
+  margin-top: 5px;
+  background-size: 34px 34px;
+}

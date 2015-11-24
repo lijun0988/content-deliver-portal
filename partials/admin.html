@@ -1,0 +1,58 @@
+<div ng-if="authenticationService.authenticated" class="content-wrapper"
+  ng-class="{authenticated: authenticationService.authenticated}">
+  <div class="wide-white-box">
+    <div class="container">
+      <div class="row-fluid">
+        <div class="adminBox span12">
+          <script>
+            //$('li:first').addClass('active');
+            $('li').on('click', function() {
+              $(this).addClass('active').siblings().removeClass('active');
+            });
+          </script>
+          <div class="span12 noMargins">
+            <div class="row-fluid">
+              <div class="tab-content span12">
+                <div ng-switch on="activeTab">
+                  <div ng-switch-default="dashboard" ng-include="'partials/admin/dashboard.html'"></div>
+                  <div ng-switch-when="users" ng-include="'partials/admin/users.html'"></div>
+                  <div ng-switch-when="usersCreate" ng-include="'partials/admin/user/form.html'"></div>
+                  <div ng-switch-when="clients/onCloud" ng-include="'partials/admin/clients/list.html'"></div>
+                  <div ng-switch-when="clients/onPremises" ng-include="'partials/admin/clients/list.html'"></div>
+                  <div ng-switch-when="new_account" ng-include="'partials/admin/account.html'"></div>
+                  <div ng-switch-when="providers" ng-include="'partials/admin/providers.html'"></div>
+                  <div ng-switch-when="content" ng-include="'partials/admin/content.html'"></div>
+                  <div ng-switch-when="contentCreator" ng-include="'partials/admin/content_creator.html'"></div>
+                  <div ng-switch-when="subscribe" ng-include="'partials/admin/subscribe_content.html'"></div>
+                  <div ng-switch-when="groups" ng-include="'partials/admin/groups.html'">Test</div>
+                  <div ng-switch-when="tabs" ng-include="'partials/admin/tabs.html'">test</div>
+                  <div ng-switch-when="delivery" ng-include="'partials/admin/delivery.html'"></div>
+                  <div ng-switch-when="reports"></div>
+                  <div ng-switch-when="billing"></div>
+                  <div ng-switch-when="plans" ng-include="'partials/admin/plans.html'">plans Tab</div>
+                  <div ng-switch-when="products" ng-include="'partials/admin/products.html'">Products</div>
+                  <div ng-switch-when="persons" ng-include="'partials/admin/persons.html'"></div>
+                  <div ng-switch-when="account" ng-include="'partials/admin/account_info.html'">plans Tab</div>
+                  <div ng-switch-when="account-config" ng-include="'partials/admin/account_configuration.html'"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span12 breadcrumb-footer">
+          <a id="amf-link" class="amf-link"></a>
+          <ul class="span8 noMargins" id="breadcrumb" bread-crumbs></li></ul>
+          <div class="span3 pull-right">
+            <a id="aklabs-link" href="http://www.akkadianlabs.com/" target="_blank"></a>
+            <span class="copyright">Copyright &copy;2014 </span>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+      	<div class="copyright span8 pull-right text-right">{{version}}</div>
+      </div>
+    </div>
+  </div>
+</div>

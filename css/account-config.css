@@ -1,0 +1,27 @@
+.mf-account-config {
+
+}
+
+.mf-account-config-panels {
+  margin-top: 10px;
+}
+
+.mf-account-config-panels .accordion-group {
+  margin-bottom: 20px;
+}
+
+.mf-account-config-panels .accordion-group,
+.mf-account-config-panels .accordion-inner {
+  background-color: #F3F5F5;
+  border: none;
+}
+
+.mf-account-config-panels h3 {
+  margin-top: 0px;
+}
+
+.mf-account-config-panels h2 {
+  font-weight: 600;
+  margin-top: 0px;
+  font-size: 20px;
+}

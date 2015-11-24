@@ -1,0 +1,357 @@
+<div ng-controller="accountConfigCtrl" ng-if="authenticationService.hasRoleInAccount('ROLE_ADMIN')">
+<div class="container mf-account-config">
+<form name="accountConfigForm" novalidate ng-submit="save()">
+<div class="row-fluid mf-account-config-panels">
+    <div ng-class="{'span12': aas.authenticationSource == 'LOCAL', 'span12 grey-bg': aas.authenticationSource != 'LOCAL'}">
+        <div ng-class="{'span6 offset3': aas.authenticationSource == 'LOCAL', 'span5 left-col-auth-info': aas.authenticationSource != 'LOCAL'}">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>Authentication Info</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <label>Source of Login Credentials</label>
+                            <fieldset>
+                                <select class="span7" ng-model="aas.authenticationSource" id="autentication-source"
+                                        ng-options="source.id as source.name for source in authenticationSources">
+                                </select>
+
+                                <div ng-if="aas.authenticationSource!='LOCAL'">
+                                    <input type="text" id="ldap-Url" class="span7" name="ldap-Url"
+                                           placeholder="LDAP URL" ng-model="aas.ldapUrl"
+                                           ng-required="aas.authenticationSource!='LOCAL'" ng-focus>
+                                    <span class="warn-icon"></span>
+                                    <input type="text" id="ldap-name" class="span7" name="ldap-Name"
+                                           placeholder="LDAP Login" ng-model="aas.ldapName"
+                                           ng-required="aas.authenticationSource!='LOCAL'" ng-focus>
+                                    <span class="warn-icon"></span>
+                                    <input type="text" id="query" class="span11" name="query" placeholder="Login Query"
+                                           ng-model="aas.loginQuery" ng-required="aas.authenticationSource!='LOCAL'"
+                                           ng-focus>
+                                    <span class="warn-icon"></span>
+                                    <textarea id="syncQuery" class="span11" name="syncQuery"
+                                              placeholder="Sync Users Query"
+                                              ng-model="aas.syncQuery" ng-required="aas.authenticationSource!='LOCAL'"
+                                              ng-focus>
+                                    </textarea>
+                                    <span class="warn-icon"></span>
+                                    <!-- <button type="button" id="" ng-click="saveAuthenticationSource()" class="mf-button mf-button-sync btn btn-primary pull-right">
+                                      <i class="fa fa-arrows-h fa-lg"></i>Map Fields
+                                    </button> -->
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span7" ng-if="aas.authenticationSource != 'LOCAL'">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>LDAP / Active Directory</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <label>Mapping Information</label>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <fieldset>
+                                <input id="syncLdapFirstName" type="text" class="span10" ng-model="aas.mappingFirstName"
+                                       placeholder="First Name" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                                <input id="syncLdapLastName" type="text" class="span10" ng-model="aas.mappingLastName"
+                                       placeholder="Last Name" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                                <input id="syncLdapPhones" type="text" class="span10" ng-model="aas.mappingPhones"
+                                       placeholder="Work Phone Number" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                                <input id="syncLdapMobile" type="text" class="span10" ng-model="aas.mappingMobile"
+                                       placeholder="Mobile Phone Number"
+                                       ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                            </fieldset>
+                        </div>
+                        <div class="span6">
+                            <fieldset>
+                                <input id="syncLdapUserId" type="text" class="span10" ng-model="aas.mappingUserId"
+                                       placeholder="User ID" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                                <input id="syncLdapEmail" type="text" class="span10" ng-model="aas.mappingMail"
+                                       placeholder="Email Address" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                                <input id="syncLdapGroups" type="text" class="span10" ng-model="aas.mappingGroups"
+                                       placeholder="Groups" ng-required="aas.authenticationSource!='LOCAL'">
+                                <span class="warn-icon"></span>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid mf-account-config-panels">
+    <div class="span12">
+        <div ng-class="{'span6 offset3': aas.authenticationSource == 'LOCAL', 'span12': aas.authenticationSource != 'LOCAL'}">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>Call Manager</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="callManagerUrl" class="span12" name="callManagerUrl"
+                                       placeholder="URL"
+                                       ng-model="callManagerUrl" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid mf-account-config-panels">
+    <div class="span12">
+        <div ng-class="{'span6 offset3': aas.authenticationSource == 'LOCAL', 'span12': aas.authenticationSource != 'LOCAL'}">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>Jabber Config</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="jabberDomainUrl" class="span12" name="jabberDomainUrl"
+                                       placeholder="Domain"
+                                       ng-model="jabberDomainUrl" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="jabberBindingUrl" class="span12" name="jabberBindingUrl"
+                                       placeholder="Http binding URL"
+                                       ng-model="jabberBindingUrl" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid mf-account-config-panels">
+    <div class="span12">
+        <div ng-class="{'span6 offset3': aas.authenticationSource == 'LOCAL', 'span12': aas.authenticationSource != 'LOCAL'}">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>Analytic Configuration</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="fidelusDomainName" class="span12" name="fidelusDomainName"
+                                       placeholder="Domain"
+                                       ng-model="fidelusDomainName" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="fidelusAnalyticServerUrl" class="span12"
+                                       name="fidelusAnalyticServerUrl" placeholder="Fidelus Server URL"
+                                       ng-model="fidelusAnalyticServerUrl" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="fidelusSiteCode" class="span12" name="fidelusSiteCode"
+                                       placeholder="Site Code"
+                                       ng-model="fidelusSiteCode" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="fidelusToken" class="span12" name="fidelusToken"
+                                       placeholder="Fidelus Token"
+                                       ng-model="fidelusToken" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid mf-account-config-panels" style="background-color:#F3F5F5;">
+    <div class="accordion-group" style="background-color:#F3F5F5;">
+        <div style="float: left; margin-left: 23px; width: 25%; background-color:#F3F5F5;padding-top:50px;">
+            <fieldset>
+                <div class="row-fluid">
+                    <div class="span7 role-group-content-box">
+                        <label>Sites</label>
+
+
+                        <div ng-if="webExConfigs && webExConfigs.length > 0" class="accordion-group">
+                            <div class="accordion-inner">
+                                <input id="id-site-filter" type="text" class="span12 list-search-field no-margins"
+                                       placeholder="Search..."
+                                       ng-model="siteFilter">
+                                <perfect-scrollbar class="scroller group-content-list-wrapper" wheel-propagation="false"
+                                                   wheel-speed="50" suppressScrollX="true"
+                                                   refresh-on-change="siteFilter">
+                                    <ul class="site-content-list unstyled">
+                                        <li id="site"
+                                            ng-repeat="config in webExConfigs | filter:siteFilter | orderBy:'toString()'"
+                                            class="group-item">
+                                            <label style=;" class="css-label small-label" ng-click="toggleConfigFields({{config}})">
+                                                <span style="padding-left: 5px;">{{config.siteName}}</span>
+                                            </label>
+                                        </li>
+
+                                    </ul>
+                                </perfect-scrollbar>
+                            </div>
+                        </div>
+                        <label class="css-label small-label" ng-click="cleanWebExFields()">
+                            <span style="color: #1F9ADE;">&nbsp;+ Add New Site</span>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+        <div style="float: left; width: 40%">
+            <div class="accordion-group">
+                <div class="accordion-inner">
+                    <div class="row-fluid">
+                        <div class="text-center bold">
+                            <h2>WebEx Configuration</h2>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="webexSiteName" class="span12" name="webexSiteName"
+                                       placeholder="Site Name"
+                                       ng-model="webexCurrentSiteName" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="webexPartnerID" class="span12" name="webexPartnerID"
+                                       placeholder="Partner ID"
+                                       ng-model="webexCurrentPartnerID" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <input type="text" id="webexSiteID" class="span12" name="webexSiteID"
+                                       placeholder="Site ID"
+                                       ng-model="webexCurrentSiteID" ng-focus>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span12">
+
+                                <select class="span7" ng-model="webexCurrentSSOConfig" id="webexSSOConfig"
+                                        ng-options="ssoConfig as ssoConfig for ssoConfig in ssoConfigs">
+                                </select>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div style="float:right; width: 30%;padding-top:50px;padding-bottom: 50px;padding-right: 20px;">
+            <div style="border: solid 2px #FFFFFF;">
+                <div style="padding-top: 5px;padding-left: 10px;">
+                    <label>Test WebEx Configuration</label>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-inner">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <fieldset>
+                                    <input type="text" id="webexAccountName" class="span12" name="webexAccountName"
+                                           placeholder="Account Name"
+                                           ng-model="webexCurrentAccountName" ng-focus>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <fieldset>
+                                    <input type="password" id="webexPassword" class="span12" name="webexPassword"
+                                           placeholder="Password"
+                                           ng-model="webexCurrentPassword" ng-focus>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12">
+
+                                <button type="button" id="test-webex-config" class="mf-button btn pull-right"
+                                        ng-disabled="accountConfigForm.$invalid" ng-click="webExTestConfigs()">
+                                    Test
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row-fluid mf-account-config-actions" style="padding-top: 20px;">
+    <div class="span12">
+        <div ng-class="{'span6 offset3': aas.authenticationSource == 'LOCAL', 'span12': aas.authenticationSource != 'LOCAL'}">
+            <button type="button" id="cancel-edit-account-config" ng-click="goToHome()"
+                    class="mf-button mf-button-cancel btn btn-primary pull-left">
+                <i class="fa fa-minus-circle fa-lg"></i>Cancel
+            </button>
+            <button type="submit" id="save-edit-account-config"
+                    class="mf-button mf-button-save btn btn-primary pull-right"
+                    ng-disabled="accountConfigForm.$invalid">
+                <i class="fa fa-check-circle fa-lg"></i>Save
+            </button>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+</div>

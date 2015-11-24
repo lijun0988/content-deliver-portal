@@ -1,0 +1,50 @@
+<div ng-controller="tagsCtrl">
+  <div class="container mf-account-groups">
+    <div class="row-fluid mf-account-groups-panels">
+      <div class="span8 offset2">
+        <div class="accordion-group">
+          <div class="accordion-inner">
+            <div class="row-fluid">
+              <div class="text-center bold">
+                <h3>Create Groups</h3>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span8 offset2">
+                <input type="text" ng-class="error ? 'span10 ng-invalid ng-invalid-required' : 'span12 ng-valid'"
+                  placeholder="Name your new group..." id="editingTag"
+                  data-tag-input="" data-ng-model="tagText"
+                  data-new-tag="addTag()" data-delete-tag="deleteTag()" />
+				        <span ng-show="error" tooltip="{{error}}" class="groups-error-icon"></span>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span8 offset2">
+                <div class="tags-container tag-input-ctn">
+                  <div id="{{ group }}-group" data-ng-repeat="group in groups" class="input-tag tag-group">
+                    <div id="delet-tag-{{ group }}" class="delete-group" data-ng-click="deleteTag(group)"><i class="fa fa-times"></i></div>
+                    <span class="group-name">{{ group }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span10 offset2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid mf-account-groups-actions">
+        <div class="span8 offset2">
+          <button type="button" id="cancel-edit-groups" ng-click="goToHome()" class="mf-button mf-button-cancel btn btn-primary pull-left">
+            <i class="fa fa-minus-circle fa-lg"></i>Cancel
+          </button>
+          <button type="button" id="save-edit-groups" class="mf-button mf-button-save lightBlueBtn pull-right" ng-click="save()">
+            <i class="fa fa-check-circle fa-lg"></i>Save
+          </button>
+        </div>
+      </div>
+  </div>
+</div>

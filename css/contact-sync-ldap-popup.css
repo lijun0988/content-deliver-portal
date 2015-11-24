@@ -1,0 +1,13 @@
+.modal.sync-ldap-modal {
+  width: 480px;
+}
+
+.sync-ldap-modal-header {
+  border: none;
+}
+
+.sync-ldap-modal-footer {
+  border: none;
+  box-shadow: none;
+  background-color: #F2F2F2;
+}

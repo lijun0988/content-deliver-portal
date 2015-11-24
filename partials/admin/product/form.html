@@ -1,0 +1,14 @@
+<h2>Product</h2>
+<form action="">
+	{{errorMessage}}
+	<br/>
+	<label for="productName">Name</label>
+	<input type="text" id="productName" placeholer="Name" ng-model="product.name">
+	<label for="productCode">Code</label>
+	<input type="text" id="productCode" ng-model="product.code">
+	<label for="productDescription">Description</label>
+	<textarea rows="5" id="productDescription" cols="100" ng-model="product.description"></textarea>
+	<label for="productIcon">Icon</label>
+	<input type="text" id="productIcon" ng-model="product.icon">
+	<button ng-click="save()" id="saveProduct-form" class="btnmf-primary btn-primary">Save</button>
+</form>

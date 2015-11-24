@@ -1,0 +1,78 @@
+<div  ng-controller="tabsCtrl">
+<h2> Tabs</h2>
+        <div>
+            <div class="row-fluid">
+            	<div class="span12">
+            		<button id="addTab" class="lightBlueBtn floatRight" ng-click="addTab()"> <i class="fa fa-plus"></i> Add new Tab</button>
+            	</div>
+            </div>
+
+            <div class="row-fluid">
+            	<div class="span12">
+            	<div id="loaderTabsTable" class="loader-wrapper loader-wrapper-margins" ng-hide="tabs.length == 0">
+                    <div class="loader"></div>
+                </div>
+                <div
+                    class="user-table-message-wrapper user-table-message-wrapper-margins"
+                    ng-show="tabs.length == 0">
+                    <p>No tabs found</p>
+                </div>
+            	<table class="table contentList tabTable animate-opacity" id="tabsTable">
+						<tr ng-show="add">
+						<td class="tabCategory">
+							<input type="text" id"tabCategoryName" ng-model="tab.name">
+							<i ng-click="saveNewTab()" id="saveTab" class="fa fa-save"></i>
+							<i ng-click="add = false" id="removeTab" class="fa fa-minus-circle"></i>
+						</td>
+						<td class="tagCategory">
+						<div data-ng-controller="tabTagsController" class="tag-input-ctn ">
+							<div data-ng-repeat="tag in tab.tags" class="input-tag ">
+								<div class="delete-tag" data-ng-click="deleteTag(tag)" >&times;</div>{{ tag }}
+							</div>
+							<textarea name=""  id="tabTagCategory" cols="30" rows="10" data-tag-input="" data-ng-model="selected" data-ng-style="{width: textareaWidth,heigth:textareaHeigth}" data-new-tag="addTag()" data-delete-tag="deleteTag()" typeahead="tag for tag in allTags | filter:$viewValue"></textarea>
+						</div>
+						</td>
+						<td class="providerCategory">
+							<select id="tabAccountContentProvider"  ng-model="tab.accountContentProvider" ng-options="cp as cp.name for cp in accountContentProviders">
+							</select>
+						</td>
+						<td>
+						</td>
+					</tr>
+
+ 			     <tr ng-repeat="tab in tabs.data" ng-repeat-done ng-repeat-done-loader-id="loaderTabsTable" ng-repeat-done-target-id="tabsTable">
+ 			     	<td class="tabCategory">
+ 			     		<span ng-hide="editing">{{tab.name}} <i ng-click="editTab(tab); editing=true;" class="fa fa-cog"></i>
+ 			     		<i ng-click="deleteTab(tab)" id="deleteTab" class="fa fa-minus-circle"></i>
+ 			     		</span>
+ 			     		<span ng-show="editing">
+							<input type="text" id="tabCategoryName2" ng-model="tab.name">
+							<i ng-click="saveTab(tab); editing=false;" class="fa fa-save"></i>
+ 			     		</span>
+ 			     	 </td>
+ 			     	<td class="tagCategory">
+ 			     		<span ng-hide="editing">{{tab.tags.join(', ')}}</span>
+ 			     		<span ng-show="editing">
+						<div data-ng-controller="tabTagsController" class="tag-input-ctn ">
+							<div data-ng-repeat="tag in tab.tags" class="input-tag ">
+								  <div class="delete-tag" data-ng-click="deleteTag(tag)" >&times;</div>{{ tag }}
+
+							</div>
+							<textarea name="" id="tagCategory2" cols="30" rows="10" data-tag-input="" data-ng-model="selected" data-ng-style="{width: textareaWidth,heigth:textareaHeigth}" data-new-tag="addTag()" data-delete-tag="deleteTag()" typeahead="tag for tag in allTags | filter:$viewValue"></textarea>
+						</div>
+ 			     		</span>
+ 			     	</td>
+ 			     	<td class="providerCategory">
+ 			     		<span ng-hide="editing">{{tab.accountContentProvider.name}}</span>
+ 			     		<span ng-show="editing">
+	     					<select class="providerCategory" id="tabAccountContentProvider2" ng-model="tab.accountContentProvider" ng-options="cp as cp.name for cp in accountContentProviders">
+							</select>
+ 			     		</span>
+ 			     	</td>
+ 			     </tr>
+            	</table>
+            	</div>
+            </div>
+         </div>
+
+</div>

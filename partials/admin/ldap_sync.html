@@ -1,0 +1,126 @@
+<div class="modal-header sync-ldap-modal-header text-center">
+  <h3>Sync with LDAP / Active Directory</h3>
+</div>
+<div class="modal-body" id="ldap-sync">
+  <div ng-if="page==1">
+    <form>
+      <div class="row-fluid">
+        <div class="span6">
+          <input id="syncLdapUsername" type="text" class="span12"
+            ng-model="syncInfo.ldapUsername" placeholder="Username" />
+        </div>
+        <div class="span6">
+          <input id="syncLdapPassword" type="password" class="span12"
+            ng-model="syncInfo.ldapPassword" placeholder="Password" />
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+          <textarea class="span12 form-control" id="syncLdapQuery" rows="3"
+            ng-model="syncInfo.ldapQuery" placeholder="Sync Query"></textarea>
+        </div>
+      </div>
+      <div class="show-disable-content">
+           <input name="sync-checkbox" id="sync-checkbox" type="checkbox" class="css-checkbox" ng-model="syncInfo.updateExistingUsers"/>
+           <label for="sync-checkbox" class="css-label lite-blue-check small-label">
+               Sync existing users with LDAP
+           </label>
+      </div>
+    </form>
+  </div>
+  <div ng-if="page==2">
+    <form>
+      <div class="row-fluid">
+        <div class="span8 offset2 text-center">
+          <h4>Syncing users, please wait...</h4>
+        </div>
+      </div>
+    </form>
+    <div class="row-fluid">
+      <div class="loader-wrapper">
+        <div class="loader"></div>
+      </div>
+    </div>
+    <div class="row-fluid"></div>
+    <div class="row-fluid" ng-if="importStatus.status!='INITIAL'">
+      <div class="span6 offset3 text-center">
+        {{importStatus.processed}} processed users</div>
+    </div>
+  </div>
+  <div ng-if="page==4">
+    <form>
+      <div class="row-fluid">
+        <div class="span8 offset2 text-center">
+          <h4>{{message}}</h4>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div ng-if="page==5">
+    <form>
+      <div class="row-fluid" ng-if="errors.length>0&&showErrors">
+        <table class="import-errors-log">
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>User Id</th>
+            <th>Email</th>
+            <th>Phones</th>
+            <th>Mobile Phones</th>
+            <th>Groups</th>
+          </tr>
+          <tr ng-repeat="error in errors">
+            <td>{{error.firstName}}</td>
+            <td>{{error.lastName}}</td>
+            <td>{{error.username}}</td>
+            <td>{{error.accounts[0].emails.join(',')}}</td>
+            <td>{{error.accounts[0].phones.join(',')}}</td>
+            <td>{{error.accounts[0].mobilePhones.join(',')}}</td>
+            <td>{{error.groups.join(',')}}</td>
+          </tr>
+        </table>
+      </div>
+    </form>
+  </div>
+  <div ng-if="page==3">
+    <form>
+      <div class="row-fluid">
+        <div class="span8 offset2 text-center">
+          <h4>Successfully synced with LDAP!</h4>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span8 offset2 text-center">
+          <h4>
+            {{importedSuccessfully}} <small>Users synced successfully</small>
+          </h4>
+        </div>
+      </div>
+
+      <div class="row-fluid" ng-if="errors.amount>0">
+        <div class="span8 offset2 text-center">
+          <h4>
+            {{errors.amount}} <small>Users were unable to be synced, please check log file. </small>
+          </h4>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer sync-ldap-modal-footer">
+  <button id="cancel-btn" ng-if="page==1" ng-click="ok()" class="mf-button mf-button-popup-cancel btn btn-danger pull-left">
+    <i class="fa fa-times-circle fa-lg"></i>Cancel
+  </button>
+  <button id="sync-btn" ng-if="page==1" ng-click="sync()" class="mf-button mf-button-save btn btn-primary pull-right">
+    <i class="fa fa-check-circle fa-lg"></i>Sync
+  </button>
+  <button id="ok-btn" ng-if="page!=1 && page!=2" ng-click="ok()" class="mf-button mf-button-save btn btn-primary pull-right">
+    <i class="fa fa-check-circle fa-lg"></i>Ok
+  </button>
+  <button id="go-back-btn" ng-if="page==4" ng-click="back()" class="mf-button mf-button-cancel btn btn-primary pull-left">
+    <i class="fa fa-minus-circle fa-lg"></i>Go Back</button>
+  <a id="ldap-errors-export" href={{errors.url}} target="_blank" class="mf-button mf-button-save btn btn-primary pull-left" ng-if="errors.amount>0"
+     style="margin-right: 5px;">
+    <i class="fa fa-cloud-download"></i>Download log file
+  </a>
+</div>

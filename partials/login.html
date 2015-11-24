@@ -1,0 +1,60 @@
+<div class="container mf-login">
+  <div class="row">
+    <div class="mf-login-container">
+      <div class="span12 centered-row">
+        <div class="span5 offset1">
+          <div class="mf-login-logo">
+            <img width="402" height="244" src="img/mf-connect-logo.png" class="img-rounded">
+          </div>
+        </div>
+        <div class="span5 mf-panel">
+          <h4>Sign In</h4>
+          <form>
+            <fieldset>
+              <div class="input-container">
+                <div class="input-container-inner">
+                  <span class="user-login-icon"></span>
+                  <input type="text" class="span3" id="user-login" ng-model="user" placeholder="Username"
+                    autocomplete="off">
+                </div>
+                <div class="input-container-inner">
+                  <span class="password-login-icon"></span>
+                  <input type="password" class="span3" id="password-login" ng-model="password" placeholder="Password"
+                    autocomplete="off">
+                </div>
+              </div>
+              <div>
+                <p ng-show="message" class="error">{{message}}</p>
+              </div>
+              <div class="clearfix">
+                <input type="checkbox" class="css-checkbox" id="rememberme-login" ng-model="rememberme"
+                  checked="checked" data-track-info="signinremembermeclick">
+                <label for="rememberme-login" class="css-label lite-blue-check small-label">
+                  <span></span>Remember Me
+                </label>
+                <button type="submit" id="submit-login" ng-click="doLogin()"
+                  class="mf-button btn btn-primary pull-right">
+                  Sign In
+                </button>
+              </div>
+              <div class="text-center forgot-password-login">
+              	<a class="btn btn-link mf-login-forgotpassword" href="#/forgotPassword">Forgot Password?</a>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="span12 centered-row">
+        <div class="span4 offset6">
+          <div class="copyright text-right">{{version}}</div>
+        </div>
+      </div>
+      <div class="span12 mf-login-footer">
+        <div class="span11 offset1">
+          <a class="pull-right" id="aklabs-original-link" href="http://www.akkadianlabs.com/" target="_blank"></a>
+          <span class="copyright pull-right">Copyright &copy;2014</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+
+<div ng-controller="userPageToggleCtrl">
+
+<div  ng-controller="userListCtrl">
+
+<div class="userList" ng-show="viewList">
+ <h2>Users</h2>
+<div class="row-fluid">
+<div class="span5">
+<input id="search-user-input" class="span12 searchUserInput" type="search" ng-model="q" placeholder="Search a user" />
+</div>
+<div class="span7">
+<a class="addNewUser" id="toggleViewAddUser" ng-click="toggleViewAddUser()"><i class="fa fa-plus"></i> New User</a>
+<a class="addNewUser" id="importUsers" ><i class="fa fa-cloud-upload"></i> Import</a>
+<a class="addNewUser" id="syncLadp"><i class="fa fa-refresh"></i> Sync LDAP</a>
+<div class="totalUsersBox span2" style="color:black;">Total users: {{users.total}}</div>
+</div>
+
+</div>
+<p class="alertMessage">{{errorMessage}}</p>
+<p class="alertMessage">{{successMessage}}</p>
+
+<div id="loaderUserTable" class="loader-wrapper loader-wrapper-margins">
+  <div class="loader"></div>
+</div>
+
+<table id="userTable" class="userlist table hide animate-opacity" cell-spacing=0 cell-padding="0">
+<thead>
+    <tr>
+      <th> <div class="arrowContainer"> Name <i ng-click="predicate = 'firstName'; reverse=false; tog=1" class="fa fa-sort-desc " ng-class='{"hideArrow":tog==1,"moveArrowDown":tog==2}' ></i><i ng-click="predicate = '-firstName'; reverse=false; tog=2" ng-class='{"hideArrow":tog==2, "moveArrowUp":tog==1}' class="fa fa-sort-asc"></i></div></th>
+      <th>User ID</th>
+      <th>Roles</th>
+       <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr ng-model="user"  ng-repeat="user in users.data | filter:q | orderBy:predicate:reverse" ng-repeat-done ng-repeat-done-loader-id="loaderUserTable" ng-repeat-done-target-id="userTable">
+  	<td>{{user.firstName}} {{user.lastName}}</td>
+    <td>{{user.username}}</td>
+  	<td>{{user.roles.join(", ")}}</td>
+    <td><a class="editBtn" alt="Edit" id="openEditUser-{{user.id}}" ng-click="openEditUser({{user.id}})"> <i class="fa fa-pencil-square-o"></i></a></td>
+  	</tr>
+  </tbody>
+	</table>
+  <div class="row-fluid">
+  <a id="prev-page-btn" class="lightBlueBtn floatLeft" ng-show="offset>0" href="" ng-click="prevPage()" > <i class="fa fa-caret-left"></i> Prev  </a>
+  <a id="next-page-btn"class="lightBlueBtn floatRight" ng-show="offset+limit<users.total" href="" ng-click="nextPage()" > Next <i class="fa fa-caret-right"></i> </a>
+</div>
+</div>
+</div>
+<div class="row-fluid">
+<div  ng-hide="viewList" class="span11" >
+
+  <div class="createUser"  >
+
+    <form name="createUserForm" action="">
+      <h2 class="" ng-hide="editUser">Create New User</h2>
+      <h2 class="" ng-show="editUser">Edit User</h2>
+      <div class="row-fluid">
+        <a id="back-to-list" class="lightBlueBtn floatRight" ng-click="backToListUsers()"> <i class="fa fa-caret-left"></i>Back to list</a>
+      </div>
+      <div class="row-fluid">
+      <div class="span4">
+      <label for="userFirstName">First Name</label>
+      <input type="text" id="userFirstName" placeholer="Name" ng-model="user.firstName">
+      <label for="userLastName">Last Name</label>
+      <input type="text" id="userLastName" ng-model="user.lastName">
+      <div class="no_edit" ng-hide="editUser">
+      <label for="userUsername">Username (Email)</label>
+      <input type="email" id="userUsername" required ng-model="user.username">
+      <label for="password" >Password</label>
+      <input data-ng-model='user.password' id="password" type="password" name='password'  required>
+      <label for="passwordVerify">Re-Entry your password</label>
+      <input ng-model='user.password_verify' id="passwordVerify" type="password" name='confirm_password' required data-password-verify="user.password">
+
+      <p class="alertMessage" ng-show="createUserForm.confirm_password.$error.passwordVerify">Fields are not equal!</p>
+      </div>
+      <div class="no_edit" ng-show="editUser">
+      <label for="">Username (Email)</label>
+      <input id="user-email" type="email"  ng-model="user.username" disabled="disabled">
+      <label for="password" >Password</label>
+      <input id="user-password" type="password"  disabled="disabled">
+      <label for="password2">Re-Entry your password</label>
+      <input id="user-password-verify" ng-model='user.password_verify' type="password2"  disabled="disabled" >
+
+      </div>
+      </div>
+
+      <div class="span5">
+      <div class="roleBox">
+       <label class="title">
+         Roles
+       </label>
+
+	    <multi-select id="user-roles" ng-model="user.roles" available="roles" selected-label="Current roles" available-label="Available roles" display-attr="roleName"></multi-select>
+             <label class="checkbox" for="">   <input type="checkbox" id="user-roles-enabled" value="true" name="enabled" ng-model="user.enabled">
+        Enable <input type="hidden" value="false" name="enabled" ng-model="user.enabled"></label>
+       </div>
+
+
+     </div>
+     </div>
+     <div class="row-fluid">
+
+
+        <button id="saveUser" class='lightBlueBtn submitUser floatRight' ng-click="save()"><i class="fa fa-floppy-o"></i> Save User</button>
+     </div>
+  </form>
+
+
+  </div>
+  </div>
+</div>
+
+
+</div>

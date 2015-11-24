@@ -1,0 +1,24 @@
+
+<div class="row-fluid">
+<div class="span10 offset2" ng-controller="disableAccountCtrl" ng-init="messages = { accountEnabled: 'The account is enabled', accountDisabled: 'The account is disabled', confirmHeader:'Please confirm', confirmDisable:'Disable account ?', confirmEnable:'Enable account ?' }">
+	<form>
+      <div class="row-fluid">
+      <div class="span4">
+        <h3 ng-hide="account.enabled"> Enable Account</h3>
+        <h3 ng-show="account.enabled">Disable Account</h3>
+      </div>
+      <div class="span4">
+      </div>
+
+      </div>
+    	<div class="row-fluid text-centered">
+    		<div class="span4">
+    		</div>
+    		<div class="span4">
+           		<button id="enableAccount" ng-hide="account.enabled" ng-click="enableAccount()" class="lightBlueBtn button floatRight">Enable Account</button>
+           		<button id="disableAccount" ng-show="account.enabled" ng-click="disableAccount()" class="redBtn button floatRight">Disable Account</button>
+         	</div>
+    	</div>
+    </form>
+</div>
+</div>

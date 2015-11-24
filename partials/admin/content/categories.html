@@ -1,0 +1,34 @@
+<div class="row-fluid">
+	<div ng-controller="listCategoriesController"
+		ng-init="messages = {categoryCreated: '__CATEGORYNAME__ has been successfully created', categorySubmitted: '__CATEGORYNAME__ has been submitted for approval', categoryUpdated: '__CATEGORYNAME__ has been updated', categoryNotCreated: 'There was a problem creating the category. Please try again later', categoryNotUpdated: 'There was a problem updating the category. Please try again later'}">
+		<form name="selectCategoryForm" id="selectCategoryForm" novalidate>
+			<div class="row-fluid">
+				<div class="row-fluid">
+					<div class="span5">
+						<label for="category" class="hidden"> Category </label> <select
+							class="span12" id="category"
+							ng-model="selectCategoryAndSubCategoryService.selectedCategory"
+							name="category"
+							ng-options="cat.id as cat.name for cat in categories" required
+							>
+              <option value="">Select a Category</option>
+						</select>
+					</div>
+					<div class="span6">
+						<label for="subCategory" class="hidden"> Sub-Category </label> <select
+							class="span12" id="subCategory"
+							ng-model="selectCategoryAndSubCategoryService.selectedSubCategory"
+							name="subCategory"
+							ng-options="subcat.id as subcat.name for subcat in subCategories"
+							ng-disabled="selectCategoryAndSubCategoryService.selectedCategory == categories[0].id || categories.length < 3 "
+							required default-option="Subcategory">
+						</select>
+					</div>
+				</div>
+				<div ng-if="adding">
+					<div ng-include="'partials/admin/content/createCategoriesDialog.html'"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

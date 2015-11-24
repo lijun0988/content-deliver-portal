@@ -1,0 +1,126 @@
+<div ng-controller="newAccountCtrl">
+  <div class="container mf-account-new">
+    <form name="createAccountForm" novalidate ng-submit="submitNewAccount()">
+      <div class="row-fluid mf-account-new-panels">
+        <div class="span8 offset2">
+          <div class="accordion-group">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <div class="text-center bold">
+                  <h2>New Client</h2>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span6">
+                  <label>Login Info</label>
+                  <fieldset>
+                    <input type="text" class="span10" autocomplete="off" id="adminFirstName-create-account"
+                      ng-model="user.firstName" placeholder="First Name" name="adminFirstName" required>
+                    <span class="warn-icon"></span>
+                    <input type="text" class="span10" autocomplete="off" id="adminLastName-create-account"
+                      ng-model="user.lastName" name="adminLastName" placeholder="Last Name" required>
+                    <span class="warn-icon"></span>
+                    <input type="email" class="span10" autocomplete="off" ng-model="user.username" name="username"
+                      placeholder="Email Address" id="email-createaccount" ng-focus
+                      ng-focus-verify api-check-url="'user/checkUsername?username='" required>
+                    <span class="warn-icon"></span>
+                    <input class="span10" autocomplete="off" type="password" name="user.password"
+                      placeholder="Password" ng-model="user.password" id="password-create-account" required>
+                    <span class="warn-icon"></span>
+                    <div class="span10 no-margins">
+                      <ul id="strength" check-strength="user.password" class="display-password-strength"></ul>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="span6">
+                  <label>Account Info</label>
+                  <fieldset>
+                    <input class="span10" type="text" autocomplete="off" id="fullName" ng-model="clientAccount.fullName"
+                      placeholder="Company Name" name="companyName" placeholder="Company Name" ng-focus required>
+                    <span class="warn-icon"></span>
+                    <input class="span10" type="text" autocomplete="off" id="accountName" ng-model="clientAccount.name"
+                      name="accountName" placeholder="Account Name"
+                      ng-focus ng-focus-verify api-check-url="'account/checkAccountName?accountName='" required>
+                    <span class="warn-icon"></span>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <div class="text-center ">
+                  <h3>Product & Licensing</h3>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span12">
+                  <div class="btn-group btn-block buttons-radio">
+                    <button type="button" class="mf-two-radio-button mf-button btn btn-primary" ng-model="planType"
+                      btn-radio="'planTypeOnCloud'" data-track-info="newclient_oncloudclick" id="on-cloud-plans"
+                      ng-click="clearSelectedPlan()">On Cloud</button>
+                    <button type="button" class="mf-two-radio-button mf-button btn btn-primary" ng-model="planType"
+                      btn-radio="'planTypeOnPremises'" data-track-info="newclient_onpremclick" id="on-premises-plans"
+                      ng-click="clearSelectedPlan()">On Premises</button>
+                  </div>
+                </div>
+              </div>
+              <div ng-switch on="planType">
+                <div ng-switch-when="planTypeOnCloud">
+                  <div class="row-fluid">
+                    <ul class="plan-items-wrapper nav nav-pills">
+                      <li ng-click="selectPlan(plan)" ng-repeat="plan in cloudPlans" class="mf-account-new-plan-item"
+                        ng-repeat-done="fixLayout()">
+                        <a data-toggle="pill" id="plan-name-{{plan.name | convertToId}}" class="plan-item-container">
+                          <span class="price-text"><sup>$</sup>{{plan.price}}</span>
+                          <br/>
+                          <br/>
+                          <span class="users-text">{{plan.users}} Users</span>
+                          <br>
+                          <span class="period-text">/month</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div ng-switch-when="planTypeOnPremises">
+                  <div class="row-fluid">
+                    <ul class="plan-items-wrapper nav nav-pills">
+                      <li ng-click="selectPlan(plan)" ng-repeat="plan in premisesPlans"
+                        class="mf-account-new-plan-item" ng-repeat-done="fixLayoutOnPremises()">
+                        <a data-toggle="pill" id="plan-id-{{plan.name}}">
+                          <p>
+                            <span class="price-text">${{plan.price}}</span>
+                          </p>
+                          <p>
+                            <span class="users-text">{{plan.users}} Users</span>
+                          </p>
+                          <p>
+                            <span class="period-text">/month</span>
+                          </p>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid mf-account-info-actions">
+        <div class="span8 offset2">
+          <button type="button" id="cancelAccountBtn" ng-click="goToHome()"
+            class="mf-button mf-button-cancel btn btn-primary pull-left">
+            <i class="fa fa-minus-circle fa-lg"></i>Cancel
+          </button>
+          <button type="submit" id="saveAccountBtn"
+            class="mf-button mf-button-save pull-right" ng-disabled="createAccountForm.$invalid || !selectedPlan">
+            <i class="fa fa-check-circle fa-lg"></i>Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

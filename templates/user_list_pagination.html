@@ -1,0 +1,11 @@
+<div class="pagination">
+    <ul>
+        <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}">
+            <a id="pager-{{page.text}}-{{page.nextPage}}" ng-class="{firstPage: page.firstPage, lastPage: page.lastPage,
+                previousPage: page.previousPage, nextPage: page.nextPage}"
+                ng-click="selectPage(page.number)">
+                <i ng-if="page.previousPage" class='fa fa-arrow-left'></i>{{page.text}}<i ng-if="page.nextPage" class='fa fa-arrow-right'></i>
+            </a>
+        </li>
+    </ul>
+</div>

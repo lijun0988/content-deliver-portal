@@ -1,0 +1,97 @@
+.mf-plans-list-panels {
+  margin-top: 10px;
+}
+
+.mf-plans-list-panels .accordion-group {
+  margin-bottom: 20px;
+}
+
+.mf-plans-list-panels .accordion-group,
+.mf-plans-list-panels .accordion-inner {
+  background-color: #F3F5F5;
+  border: none;
+}
+
+.mf-plans-list-panels .mf-button-new {
+  margin-top: 12px;
+}
+
+.mf-plans-list-panels h3 {
+  font-weight: 600;
+  margin-top: 0px;
+}
+
+.mf-plans-list-panels h2 {
+  font-weight: 600;
+  margin-top: 0px;
+  font-size: 20px;
+}
+
+.mf-plans-list-panels .mf-toggle-button {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+table.plans-list {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  background-color: #FFF;
+  color: #AEAEAE;
+  vertical-align: middle;
+}
+
+table.plans-list th {
+  font-weight: 400;
+  vertical-align: middle;
+  text-align:center;
+}
+
+table.plans-list tr:first-child th:first-child,
+table.plans-list tr:last-child th:last-child {
+  text-align: center;
+}
+
+table.plans-list td,
+table.plans-list tr {
+  line-height: 31px;
+  height: 50px;
+  color: #252525;
+  border-color: #e8e8e8;
+  vertical-align: middle;
+  font-size: 13px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  cursor: default;
+  text-align: center;
+}
+
+table.plans-list td.plans-name {
+  font-weight: 400;
+  text-align: center;
+}
+
+table.plans-list th.plans-title-name, table.plans-list td.plans-name{
+  text-align: left;
+}
+
+table.plans-list tr.plan-data:hover {
+  background-color: #d4ebf8;
+}
+
+table.plans-list .mini-text {
+  font-size: 10px;
+}
+
+table.plans-list .green-price-text {
+  color: #329c58;
+}
+
+table.plans-list i.fa-cloud {
+  color: #2a9bdb;
+  margin-right: 10px;
+}
+
+table.plans-list i.fa-arrow-circle-o-down {
+  color: #FA8072;
+  margin-right: 10px;
+}

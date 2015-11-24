@@ -1,0 +1,106 @@
+<script>
+
+</script>
+
+<div class="wide-header">
+		<div class="container">
+			<div class="checkoutBox row">
+				<div class="top-header span10 offset1">
+					<h3>Checkout </h3>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+<div class="wide-prices-chart checkout-page" >
+	<div class="container">
+			<div class="prices-chart span10 offset1" >
+	    		<div class="row" ng-controller="selectCtrl">
+	    			<h4 class="check_acc">Select Plan</h4>
+	    			<ul class="boxes" ng-hide="checkoutService.check">
+
+							<li class="span4 offset1" >
+								<a id="on-cloud-option" class="oncloud active">On Cloud <span style="color:#fff">✔</span></a>
+							</li>
+							<li class="span4" >
+								<a id="on-premises" class="oncloud ">On Premises</a>
+							</li>
+						</ul>
+	    			<div ng-if="checkoutService.planActive.id==1" ng-hide="checkoutService.check">
+
+						<p class="trial" ng-model="plan">{{checkoutService.planActive.name}}</p>
+						<p class="trial" >
+						<input type="checkbox" id="check-accept-plan" ng-model="checkoutService.check"> I accept <a href="#/terms">Terms & Conditions</a></p>
+
+					</div>
+
+					<p class="trial" ng-show="checkoutService.check">✔</p>
+					<p class="trial" ng-model="plan" ng-hide="checkoutService.startPay">You have selected : {{checkoutService.planActive.name}}</p>
+					<p class="trial" ng-hide="checkoutService.startPay" ng-if="checkoutService.planActive.id!=1">To get started signup for a <a id="free-trial" ng-click="getFree()">free 1 month trial</a> of MindFrame on cloud <br />
+						You can convert your free trial to your paid instance anytime. All your data will be retained.
+					</p>
+					<p class="trial next" ng-if="checkoutService.planActive.id!=1" ng-hide="checkoutService.startPay" ><a id="next-step" ng-click="next()">Next</a></p>
+
+				</div>
+
+				<div class="row" ng-controller="reviewCtrl">
+					<h4 class="check_acc">Review Cart</h4>
+
+					<div class="review" ng-show="checkoutService.check && !checkoutService.conf">
+					<p class="trial first">Name: {{checkoutService.planActive.name}}</p>
+					<!--<p class="trial">Id: {{checkoutService.planActive.id}}</p> -->
+					<p class="trial">Persons: {{checkoutService.planActive.persons}}</p>
+					<p class="trial">Price: {{checkoutService.planActive.price}}</p>
+					<p class="trial">Type: {{checkoutService.planActive.type}}</p>
+					<p class="trial total">TOTAL $ {{checkoutService.planActive.price}}</p>
+					<p class="trial next"><a id="back-step-btn" ng-click="back()">Back</a>  <a id="next-step-btn" ng-click="confirm()">Next</a></p>
+
+					</div>
+					<p class="trial total" ng-show="checkoutService.reviewTerm">✔</p>
+
+				</div>
+				<div class="row" ng-controller="confirmCtrl">
+					<h4 class="check_acc" ng-model="checkoutService.conf" >Confirm</h4>
+					<form action="" ng-show="checkoutService.conf" class="span10">
+					<div class="span5">
+
+							<input type="text" id="firstName-service" ng-model="user.firstName" placeholder="First Name*" required>
+							<input type="text" id="lastName-service" ng-model="user.lastName" placeholder="Last Name*" required>
+							<input type="email" id="username-service" ng-model="user.username" placeholder="Email">
+							<input type="password" id="password-service" ng-model="user.password" placeholder="Password">
+						    <input type="password" id="password_verify-service" ng-model='user.password_verify' placeholder="Repeat Password"  name='confirm_password' required data-password-verify="user.password">
+      						<p class="alertMessage" ng-show="createUserForm.confirm_password.$error.passwordVerify">Passwords are not equal!</p>
+
+					</div>
+					<div class="span5">
+							<input type="text" id="fullName-service" ng-model="clientAccount.fullName" placeholder="Company">
+							<input type="text" id="name-service" placeholder="yourcompany" ng-model="clientAccount.name">
+							<p class="trial">http://{{clientAccount.name}}.mindframe.com</p>
+					</div>
+
+					<p class="trial next">
+						<a id="back-confirm-btn" ng-click="backConfirm()">Back</a>
+						<a id="purchase-confirm-btn" ng-click="purchase()">Start Using Mindframe!</a>
+					</p>
+
+
+					</form>
+
+
+				</div>
+			</div>
+	</div>
+</div>
+
+
+<div class="wide-footer">
+		<div class="container">
+			<div class="row">
+				<footer class="span10 offset1">
+					<span class="logoText">mindframe</span>
+					<p class="slogan">The World's Best Collaboration System </p>
+				</footer>
+			</div>
+		</div>
+</div>

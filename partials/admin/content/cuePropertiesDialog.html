@@ -1,0 +1,30 @@
+
+	<form>
+	<div class="row-fluid">
+		<h3 class="span12 text-center">Edit Cue</h3>
+		<input spellcheck="true" autofocus class="span12" name="cueText" id="cueText"
+			type="text" placeholder="Cue Text" ng-model="selectedCue.text"
+			ng-enter="saveCueProperties()" required/>
+			<span class="error" ng-show="showCueTextError">Cue Text is Required</span><br>
+		<textarea spellcheck="true" class="span12" id="tab-description"
+			placeholder="Cue Description" ng-model="selectedCue.description">
+		</textarea>
+	</div>
+	</form>
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<button name="cancel" id="cancel" class='redBtn button pull-left'
+				ng-click="cancel()">
+				 <i class="fa fa-times-circle"></i> Cancel
+			</button>
+			
+			<button type="submit" name="submit" id="submit"
+				ng-click="saveCueProperties()" class='btnmf btn btnmf-primary btn-primary pull-right'>
+				 <i class="fa fa-check-circle"></i> Save
+			</button>
+			<button type="button" name="submit_and_add" id="submit_and_add"
+				ng-click="saveAndAdd()" class='btnmf btn pull-right'>
+				<i class="fa fa-plus-circle"></i> Add Another
+			</button>
+		</div>
+	</div>

@@ -1,0 +1,10 @@
+<div class="categories-tree">
+	<div class="main-level-container">
+	    <input id="content-provider-category-{{mainlevel.id}}" type="checkbox" ng-model="master" ng-change="masterChange()" class="css-round-checkbox" >
+	    <label for="content-provider-category-{{mainlevel.id}}" class="css-label-round-checkbox lite-blue-circle-check"><span></span>{{mainlevel.name}}</label>
+	</div>
+    <div class="sub-level-container" ng-repeat="it in sublevel">
+        <input id="content-provider-sub-category-{{it.id}}" type="checkbox" ng-model="it.isSelected" ng-change="itChange()" class="css-round-checkbox" > <label for="content-provider-sub-category-{{it.id}}" class="css-label-round-checkbox lite-blue-circle-check"><span></span>{{it.name}}</label>
+    </div>
+</div>
+

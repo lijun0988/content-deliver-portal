@@ -1,0 +1,80 @@
+<div ng-if="authenticationService.authenticated" ng-controller="subscribeContentCtrl"
+    ng-init="messages = { }" class="suscribe-content-container">
+    <div>
+        <div class="subscribe_content_page content_page container">
+            <div class="row-fluid">
+                <h2 class="pull-left">Subscribe to Content</h2>
+                <a id="subscribe-content-back-button" href="#/admin/content" class="lightBlueBtn"><i class="fa fa-arrow-left"></i> Back to Content</a>
+            </div>
+            <div class="row-fluid">
+                <div class="filters span3">
+                    <div class="filters-title">
+                        <span>FILTER BY</span>
+                    </div>
+                    <div class="category-list-title">
+                        <span><i class="fa fa-columns"></i> CATEGORY</span>
+                    </div>
+                    <div ng-if="categoriesLoaded" class="category-list">
+                    <categories-tree categories="categories"></categories-tree>
+                    </div>
+                </div>
+                <div class="content-box span9">
+                    <div class="content-search-bar">
+                        <input class="span12 searchContentInput" id="searchContentInput" autofocus
+                            type="search" ng-model="contentQuery" placeholder="Search by Category, Publishers, Name, or Tags..." ng-enter="search()"/>
+                    </div>
+                    <div class="content-results-text">
+                        <span ng-show="contentQueryLoaded">Showing results for <span class="blue-color">"{{currentContentQuery}}"</span></span>
+                    </div>
+                    <div class="content-grid">
+                    <div ng-if="providersLoaded" class="content-list">
+                            <ul class="content-thumbnails-grid thumbnails">
+                                <li class="span3"
+                                    ng-model="provider"
+                                    ng-repeat="provider in providers.data.contentProviders">
+                                    <div class="thumbnail thumb-content">
+                                        <p>{{provider.name}}</p>
+                                        <p>by</p>
+                                        <p>{{provider.mindframeAccount.name}}</p>
+                                    </div>
+                                <div class="btn-group span12 noMargins" data-toggle="buttons-checkbox">
+                                     <button id="suscribe-button-status" type="button"
+                                            ng-model="button"
+                                            ng-click="subscribe(provider)"
+                                            class="btn {{(providers.data.status[provider.id] == 'unsubscribe') && 'btn-success' || 'btn-primary' }} subscribe-content-btn span6"
+                                            ng-disabled="providers.data.status[provider.id] == 'unsubscribe'"
+                                            btn-checkbox>
+                                            {{(providers.data.status[provider.id] == 'unsubscribe') && 'Subscribed' || 'Subscribe' }}
+                                    </button>
+                                    <button type="button"
+                                            id="unsuscribe-button-status"
+                                            ng-model="button"
+                                            ng-click="unsubscribe(provider)"
+                                            class="btnmf btn btnmf-primary btn-primary remove-subscription-btn span6"
+                                            ng-disabled="providers.data.status[provider.id] == 'subscribe'"
+                                            btn-checkbox>
+                                            Remove
+                                    </button>
+
+                                </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content-list-paginator">
+                            <a id="prev-contents" class="lightBlueBtn floatLeft"
+                                ng-show="offset>0" href="" ng-click="prevPage()">
+                                <i class="fa fa-caret-left"></i>
+                                Prev
+                            </a>
+                            <a id="next-contents" class="lightBlueBtn floatRight"
+                                ng-show="offset+limit<providers.total" href="" ng-click="nextPage()">
+                                Next
+                                <i class="fa fa-caret-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

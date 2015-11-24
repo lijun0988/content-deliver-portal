@@ -1,0 +1,116 @@
+<div ng-controller="clientListController" ng-init="messages = { ON_CLOUD: 'On Cloud', ON_PREMISES : 'On Premises' }">
+  <div class="container mf-accounts-list">
+    <div class="row-fluid mf-accounts-list-panels">
+      <div class="span10 offset1">
+        <div class="accordion-group">
+          <div class="accordion-inner">
+            <div class="row-fluid">
+              <div class="bold pull-left">
+                <h2>{{messages[type]}} Client Accounts</h2>
+              </div>
+            </div>
+            <div class="row-fluid margin-row">
+              <div>
+                <div class="span5">
+                  <input class="span8 searchUserInput" id="searchUserInput" autofocus type="search" ng-model="query"
+                    placeholder="Search..." ng-enter="search()">
+                  <button id="btn-search" class="mf-button mf-square-button btn btn-primary" ng-click="search()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="user-actions-box pull-right">
+                <button type="button" id="add-new-account" ng-click="createAccount()"
+                  class="mf-button mf-button-new btn btn-primary pull-right">
+                  <i class="fa fa-plus-circle fa-lg"></i>New Account
+                </button>
+              </div>
+            </div>
+            <div class="row-fluid margin-row">
+              <div>
+                <input type="checkbox" class="css-checkbox" id="usercheckbox-disable-account" ng-model="includeDisabled"
+                  checked="checked" data-track-info="user_showdisabledclick">
+                <label for="usercheckbox-disable-account" class="css-label lite-blue-check small-label">
+                  <span></span>Show disabled accounts
+                </label>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div id="loaderAccountsTable" class="loader-wrapper loader-wrapper-margins" ng-hide="accounts.length == 0">
+                <div class="loader"></div>
+              </div>
+              <div class="user-table-message-wrapper user-table-message-wrapper-margins" ng-show="accounts.length == 0">
+                <p>No Accounts found</p>
+              </div>
+              <table class="plans-list table animate-opacity" id="accountTable" ng-init="predicate='firstName'">
+                <thead>
+                  <tr>
+                    <th>Edit</th>
+                    <th class="plans-title-name">Name</th>
+                    <th>Terms & Conditions</th>
+                    <th>Payment Information</th>
+                    <th>Enabled</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="plan-data" ng-model="account"
+                    ng-repeat="account in accounts | filter:q | orderBy:predicate:reverse"
+                    ng-repeat-done ng-repeat-done-loader-id="loaderAccountsTable" ng-repeat-done-target-id="accountTable">
+                    <td class="editBtn">
+                     <a id="edit-account-{{account.fullName | convertToId}}-{{account.id}}" ng-click="edit(account)" alt="Edit" class="editBtn"
+                        title="Edit" data-track-info="account_editiconclick">
+                        <i class="tool-icon"></i>
+                      </a>
+                    </td>
+                    <td class="plans-name">{{account.fullName}}</td>
+                    <td class="editBtn">
+                      <a id="terms-conditions-{{account.id}}" ng-hide="account.acceptedTermsAndConditions">
+                        <i class="disable-icon"></i>
+                      </a>
+                      <a id="no-terms-conditions-{{account.id}}" ng-show="account.acceptedTermsAndConditions">
+                        <i class="enable-icon"></i>
+                      </a>
+                    </td>
+                    <td class="editBtn">
+                      <a id="billing-info-{{account.id}}" ng-hide="account.hasBillingInfo">
+                        <i class="disable-icon"></i>
+                      </a>
+                      <a id="no-billing-info-{{account.id}}" ng-show="account.hasBillingInfo">
+                        <i class="enable-icon"></i>
+                      </a>
+                    </td>
+                    <td class="editBtn">
+                      <a id="enable-account-{{account.id}}" ng-hide="account.enabled">
+                        <i class="disable-icon"></i>
+                      </a>
+                      <a id="disable-account-{{account.id}}" ng-show="account.enabled">
+                        <i class="enable-icon"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <div ng-show="plans && plans.total > limit" class="row-fluid">
+                <div class="user-list-pagination">
+                  <user-list-pagination class="pagination-sm pagination-centered pagination-large"
+                              boundary-links="false"
+                              total-items="plans.total"
+                              items-per-page="limit"
+                              on-select-page="selectPage(page)"
+                              rotate="true"
+                              max-size="10"
+                              page="currentListPage"
+                              previous-text=""
+                              next-text=""
+                              first-text="First"
+                              last-text="Last">
+                  </user-list-pagination>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

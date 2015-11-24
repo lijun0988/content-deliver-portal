@@ -1,0 +1,25 @@
+.modal.import-csv-modal {
+  width: 480px;
+}
+
+.import-csv-modal-header {
+  border: none;
+}
+
+.import-csv-modal-footer {
+  border: none;
+  box-shadow: none;
+  background-color: #F2F2F2;
+}
+
+.import-csv-button-title {
+  margin-bottom: 10px;
+  color: #A4A4A4;
+}
+
+.drop-box.csv-import-drop-box {
+  margin-top: 20px;
+  border: 2px dashed #2A9BDB;
+  font-size: 13px;
+  color: #2A9BDB;
+}

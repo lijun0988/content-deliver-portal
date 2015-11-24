@@ -1,0 +1,74 @@
+<div class="adminBox">
+<script>
+
+	$('li:first').addClass('active');
+	$('li').on('click', function() {
+     $(this).addClass('active').siblings().removeClass('active');
+  });
+</script>
+
+	<div class="span8 dashboard">
+
+		<h2>Admin Dashboard</h2>
+		<p>Welcome {{user}}</p>
+
+
+		<ul class="nav nav-tabs" >
+			<li ng-class="{active: main.active.tab == 'dashboard' }" ng-init=" active">
+				<a id="dashboard-link" ng-click="main.active.tab = 'dashboard'">Dashboard</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'users' }">
+				<a id="users-link" ng-click="main.active.tab = 'users'">Users</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'providers' }">
+				<a id="providers-link" ng-click="main.active.tab = 'providers'">Providers</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'content' }">
+				<a id="content-link" ng-click="main.active.tab = 'content'">Content</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'delivery' }">
+				<a id="delivery-link" ng-click="main.active.tab = 'delivery'">Delivery</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'reports' }">
+				<a id="reports-link" ng-click="main.active.tab = 'reports'">Reports</a>
+			</li>
+			<li ng-class="{active: main.active.tab == 'billing' }">
+				<a id="billing-info" ng-click="main.active.tab = 'billing'">Billing Info</a>
+			</li>
+
+		</ul>
+
+		<div class="tab-content">
+			<div ng-switch on="main.active.tab">
+
+
+				<div ng-switch-default="dashboard" ng-include="'partials/admin/dashboard.html'" >
+
+				</div>
+				<div ng-switch-when="users" ng-include="'partials/admin/users.html'" >
+
+				</div>
+				<div ng-switch-when="providers" ng-include="'partials/admin/providers.html'">
+
+				</div>
+				<div ng-switch-when="content" ng-include="'partials/admin/content.html'">
+					Content Tab
+				</div>
+				<div ng-switch-when="delivery">
+					Delivery Tab
+				</div>
+				<div ng-switch-when="reports">
+					reports Tab
+				</div>
+				<div ng-switch-when="billing">
+					billling Info Tab
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

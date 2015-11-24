@@ -1,0 +1,58 @@
+<div ng-controller="productPageToggleCtrl">
+
+<div class="userList" ng-show="viewListProducts">
+<h2> Products </h2>
+<p class="alertMessage">{{errorMessage}}</p>
+      <p class="alertMessage">{{successMessage}}</p>
+
+<a class="lightBlueBtn floatRight" ng-click="newProduct()"><i class="fa fa-plus"></i>Add New Product</a>
+
+<table class="table userlist" ng-controller="productListCtrl">
+<thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Description</th>
+      <th>Icon</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr ng-model="product" ng-repeat="product in products.data">
+	  	<td>{{product.name}}</td>
+	  	<td>{{product.code}}</td>
+	  	<td>{{product.description}}</td>
+	  	<td style="width: 50px; height: 50px;"><img src="{{product.icon}}" style="width: 50px; height: 50px;"/></td>
+	  	<td>
+
+      <a id="editing-btn" class="editBtn" alt="Edit" ng-click="editProd({{product.id}})"><i class="fa fa-pencil-square-o"> </i></a>
+	  	</td>
+  	</tr>
+  </tbody>
+</table>
+</div><!-- end list -->
+<div ng-hide="viewListProducts" >
+<form name="createUserForm" action="">
+      <h2 class="" ng-hide="editProduct">Create New Product</h2>
+      <h2 class="" ng-show="editProduct">Edit Product</h2>
+      <div class="row-fluid">
+        <a id="back-to-list-btn" class="lightBlueBtn floatRight" ng-click="backToListProducts()"> <i class="fa fa-caret-left"></i>Back to list</a>
+      </div>
+
+      <br/>
+
+      <label for="productName">Name</label>
+      <input type="text" id="productName" placeholer="Name" ng-model="product.name">
+      <label for="productCode">Code</label>
+      <input type="text"  id="productCode" ng-model="product.code">
+      <label for="productDescription">Description</label>
+      <textarea rows="5" cols="100" id="productDescription" ng-model="product.description"></textarea>
+      <label for="productIcon">Icon</label>
+      <input type="text" id="productIcon" ng-model="product.icon">
+      <button id="saveProduct" ng-click="saveProduct()" class="btnmf-primary btn-primary">Save</button>
+
+  </form>
+
+</div>
+
+</div>

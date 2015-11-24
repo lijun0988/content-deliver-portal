@@ -1,0 +1,122 @@
+<script>
+
+$('div.prices-chart ul li:first-child').addClass('active');
+	$('div.prices-chart ul li').on('click', function() {
+    $(this).addClass('active').siblings().removeClass('active');
+  	});
+
+</script>
+
+<div class="wide-header">
+		<div class="container">
+			<div class="pricingBox row">
+			<div class="top-header span10 offset1">
+				<h3>Pricing </h3>
+				<p>Pricing that scale with your business place. And another second line here, please to be sure about the product benefits</p>
+			</div>
+
+		</div>
+			</div>
+	</div>
+<div class="wide-prices-chart">
+	<div class="container">
+		<div class="prices-chart span10 offset1" ng-controller="pricingListCtrl">
+			<ul class="nav nav-tabs">
+				<li class="span4" ng-class="{active: main.active.tab == 'oncloud' }">
+					<a id="on-cloud-selector" ng-click="main.active.tab = 'oncloud'">On Cloud</a>
+				</li>
+				<li class="span4" ng-class="{active: main.active.tab == 'onpremises' }">
+					<a id="on-premises-selector" ng-click="main.active.tab = 'onpremises'">On Premises</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div ng-switch on="main.active.tab">
+					<div ng-switch-default="oncloud" ng-include="'partials/pricing/oncloud.html'" ></div>
+					<div ng-switch-when="onpremises" ng-include="'partials/pricing/onpremises.html'" ></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="wide-faq">
+		<div class="container">
+			<div class="row">
+				<div class="faq span10 offset1">
+					<p class="title">FAQ'S</p>
+					<hr>
+					<h3>Do you have questions about your choice?</h3>
+
+					<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur <a>adipiscing elit.</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="wide-oc-services">
+		<div class="container">
+			<div class="row">
+				<div class="oc-services span10 offset1">
+					<div class="center-text-box span5">
+						<p class="small"><b>ON CLOUD SERVICES</b></p>
+						<hr>
+						<h3> <span class="white-text">Some feature about this choose.</span></h3>
+						<hr>
+						<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<div class="wide-bottom-slider">
+		<div class="container">
+			<div class="row">
+				<div class="bottom-center-text-slider span10 offset1">
+					<div class="grey-slide-element">
+						<div ng-controller="greytextCarouselCtrl">
+  							<carousel interval="myInterval">
+	    						<slide ng-repeat="slide in slides" active="slide.active">
+							        <p class="quote">{{slide.quote}}</p>
+							        <p class="author">{{slide.author}}</p>
+	   							 </slide>
+  							</carousel>
+							      <ul class="pager-btn-list">
+							        <li ng-repeat="slide in slides" class="pager-btn">
+							          <button id="slideState" class="btnmf btn btn-mini" ng-class="{'btnmf-info btn-info': !slide.active, 'btnmf-success btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true"></button>
+							        </li>
+							      </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="wide-bottom-suscribe-box">
+		<div class="container">
+			<div class="row">
+				<div class="bottom-suscribe-box span10 offset1">
+					<div class="row">
+						<p class="label-suscribe span6">Wooh, this product is amazing.<br>
+						Please, let me know when you launch.</p>
+						<input type="text" id="suscribe-pricing" class="envelope span3">
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+<div class="wide-footer">
+		<div class="container">
+			<div class="row">
+				<footer class="span10 offset1">
+					<span class="logoText">mindframe</span>
+					<p class="slogan">The World's Best Collaboration System </p>
+				</footer>
+			</div>
+		</div>
+</div>

@@ -1,0 +1,62 @@
+.mf-account-info-panels {
+  margin-top: 10px;
+}
+
+.mf-account-info-panels .accordion-group {
+  margin-bottom: 20px;
+}
+
+.mf-account-info-panels .accordion-group,
+.mf-account-info-panels .accordion-inner {
+  background-color: #F3F5F5;
+  border: none;
+}
+
+.mf-account-info-panels h3 {
+  margin-top: 0px;
+  font-weight: 400;
+}
+
+.mf-account-info-panels .mf-toggle-button {
+  margin-top: 22px;
+  margin-bottom: 23px;
+}
+
+.mf-account-info-panels h2 {
+  font-weight: 600;
+  margin-top: 0px;
+  font-size: 20px;
+}
+
+div.card {
+  width: 55px;
+  height: 0px;
+  background-repeat: no-repeat;
+  margin-top: 1px;
+  margin-right: 9px;
+}
+
+div.card.MASTERCARD {
+  height: 33px;
+  background-size: 50px 31px;
+  background-image: url('../img/sprites/card_mastercard.png');
+}
+
+div.card.VISA {
+  height: 33px;
+  background-size: 50px 31px;
+  background-image: url('../img/sprites/card_visa.png');
+}
+
+div.card.AMEX {
+  height: 33px;
+  background-size: 50px 31px;
+  background-image: url('../img/sprites/card_amex.png');
+}
+
+
+.expires-wraper{
+  position: relative;
+  width: 50%;
+  float: left;
+}

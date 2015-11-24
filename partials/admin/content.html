@@ -1,0 +1,185 @@
+<div class="content_page span" ng-controller="contentPageToggleCtrl">
+  <div ng-controller="contentListCtrl">
+        <!-- Link below is commented until v2.0
+            read this for more information: https://fidelus.atlassian.net/browse/ASP-346?focusedCommentId=20153&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-20153 -->
+        <!-- <a id="subscribe-content-provider" href="#/admin/subscribe" class="lightBlueBtn addContentProvider margin-to-the-right"><i class="fa fa-rss"></i> Subscribe</a> -->
+        <div ng-show="viewList" class="contentProviderList ps">
+            <a id="add-content-provider" href="#/admin/contentCreator/new" class="lightBlueBtn addContentProvider"
+            data-track-info="content_createnewclick">
+            <i class="fa fa-plus-circle"></i> New Content
+        </a>
+
+      <h2>Content</h2>
+
+      <div>
+        <div class="content-list-filter span5">
+          <input class="span8 search-content-input" id="searchUserInput" autofocus type="search" ng-model="providerQueryFilter"
+            placeholder="Content" ng-enter="search()">
+          <a class="clear-search-btn" ng-hide="!providerQueryFilter" ng-click="clearFilterListProviders()">
+            <img src="img/icons/clear.png" alt="clear">
+          </a>
+
+          <div class="show-disable-content">
+            <input type="checkbox" class="css-checkbox" id="contentcheckbox-disable-content" ng-model="includeDisabled"
+                   checked="checked" data-track-info="content_showdisableclick" />
+            <label for="contentcheckbox-disable-content" class="css-label lite-blue-check small-label">
+            Show disabled content
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row-fluid">
+        <div class="contentListContainer span12">
+                    <div id="loaderContentsTable" class="loader-wrapper loader-wrapper-margins"
+                            ng-hide="providers.length == 0">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="user-table-message-wrapper user-table-message-wrapper-margins"
+                            ng-show="providers.length == 0">
+                        <p>No Content found</p>
+                    </div>
+          <div class="contentListProvider animate-opacity span6 noMargins" id="contentsTable" ng-hide="providers.length == 0">
+            <div class="contentTitle">Subscribed Content <br>
+            </div>
+            <tabset justified="true" class="providers-tabs">
+                <tab id="{{heading}}-tab" scroll-pane ng-repeat="tab in tabs" heading="{{tab.heading}}" active="tab.selected" select="changeTab(tab.type)"  >
+
+                    <perfect-scrollbar class="scroller providers-tabs tab-pane" wheel-propagation="false" wheel-speed="50" suppressScrollX="true" refresh-on-change="providers.data">
+
+                        <ul class="list-no-style providers-list" ng-class="{'no-scroll-list' : filterProvs(providers.data,tab).length < 11}">
+                            <li ng-class="selectedProvider == prov ? 'selectedProvider' : '' "
+                                ng-model="prov"
+                                ng-repeat="prov in filterProvs(providers.data,tab) | orderBy:'name':reverse | filter: {name: providerQueryFilter} "
+                                ng-repeat-done =""
+                                ng-repeat-done-loader-id="loaderContentsTable"
+                                ng-repeat-done-target-id="contentsTable"
+                                ng-class-odd="'odd'" ng-class-even="'even'"
+                                 ng-click="loadProviderElements($event, prov)"
+                                        data-track-info="content_subcontentclick"
+                                class="content-provider-item"
+                                id="li-edit-provider-{{prov.name | convertToId}}-{{prov.id}}"
+                                >
+
+                                  <a id="edit-provider-{{prov.name | convertToId}}-{{prov.id}}" class="editBtn" alt="Edit"
+                                    href="#/admin/contentCreator/{{prov.id}}"
+                                    data-track-info="content_editiconclick">
+
+                                </a>
+                                    <a id="content-provider-{{prov.id}}" class="content-provider-title">
+                                        {{prov.name}}
+                                    </a>
+
+
+                                <span ng-class="prov.counterpart ? 'caller-icon':'callee-icon'"></span>
+                                <span ng-show="!prov.enabled" class="provider-disabled-icon fa fa-times-circle fa-lg"></span>
+                            </li>
+                    </ul>
+
+                </tab>
+              </tabset>
+              </perfect-scrollbar>
+          </div>
+
+
+          <div class="span6 noMargins contentRightPanel"  ng-hide="providers.length == 0">
+            <div class="content-right-panel-inside" style="overflow: auto;height: 565px; padding-bottom: 5px;" ng-show="showRightPanel"  >
+                <div class="contentTitle">Suscribers to <br/>{{selectedProvider.name}}</div>
+
+
+                <div ng-if="!selectedProvider.traits || selectedProvider.traits.length == 0" class="selected-providers-traits">
+                    <div class="tag-input-ctn 10">
+                        <input id="providerSelectedGroup-content-provider" type="text" placeholder="Type Groups..."
+                               ng-class="errorAddingGroup ? 'span10 ng-invalid ng-invalid-required' : 'span12 ng-valid'"
+                               name="" ng-change="clearPersonAndGroupInputErrors()"
+                               data-tag-input="" data-ng-model="groupText"
+                               data-ng-style="{width: textareaWidth,heigth:textareaHeigth}"
+                               data-new-tag="addGroup()"
+                               typeahead="group for group in availableGroups | filter:$viewValue">
+                        </input>
+                        <span ng-show="errorAddingGroup" tooltip="{{errorAddingGroup}}" class="groups-error-icon"></span>
+                            <div class="group-tag-container">
+                                <div id="{{group}}-group-tag" data-ng-repeat="group in selectedContent.groups" class="input-tag">
+                                    <div id="delete-{{group}}-group-tag" class="delete-tag" data-ng-click="deleteGroup($index)" >
+                                        <i class="fa fa-times"></i></div><span class="group-name-tag">{{ group }}
+                        </span>
+                                    </div>
+                                </div>
+                                <div class="error" ng-show="invalidGroup">Group does not exist</div>
+                    </div>
+                </div>
+
+
+
+                <div class="tag-input-ctn personsTagsContanier">
+                            <div class="light-blue-container row-fluid">
+                                <input type="text" data-new-tag="addPerson()" ng-change="clearPersonAndGroupInputErrors()"
+                                  ng-class="errorAddingPerson ? 'span10 ng-invalid ng-invalid-required' : 'span12 ng-valid'"
+                                  ng-model="selectedPerson"
+                                  placeholder="Type Users..."
+                                  data-tag-input=""
+                                  name="providerSelectedPerson"
+                                  id="providerSelectedPerson"
+                                  typeahead="person as person.fullName for person in persons($viewValue)">
+                                </input>
+                                <span ng-show="errorAddingPerson" tooltip="{{errorAddingPerson}}" class="groups-error-icon"></span>
+
+                                <div ng-if="showTraitsPanel && selectedProvider.traits && selectedProvider.traits.length > 0" class="traits-selector">
+                                    <div ng-if="personUnderTraitsEdition" class="traits-selector-header">
+                                        <div class="traits-selector-name-tag"><div id="cancel-edit-person" class="delete-tag" ng-click="closePersonTraitsPanel()">x</div>{{ personUnderTraitsEdition.firstName }} {{ personUnderTraitsEdition.lastName }}</div>
+                                        <a id="submit-person-edit" class="submit" ng-click="saveAndCloseTraitsPanel(personUnderTraitsEdition)">Save</a>
+                                    </div>
+                                    <div class="traits-selector-well well">
+                                        <div>
+                                            <ul class="traits-list">
+                                                <li ng-repeat="trait in selectedProvider.traits"
+                                                        id="trait-id-{{trait.id}}"
+                                                        class="content-provider-wrapper">
+                                                    <input type="checkbox"
+                                                            id="{{trait}}-check"
+                                                            class="css-checkbox"
+                                                            name="personTrait"
+                                                            value="{{trait}}"
+                                                            ng-checked="personUnderTraitsEdition.traits.indexOf(trait) > -1"
+                                                            ng-click="temporaryUpdatePersonTraits($event, trait)">
+                                                    <label for="{{trait}}-check" class="css-label lite-blue-check small-label">
+                                                        <span>{{trait}}</span>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <perfect-scrollbar class="scroller person-container" wheel-propagation="false" wheel-speed="50" suppressScrollX="true" refresh-on-change="selectedContent.persons">
+                                <div id="{{person.id}}-tag" data-ng-repeat="person in selectedContent.persons" class="input-tag"
+                                        ng-click="openPersonTraitsPanel(person)">
+                                   <div id="delete-{{person.id}}-tag" class="delete-tag" data-ng-click="deletePerson($index)" ><i class="fa fa-times"></i></div><span class="person-name-tag"> {{ person.firstName }} {{ person.lastName }}</span>
+
+                                </div>
+                                <div class="error" ng-show="personDontExist">The User does not exist</div>
+                            </perfect-scrollbar>
+                </div>
+
+
+
+                    <div class="row-fluid">
+                        <div class="span12 floatLeft">
+                            <br>
+                            <a id="save-content-provider" ng-click="assign()"
+                                class="lightBlueBtn saveContentProvider pull-right">
+                                Assign
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+          </div>
+      </div>
+        </div><!-- end ng-show="viewList"-->
+    </div><!-- end contentListCtrl-->
+</div><!-- end contentPageToggleCtrl-->

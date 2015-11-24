@@ -1,0 +1,453 @@
+<div ng-controller="personPageToggleCtrl" ng-init="messages = { personPasswordReset: 'A temporary password has been sent to the user', personEnabled: 'The person is enabled', personDisabled: 'The person is disabled', confirmHeader:'Please confirm', confirmDisable:'Are you sure you want to disable ___PERSON_NAME___?', confirmEnable:'Enable person ?', userCreateSuccess: 'Success: The user __FULLNAME__ has been created.', userCreateError: 'Error: An error occurred while trying to create a new user.', userUpdateError: 'Error: Cannot Update User', userUpdateSuccess: 'Success: The user __FULLNAME__ has been updated.' }">
+  <div class="container mf-contacts">
+      <div ng-show="!$routeParams.action">
+        <div class="row-fluid mf-contact-list">Success:
+          <div class="span12">
+            <div class="accordion-group">
+              <div class="accordion-inner">
+                <div class="row-fluid">
+                  <div>
+                    <h2>Contacts</h2>
+                  </div>
+                </div>
+                <div class="row-fluid margin-row">
+                  <div>
+                    <div class="span6">
+                      <input class="span5 searchUserInput" id="searchUserInput" autofocus type="search" ng-model="query"
+                        placeholder="Search..." ng-enter="search()">
+                      <button id="search-client-button" class="mf-button mf-square-button btn btn-primary" ng-click="search()">
+                        <i class="fa fa-search"></i>
+                      </button>
+                      <input class="span5 searchUserInput" type="text" value="Total Users: {{persons.total}}" disabled>
+                    </div>
+                  </div>
+                  <div ng-if="authenticationService.hasRole('ROLE_SUPERUSER') || authenticationService.hasRoleInAccount('ROLE_ADMIN')" class="user-actions-box pull-right span6">
+                    <button class="mf-button mf-button-new btn btn-primary" id="syncLdap" ng-click='syncLdap()'
+                      ng-if="accountAuthenticationSource.authenticationSource!='LOCAL'">
+                        <img src="img/sprites/sync.png" class="img-rounded"> Sync LDAP
+                    </button>
+                    <button class="mf-button mf-button-new btn btn-primary " ng-click="importCsv()" id="importNewPerson">
+                      <i class="fa fa-arrow-circle-up fa-lg"></i>Import
+                    </button>
+                    <button class="mf-button mf-button-new btn btn-primary" id="addNewPerson" ng-click="newPerson()">
+                      <i class="fa fa-plus-circle fa-lg"></i>New Contact
+                    </button>
+                  </div>
+                </div>
+                <div class="row-fluid margin-row">
+                  <div>
+                    <input type="checkbox" class="css-checkbox" ng-change="showEnabled()" id="usercheckbox-disable-person" ng-model="includeDisabled"
+                      checked="checked" data-track-info="user_showdisabledclick">
+                    <label for="usercheckbox-disable-person" class="css-label lite-blue-check small-label">
+                      <span></span>Show disabled contacts
+                    </label>
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div id="loaderUserTable" class="loader-wrapper loader-wrapper-margins" ng-hide="persons.length == 0">
+                    <div class="loader"></div>
+                  </div>
+                  <div class="user-table-message-wrapper user-table-message-wrapper-margins" ng-show="persons.data.length == 0">
+                    <p>No contacts were found to match your search</p>
+                  </div>
+                  <table ng-hide="!persons.data.length>0" class="userlist table animate-opacity" id="userTable"
+                    ng-init="predicate='firstName'">
+                    <thead>
+                      <tr>
+                        <th>Edit</th>
+                        <th>
+                          <div class="arrowContainer">Name</div>
+                        </th>
+                        <th>Email</th>
+                        <th>Phones</th>
+                        <th>User ID</th>
+                        <th>Roles</th>
+                        <th>Company</th>
+                        <th>Groups</th>
+                        <th>Active</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-model="person" ng-repeat="person in persons.data | filter:q | orderBy:predicate:reverse"
+                        ng-repeat-done ng-repeat-done-loader-id="loaderUserTable" ng-repeat-done-target-id="userTable"
+                        user-list-separators ng-hide="!includeDisabled && !person.enabled" class="person-data">
+                        <td class="editBtn">
+                          <a id="edit-person-{{person.firstName | convertToId}}-{{person.lastName | convertToId}}-{{person.id}}" ng-click="openEditPerson({{person.id}})" alt="Edit" class="editBtn"
+                            title="Edit" data-track-info="user_editiconclick">
+                            <i class="tool-icon"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <!--<a id="person-{{person.id}}"  data-track-info="user_usernameclick">-->
+                          {{person.firstName}} {{person.lastName}}
+                          <!--</a>-->
+                        </td>
+                        <td>
+                          <ul class="list-no-style noMargins">
+                            <li ng-repeat="email in person.accounts[0].emails">
+                              <i class="envelope-icon"></i>{{email}}
+                            </li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul class="list-no-style noMargins">
+                            <li ng-repeat="phone in person.accounts[0].phones">
+                              <span class="office-icon"></span>
+                              {{phone}}
+                            </li>
+                            <li ng-repeat="phone in person.accounts[0].mobilePhones">
+                              <span class="mobile-icon"></span>
+                              {{phone}}
+                            </li>
+                            <li ng-repeat="phone in person.accounts[0].homePhones">
+                              <span class="house-icon"></span>
+                              {{phone}}
+                            </li>
+                          </ul>
+                        </td>
+                        <td>
+                          {{person.username}}
+                        </td>
+                        <td>
+                          <ul class="list-no-style noMargins">
+                            <li ng-repeat="role in person.roles">
+                              {{getRole(role)}}
+                            </li>
+                          </ul>
+                        </td>
+                        <td>
+                            {{person.companyName}}
+                        </td>
+                        <td>
+                          <ul class="list-no-style noMargins">
+                            <li ng-repeat="group in person.groups | filter:availableGroupsFilter">
+                              {{group}}
+                            </li>
+                          </ul>
+                        </td>
+                        <td class="editBtn">
+                          <i ng-class="person.enabled ? 'fa fa-check-circle' : 'fa fa-times-circle'"
+                            ng-click="togglePersonEnabledState(person)">
+                          </i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div ng-show="persons && persons.total > limit" class="row-fluid">
+                    <div class="user-list-pagination">
+                      <user-list-pagination class="pagination-sm pagination-centered pagination-large" boundary-links="false"
+                        total-items="persons.total" items-per-page="limit" on-select-page="selectPage(page)" rotate="true"
+                        max-size="10" page="currentListPage" previous-text="" next-text="" first-text="First" last-text="Last">
+                      </user-list-pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show="$routeParams.action=='edit'||$routeParams.action=='new'">
+        <div class="row-fluid mf-contact-list">
+          <form name="createUserForm" id="createUserForm" ng-submit="submit()" novalidate>
+            <div class="span9">
+              <div class="accordion-group mf-edit-new-contact-panel">
+                <div class="accordion-inner">
+                  <div class="row-fluid">
+                    <div class="text-center bold">
+                      <h2 ng-hide="editPerson">Add New Contact</h2>
+                      <h2 ng-show="editPerson">Edit Contact</h2>
+                    </div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="span4">
+                      <div class="row-fluid">
+                        <div class="span12">
+                        <div class="row-fluid text-center">
+                            <h4>Contact Enabled?</h4>
+                            <div ng-switch on="person.enabled">
+                              <div ng-switch-when="true">
+                                <button id="enable-person-btn" type="button" class="mf-toggle-button btn btn-success" ng-click="disablePerson(person)">
+                                  Yes
+                                  <i class="fa fa-check fa-lg"></i>
+                                  No
+                                </button>
+                              </div>
+                              <div ng-switch-when="false">
+                                <button id="disable-btn-person" type="button" class="mf-toggle-button btn btn-danger" ng-click="enablePerson(person)">
+                                  Yes
+                                  <i class="fa fa-times fa-lg"></i>
+                                  No
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <fieldset>
+                            <label>Name</label>
+                            <input type="text" ng-model="person.firstName" placeholder="First Name" name="firstName"
+                              id="firstName-person-modal" ng-focus class="span10"
+                              tooltip="{{VALIDATION_MESSAGES.contact.missing.firstName}}"
+                              tooltip-trigger="{{{true: 'focus', false:'never'}[createUserForm.firstName.$invalid && !createUserForm.firstName.$pristine]}}"
+                              required>
+                            <input type="text" ng-model="person.lastName" placeholder="Last Name" name="lastName"
+                              tooltip="{{VALIDATION_MESSAGES.contact.missing.lastName}}"
+                              tooltip-trigger="{{{true: 'focus', false:'never'}[createUserForm.lastName.$invalid && !createUserForm.lastName.$pristine]}}"
+                              id="lastName-person-modal" class="span10" ng-focus required>
+                            <input type="text" ng-model="person.companyName" placeholder="Company Name" name="companyName"
+                              id="companyName-person-modal" class="span10" ng-focus >
+                          </fieldset>
+                          <fieldset>
+                            <label>Phones (one number is mandatory)</label>
+                            <ul class="office-phone-input-list unstyled">
+                              <li ng-repeat="officePhone in person.accounts[0].phones track by $index">
+                                <input id="telephone-office-field-{{$index}}" type="tel" name="telephone-office-field-{{$index}}"
+                                  ng-class="{ 'first-in-group' : $first&&person.accounts[0].phones.length>1 , 'last-in-group' : $last&&person.accounts[0].phones.length>1, 'middle-in-group' : !$first&&!$last&&person.accounts[0].phones.length>2}"
+                                  class="span10 input-list-item" ng-pattern="/(^[0-9\-\(\)\+]+)$/"
+                                  placeholder="{{$first ? 'Office' : 'Office (Optional)'}}"
+                                  data-pointing-array="person.accounts[0].phones"
+                                  data-ng-model="officePhone"
+                                  data-phone-type="office"
+                                  mf-dynamic-phone-email-input="phone"
+                                  ng-focus
+                                  name="officePhone"
+                                  tooltip="{{VALIDATION_MESSAGES.contact.invalidNumber.officePhone}}"
+                                  tooltip-trigger="{{{true: 'focus', false:'never'}[createUserForm.officePhone.$invalid ]}}"
+                                  >
+                              </li>
+                            </ul>
+                            <ul class="home-phone-input-list unstyled">
+                              <li ng-repeat="homePhone in person.accounts[0].homePhones track by $index">
+                                <input  id="telephone-home-field-{{$index}}" type="tel"
+                                  ng-class="{ 'first-in-group' : $first&&person.accounts[0].homePhones.length>1 , 'last-in-group' : $last&&person.accounts[0].homePhones.length>1, 'middle-in-group' : !$first&&!$last&&person.accounts[0].homePhones.length>2}"
+                                  class="span10 input-list-item" ng-pattern="/(^[0-9\-\(\)\+]+)$/"
+                                  placeholder="{{$first ? 'Home' : 'Home (Optional)'}}"
+                                  data-pointing-array="person.accounts[0].homePhones"
+                                  data-ng-model="homePhone"
+                                  data-phone-type="home"
+                                  mf-dynamic-phone-email-input="phone"
+                                  ng-focus
+                                  name="homePhone"
+                                  tooltip="{{VALIDATION_MESSAGES.contact.invalidNumber.homePhone}}"
+                                  tooltip-trigger="{{{true:'focus', false:'never'}[createUserForm.homePhone.$invalid]}}">
+                              </li>
+                            </ul>
+                            <ul class="mobile-phone-input-list unstyled">
+                              <li ng-repeat="mobilePhone in person.accounts[0].mobilePhones track by $index">
+                                <input  id="telephone-mobile-field-{{$index}}" type="tel"
+                                  ng-class="{ 'first-in-group' : $first&&person.accounts[0].mobilePhones.length>1 , 'last-in-group' : $last&&person.accounts[0].mobilePhones.length>1, 'middle-in-group' : !$first&&!$last&&person.accounts[0].mobilePhones.length>2}"
+                               	  class="span10 input-list-item" ng-pattern="/(^[0-9\-\(\)\+]+)$/"
+                                  placeholder="{{$first ? 'Mobile' : 'Mobile (Optional)'}}"
+                                  data-pointing-array="person.accounts[0].mobilePhones"
+                                  data-ng-model="mobilePhone"
+                                  data-phone-type="mobile"
+                                  mf-dynamic-phone-email-input="phone"
+                                  ng-focus>
+                                <span class="warn-icon"></span>
+                              </li>
+                            </ul>
+                          </fieldset>
+                          <fieldset>
+                            <label>Email Addresses</label>
+                            <ul class="email-input-list unstyled">
+                              <li ng-repeat="email in person.accounts[0].emails track by $index">
+                                <input  id="email-field-{{$index}}" type="email" class="span10 input-list-item"
+                                  ng-class="{ 'first-in-group' : $first&&person.accounts[0].emails.length>1 , 'last-in-group' : $last&&person.accounts[0].emails.length>1, 'middle-in-group' : !$first&&!$last&&person.accounts[0].emails.length>2}"
+                                  placeholder="{{$first ? 'Work' : 'Additional Email (Optional)'}}"
+                                  data-pointing-array="person.accounts[0].emails"
+                                  data-ng-model="email"
+                                  mf-dynamic-phone-email-input="email"
+                                  ng-focus ng-required="$first">
+                                <span class="warn-icon"></span>
+                              </li>
+                            </ul>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span8">
+                      <fieldset>
+                        <div class="row-fluid">
+                          <div class="span7 role-group-content-box">
+                            <label>Groups</label>
+                            <h5 ng-if="!availableGroups || availableGroups.length < 1">There are no groups available</h5>
+                            <div ng-if="availableGroups && availableGroups.length > 0" class="accordion-group">
+                              <div class="accordion-inner">
+                              <input id="id-group-filter" type="text" class="span12 list-search-field no-margins" placeholder="Search..."
+                                ng-model="groupFilter">
+                                <perfect-scrollbar class="scroller group-content-list-wrapper" wheel-propagation="false" wheel-speed="50" suppressScrollX="true" refresh-on-change="groupFilter">
+                                  <ul class="group-content-list unstyled">
+                                    <li id="user-group-{{group | convertToId }}"
+                                      ng-repeat="group in availableGroups | filter:groupFilter | orderBy:'toString()'"
+                                      class="group-item">
+                                      <input type="checkbox" id="user-group-{{group | convertToId }}-{{$index}}" class="css-checkbox"
+                                        name="personContent" value="{{group}}" ng-checked="person.groups.indexOf(group) > -1"
+                                        ng-click="updatePersonGroup($event, group)">
+                                      <label for="user-group-{{group | convertToId }}-{{$index}}" class="css-label lite-blue-check small-label">
+                                        <span>{{group}}</span>
+                                      </label>
+                                    </li>
+                                  </ul>
+                                </perfect-scrollbar>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <fieldset>
+                        <div class="row-fluid">
+                          <div class="span7 role-group-content-box">
+                            <label>Content</label>
+                            <h5 ng-if="!aac||aac.length==0">There is no content available</h5>
+                            <div ng-if="aac&&aac.length>0" class="accordion-group">
+                              <div class="accordion-inner">
+                                <input id="list-search-field" type="text" class="span12 list-search-field no-margins" placeholder="Search..."
+                                  ng-model="contentFilter">
+                                <perfect-scrollbar ng-if="person&&aac&&aac.length>0" class="scroller group-content-list-wrapper" wheel-propagation="false" wheel-speed="50" suppressScrollX="true" refresh-on-change="contentFilter">
+                                  <ul class="unstyled group-content-list" ng-model="aac" ui-sortable="sortableOptions">
+                                    <li id="content-id-{{cnt.id}}" ng-repeat="cnt in aac | filter:contentFilter | orderBy:'name'"
+                                      ng-class="(selectedContent == cnt) ? 'selectedContent' : ''"
+                                      ng-click="viewContent(cnt)">
+                                      <mf-checkbox-no-label-click data-person="person" data-cnt="cnt"
+                                        select-content="selectContent(cnt)" data-is-checked="{{hasContent(cnt)}}"
+                                        data-selected-content="selectedContent">
+                                      </mf-checkbox-no-label-click>
+                                      <div class="content-side-buttons pull-right">
+                                        <i class="fa fa-bars pull-right"></i>
+                                        <i ng-class="cnt.counterpart ? 'caller-icon':'callee-icon'"></i>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </perfect-scrollbar>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="span5 role-group-content-box traits-box" ng-show="selectedContent.traits">
+                            <label>Tags</label>
+                            <div class="accordion-group">
+                              <div class="accordion-inner">
+                                <perfect-scrollbar ng-if="aac&&aac.length>0" class="scroller group-content-list" wheel-propagation="false" wheel-speed="50" suppressScrollX="true" refresh-on-change="selectedContent.traits">
+                                  <ul class="unstyled ">
+                                    <li id="content-traits-{{$index}}" ng-repeat="trait in selectedContent.traits"
+                                      ng-class="(selectedContent == cnt && person.content.indexOf(cnt) > -1) ? 'selectedContent' : ''">
+                                      <input type="checkbox" id="content-trait-{{trait | convertToId }}" class="css-checkbox"
+                                        name="personTrait" value="{{trait}}" ng-checked="person.traits.indexOf(trait) > -1"
+                                        ng-click="updatePersonTraits($event, trait)">
+                                      <label for="content-trait-{{trait | convertToId }}" class="css-label lite-blue-check small-label">
+                                        <span>{{trait}}</span>
+                                      </label>
+                                    </li>
+                                  </ul>
+                                </perfect-scrollbar>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span3">
+              <div class="accordion-group mf-edit-new-contact-panel">
+                <div class="accordion-inner user-fields">
+                  <div class="row-fluid enable-box">
+                    <div class="text-center">
+                      <h4>Is Contact a User?</h4>
+                    </div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="text-center span12">
+                      <div ng-if="userInfo.enabled">
+                        <button id="enable-contact-btn" type="button" class="mf-toggle-button btn btn-success" ng-click="toggleUserInfo()">
+                          Yes <i class="fa fa-check fa-lg"></i> No
+                        </button>
+                      </div>
+                      <div ng-if="!userInfo.enabled">
+                        <button id="disable-contact-btn" type="button" class="mf-toggle-button btn btn-danger" ng-click="toggleUserInfo()">
+                          Yes <i class="fa fa-times fa-lg"></i> No
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <fieldset class="fields-user-info">
+                    <div class="row-fluid">
+                      <div class="span12">
+                        <label>Login Info</label>
+                        <input id="username-create-person" class="span10" name="username" type="email"  ng-model="person.username"
+                          ng-focus-verify="person.accountUserId == null" api-check-url="'user/checkUsername?username='"
+                          ng-focus-verify-do-not-check="person.originalUsername"
+                          placeholder="example@mail.com" ng-disabled="!userInfo.enabled" autocomplete="off" ng-focus ng-required="userInfo.enabled"
+                          tooltip="{{VALIDATION_MESSAGES.contact.missing.username}}"
+                          tooltip-trigger="{{{true: 'focus', false:'never'}[createUserForm.username.$invalid && !createUserForm.username.$pristine]}}">
+                        <span id="status-indicator-username" class="status-indicator"></span>
+                      </div>
+                    </div>
+                    <div class="row-fluid">
+                      <div class="span12">
+                        <label>Source of login credentials</label>
+                        <select id="credentials-source" ng-disabled="!userInfo.enabled" id="user-authentication-source-select" class="span10" ng-model="person.authenticationSource"
+                          ng-options="source.id as source.name for source in authenticationSources">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="edit-contact-password-reset row-fluid" ng-show="!person.authenticationSource||person.authenticationSource=='LOCAL'">
+                      <label ng-show="editPerson">Password Reset</label>
+                      <input ng-disabled="!userInfo.enabled"  id="password-create-person" class="span10 enter-password" name="password" ng-model="person.password"
+                        type="password" placeholder="New Password" autocomplete="off">
+                      <span class="warn-icon"></span>
+                      <ul id="strength" check-strength="person.password" class="span10 display-password-strength" style="display:block;">
+                      </ul>
+                      <input ng-disabled="!userInfo.enabled"  id="password2-create-person" class="span10 confirm-password" ng-model="password2" name="password2" type="password"
+                        placeholder="Confirm password" pw-check="password-create-person" autocomplete="off"
+                        ng-required="person.password"
+                        tooltip="{{VALIDATION_MESSAGES.contact.missing.passwordmatch}}"
+                        tooltip-trigger="{{{true: 'focus', false:'never'}[createUserForm.password2.$invalid && !createUserForm.password2.$pristine]}}">
+                      <a id="resetPassword" ng-disabled="!userInfo.enabled"  name="resetPassword" ng-disabled="person.password.length > 0"  class="span12"
+                        ng-click="resetPassword()" style="position:relative;"
+                        ng-show="editPerson&&person.accountUserId&&(!person.authenticationSource||person.authenticationSource=='LOCAL')">
+                        Send temporary Password
+                        <i class="fa fa-question-circle fa-2x"></i>
+                      </a>
+                    </div>
+                    <!-- </div> -->
+                    <div class="row-fluid">
+                      <div class="span10 role-group-content-box">
+                        <label>Role Type</label>
+                        <div class="accordion-group">
+                          <div class="accordion-inner">
+                            <ul class="role-list unstyled">
+                              <li ng-repeat="rol in availableRoles">
+                                <input ng-disabled="!userInfo.enabled"  type="checkbox" id="person-rol-{{rol.id}}" class="css-checkbox" name="personRoles"
+                                  value="{{rol.id}}" ng-checked="person.roles.indexOf(rol.id) > -1"
+                                  ng-click="updatePersonRoles($event, rol.id)">
+                                <label for="person-rol-{{rol.id}}" class="css-label lite-blue-check small-label">
+                                  <span>{{(!authenticationService.hasRole('ROLE_SUPERUSER') && rol.name == 'Client Admin') && 'Admin' || rol.name}}</span>
+                                </label>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div class="create-user-footer form-cta span12 noMargins">
+              <button type="button" id="cancel-person-btn" ng-click="onCancel()" class="mf-button mf-button-cancel btn btn-primary pull-left">
+                <i class="fa fa-minus-circle fa-lg"></i>
+                Cancel
+              </button>
+              <button type="submit" id="save-person-btn" name="submit" id="submit-persons"
+                class="mf-button mf-button-save btn btn-primary pull-right" ng-disabled="createUserForm.$invalid">
+                <i class="fa fa-check-circle fa-lg"></i>
+                {{buttonSave.message}}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

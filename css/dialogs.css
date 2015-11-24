@@ -1,0 +1,52 @@
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal {
+	display: block;
+}
+
+/* Custom dialog/modal headers */
+
+.modal .modal-body { color: #333333 }
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #2a9bdb; }
+	.dialog-header-error span, .dialog-header-error h4,
+	.dialog-header-wait span, .dialog-header-wait h4,
+	.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+.modal .close{
+  color: #fff;
+  opacity: 1;
+}
+
+.modal-footer .btn.mf-btn{
+  background-color: #2a9bdb;
+  color: #fff;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  text-shadow:none;
+  border: 1px #2a9bdb solid;
+}
+
+.modal-footer .btn.mf-btn:hover{
+  background-color: #2484BA;
+}
+
+.modal-footer .btn.mf-btn.btn-default{
+  background-color: #ffffff;
+  border: 1px #2a9bdb solid;
+  color: #000;
+}
+
+.modal-footer .btn.mf-btn.btn-default:hover{
+  background-color:#ECF1F2;
+  color:#000;
+}
+
+.dialog-header-confirm span.glyphicon{
+  margin-top: 0px;
+  margin-right: 5px;
+  float: left;
+}

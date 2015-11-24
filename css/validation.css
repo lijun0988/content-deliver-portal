@@ -1,0 +1,127 @@
+/* Bootstrap override */
+input.ng-pristine:focus,
+textarea.ng-pristine:focus {
+  border-color: #2a9bdb !important;
+  -webkit-box-shadow: 0 0 6px #2a9bdb !important;
+     -moz-box-shadow: 0 0 6px #2a9bdb !important;
+          box-shadow: 0 0 6px #2a9bdb !important;
+}
+
+/* End Bootstrap override */
+
+input.ng-valid + div.tooltip {
+  display: none !important;
+}
+
+input.ng-dirty.ng-invalid,
+textarea.ng-dirty.ng-invalid,
+input[type="password"].span10.confirm-password.ng-scope.ng-valid-required.ng-invalid.ng-invalid-pwmatch {
+  border-color: red;
+  -webkit-box-shadow: 0 0 6px red;
+     -moz-box-shadow: 0 0 6px red;
+          box-shadow: 0 0 6px red;
+}
+
+.ng-valid + .warn-icon,
+input.ng-pristine + .warn-icon,
+select.ng-pristine + .warn-icon,
+textarea.ng-pristine + .warn-icon,
+.ng-dirty:focus + .warn-icon,
+.ng-valid + .typeahead + .warn-icon,
+.ng-pristine + .typeahead + .warn-icon {
+  display: none;
+}
+
+.warn-icon {
+  background-image: url('../img/icons/warn-icon.png');
+  background-repeat: no-repeat;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  float:right;
+  background-size: 34px 34px;
+}
+
+input.ng-pristine ~ .status-indicator,
+select.ng-pristine ~ .status-indicator,
+textarea.ng-pristine ~ .status-indicator,
+.ng-invalid ~ .status-indicator {
+  display: none;
+}
+
+.ng-valid .ng-valid-required ~ .status-indicator {
+  display: inline-block;
+}
+
+input:disabled ~ .status-indicator {
+  display: none;
+}
+
+.status-indicator {
+  background: url('../img/icons/status-indicator.png') no-repeat 0 0 transparent;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  float:right;
+  margin-top: 7px;
+  text-indent: -9999px
+}
+
+/* Forms > password strength */
+#password-create-account {
+  margin-bottom: 5px;
+}
+
+.display-password-strength {
+  list-style:none;
+  margin: 0;
+  padding: 0;
+  vertical-align: 0px;
+  display: block;
+  min-height: 50px;
+}
+
+.display-password-strength > li.point {
+  display: inline-block;
+  height: 14px;
+  line-height: 21px;
+  margin-right: 4px;
+  font-size: 11px;
+  text-align: center;
+  padding: 0 5px;
+  font-weight:bold;
+  width: 50px;
+  min-width: 17px;
+  padding: 0;
+  width: 32.3%;
+}
+
+.display-password-strength > li.point:last-child {
+  margin: 0 !important;
+}
+
+.display-password-strength > li.hide {
+  display: none !important;
+}
+
+.display-password-strength .point .color {
+  display: block;
+  width: 100%;
+  height: 7px;
+}
+
+.display-password-strength .point.weak .color {
+  background: #fe0000
+}
+
+.display-password-strength .point.so-so .color {
+  background: #ffcc00
+}
+
+.display-password-strength .point.great .color {
+  background: #01be0a
+}
+
+input.ng-pristine + ul#strength {
+  display:none;
+}
